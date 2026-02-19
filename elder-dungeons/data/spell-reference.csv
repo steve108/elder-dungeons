@@ -1,0 +1,1317 @@
+class,group,name,lvl,source
+Wizard,Universal Magic,Cantrip,1st,PHB
+Wizard,Universal Magic,Comprehend Languages/Confuse Languages,1st,PHB
+Wizard,Universal Magic,Detect Magic,1st,PHB
+Wizard,Universal Magic,Hold Portal,1st,PHB
+Wizard,Universal Magic,Identify,1st,PHB
+Wizard,Universal Magic,Read Magic,1st,PHB
+Wizard,Universal Magic,Wizard Mark,1st,PHB
+Wizard,Universal Magic,Knock/Lock,2nd,PHB
+Wizard,Universal Magic,Protection from Cantrips,2nd,PHB
+Wizard,Universal Magic,Wizard Lock,2nd,PHB
+Wizard,Universal Magic,Dispel Magic,3rd,PHB
+Wizard,Universal Magic,Remove Curse/Bestow Curse,4th,PHB
+Wizard,Universal Magic,Teleport,5th,PHB
+Wizard,Universal Magic,Enchant an Item,6th,PHB
+Wizard,Universal Magic,Teleport Without Error,7th,PHB
+Wizard,Universal Magic,Permanency,8th,PHB
+Wizard,Universal Magic,Astral Spell,9th,PHB
+Wizard,Abjuration,Alarm,1st,PHB
+Wizard,Abjuration,Protection from Evil/Protection from Good,1st,PHB
+Wizard,Abjuration,PROTECTION FROM HUNGER AND THIRST,1st,CWH
+Wizard,Abjuration,Protection from Vermin,1st,PHB
+Wizard,Abjuration,FILTER,2nd,CWH
+Wizard,Abjuration,Protection from Cantrips,2nd,PHB
+Wizard,Abjuration,Protection from Paralysis,2nd,PHB
+Wizard,Abjuration,Protection from Poison,2nd,PHB
+Wizard,Abjuration,INVISIBLE MAIL,3rd,CWH
+Wizard,Abjuration,IRON MIND,3rd,CWH
+Wizard,Abjuration,Lesser Sign of Sealing,3rd,PHB
+Wizard,Abjuration,Nondetection,3rd,PHB
+Wizard,Abjuration,Protection from Amorphs,3rd,PHB
+Wizard,Abjuration,"Protection from Evil, 10' Radius/Protection from Good, 10' Radius",3rd,PHB
+Wizard,Abjuration,Protection from Normal Missiles,3rd,PHB
+Wizard,Abjuration,FIRE AURA,4th,CWH
+Wizard,Abjuration,Fire Trap,4th,PHB
+Wizard,Abjuration,HALO OF EYES,4th,CWH
+Wizard,Abjuration,Minor Globe of Invulnerability,4th,PHB
+Wizard,Abjuration,Minor Spell Turning,4th,PHB
+Wizard,Abjuration,OTILUKE'S DISPELLING SCREEN,4th,CWH
+Wizard,Abjuration,Psychic Protection,4th,PHB
+Wizard,Abjuration,voidance/Attraction,5th,PHB
+Wizard,Abjuration,Dismissal,5th,PHB
+Wizard,Abjuration,INVULNERABILITY TO NORMAL WEAPONS,5th,CWH
+Wizard,Abjuration,Lower Resistance,5th,PHB
+Wizard,Abjuration,MORDENKAINEN'S PRIVATE SANCTUM,5th,CWH
+Wizard,Abjuration,Proofing vs. Combustion,5th,PHB
+Wizard,Abjuration,Safeguarding,5th,PHB
+Wizard,Abjuration,Von Gasik's Refusal,5th,PHB
+Wizard,Abjuration,Antimagic Shell,6th,PHB
+Wizard,Abjuration,DRAGON SCALES,6th,CWH
+Wizard,Abjuration,Globe of Invulnerability,6th,PHB
+Wizard,Abjuration,Greater Sign of Sealing,4th,PHB
+Wizard,Abjuration,INVULNERABILITY TO MAGICAL WEAPONS,6th,CWH
+Wizard,Abjuration,Repulsion,6th,PHB
+Wizard,Abjuration,Banishment,7th,PHB
+Wizard,Abjuration,Neutralize Gas,7th,PHB
+Wizard,Abjuration,Sequester,7th,PHB
+Wizard,Abjuration,Seven-eyes,7th,PHB
+Wizard,Abjuration,Spell Turning,7th,PHB
+Wizard,Abjuration,FEAR WARD,8th,CWH
+Wizard,Abjuration,Mind Blank,8th,PHB
+Wizard,Abjuration,Serten's Spell Immunity,8th,PHB
+Wizard,Abjuration,Elemental Aura,9th,PHB
+Wizard,Abjuration,Imprisonment/Freedom,9th,PHB
+Wizard,Abjuration,Prismatic Sphere,9th,PHB
+Wizard,Alteration,Affect Normal Fires,1st,PHB
+Wizard,Alteration,Burning Hands,1st,PHB
+Wizard,Alteration,CHROMATIC ORB,1st,CWH
+Wizard,Alteration,Color Spray,1st,PHB
+Wizard,Alteration,Dancing Lights,1st,PHB
+Wizard,Alteration,Enlarge/Reduce,1st,PHB
+Wizard,Alteration,Erase,1st,PHB
+Wizard,Alteration,Expeditious Retreat,1st,PHB
+Wizard,Alteration,Feather Fall,1st,PHB
+Wizard,Alteration,Fire Burst,1st,PHB
+Wizard,Alteration,Fist of Stone,1st,PHB
+Wizard,Alteration,Gaze Reflection,1st,PHB
+Wizard,Alteration,Jump,1st,PHB
+Wizard,Alteration,Lasting Breath,1st,PHB
+Wizard,Alteration,Light,1st,PHB
+Wizard,Alteration,Mending,1st,PHB
+Wizard,Alteration,Message,1st,PHB
+Wizard,Alteration,Metamorphose Liquids,1st,PHB
+Wizard,Alteration,Murdock's Feathery Flyer,1st,PHB
+Wizard,Alteration,Shocking Grasp,1st,PHB
+Wizard,Alteration,Spider Climb,1st,PHB
+Wizard,Alteration,Alter Self,2nd,PHB
+Wizard,Alteration,Cat's Grace,2nd,PHB
+Wizard,Alteration,Continual Light,2nd,PHB
+Wizard,Alteration,"Darkness, 15' radius",2nd,PHB
+Wizard,Alteration,Deeppockets,2nd,PHB
+Wizard,Alteration,Displace Self,3rd,PHB
+Wizard,Alteration,Fog Cloud,2nd,PHB
+Wizard,Alteration,Fool's Gold,2nd,PHB
+Wizard,Alteration,Irritation,2nd,PHB
+Wizard,Alteration,Levitate,2nd,PHB
+Wizard,Alteration,Magic Mouth,2nd,PHB
+Wizard,Alteration,Maximilian's Earthen Grasp,2nd,PHB
+Wizard,Alteration,Moon Rune,2nd,PHB
+Wizard,Alteration,Pyrotechnics,2nd,PHB
+Wizard,Alteration,Ride the Wind,2nd,PHB
+Wizard,Alteration,Rope Trick,2nd,PHB
+Wizard,Alteration,Sense Shifting,2nd,PHB
+Wizard,Alteration,Shatter,2nd,PHB
+Wizard,Alteration,Strength,2nd,PHB
+Wizard,Alteration,VOCALIZE,2nd,CWH
+Wizard,Alteration,Whispering Wind,2nd,PHB
+Wizard,Alteration,Alacrity,3rd,PHB
+Wizard,Alteration,Blink,3rd,PHB
+Wizard,Alteration,Delude,3rd,PHB
+Wizard,Alteration,Explosive Runes,3rd,PHB
+Wizard,Alteration,Far Reaching I,3rd,PHB
+Wizard,Alteration,Fly,3rd,PHB
+Wizard,Alteration,Gust of Wind,3rd,PHB
+Wizard,Alteration,Haste,3rd,PHB
+Wizard,Alteration,Infravision,3rd,PHB
+Wizard,Alteration,Item,3rd,PHB
+Wizard,Alteration,Leomund's Tiny Hut,3rd,PHB
+Wizard,Alteration,Maximilian's Stony Grasp,3rd,PHB
+Wizard,Alteration,Melf's Minute Meteors,3rd,PHB
+Wizard,Alteration,Secret Page,3rd,PHB
+Wizard,Alteration,Slow,3rd,PHB
+Wizard,Alteration,SNAPPING TEETH,3rd,CWH
+Wizard,Alteration,Squaring the Circle,3rd,PHB
+Wizard,Alteration,Tongues/Babble,3rd,PHB
+Wizard,Alteration,Water Breathing/Air Breathing,3rd,PHB
+Wizard,Alteration,Wind Wall,3rd,PHB
+Wizard,Alteration,Wraithform,3rd,PHB
+Wizard,Alteration,Dilation I,4th,PHB
+Wizard,Alteration,Dimension Door,4th,PHB
+Wizard,Alteration,Extension I,4th,PHB
+Wizard,Alteration,Far Reaching II,4th,PHB
+Wizard,Alteration,Fire Shield,4th,PHB
+Wizard,Alteration,Improved Strength,4th,PHB
+Wizard,Alteration,Leomund's Secure Shelter,4th,PHB
+Wizard,Alteration,Massmorph,4th,PHB
+Wizard,Alteration,Mordenkainen's Celerity,4th,PHB
+Wizard,Alteration,Otiluke's Resilient Sphere,4th,PHB
+Wizard,Alteration,Plant Growth,4th,PHB
+Wizard,Alteration,Polymorph Other,4th,PHB
+Wizard,Alteration,Polymorph Self,4th,PHB
+Wizard,Alteration,Rainbow Pattern,4th,PHB
+Wizard,Alteration,Rary's Mnemonic Enhancer,4th,PHB
+Wizard,Alteration,Solid Fog,4th,PHB
+Wizard,Alteration,Stoneskin,4th,PHB
+Wizard,Alteration,Turn Pebble to Boulder/Turn Boulder to Pebble,4th,PHB
+Wizard,Alteration,Ultravision,4th,PHB
+Wizard,Alteration,Vacancy,4th,PHB
+Wizard,Alteration,Wizard Eye,4th,PHB
+Wizard,Alteration,Airy Water,5th,PHB
+Wizard,Alteration,Animal Growth/Shrink Animal,5th,PHB
+Wizard,Alteration,Avoidance/Attraction,5th,PHB
+Wizard,Alteration,Distance Distortion,5th,PHB
+Wizard,Alteration,Extension II,5th,PHB
+Wizard,Alteration,Fabricate,5th,PHB
+Wizard,Alteration,Far Reaching III,5th,PHB
+Wizard,Alteration,Improved Blink,5th,PHB
+Wizard,Alteration,Leomund's Hidden Lodge,5th,PHB
+Wizard,Alteration,Leomund's Secret Chest,5th,PHB
+Wizard,Alteration,Lower Resistance,5th,PHB
+Wizard,Alteration,MORDENKAINEN'S PRIVATE SANCTUM,5th,CWH
+Wizard,Alteration,Passwall,5th,PHB
+Wizard,Alteration,RARY'S TELEPATHIC BOND,5th,CWH
+Wizard,Alteration,Rusting Grasp,5th,PHB
+Wizard,Alteration,Stone Shape,5th,PHB
+Wizard,Alteration,Telekinesis,5th,PHB
+Wizard,Alteration,Transmute Rock to Mud/Transmute Mud to Rock,5th,PHB
+Wizard,Alteration,Claws of the Umber Hulk,6th,PHB
+Wizard,Alteration,Control Weather,6th,PHB
+Wizard,Alteration,Death Fog,6th,PHB
+Wizard,Alteration,Dilation II,6th,PHB
+Wizard,Alteration,Disintegrate,6th,PHB
+Wizard,Alteration,Extension III,6th,PHB
+Wizard,Alteration,Glassee,6th,PHB
+Wizard,Alteration,Guards and Wards,6th,PHB
+Wizard,Alteration,Lower Water/Raise Water,6th,PHB
+Wizard,Alteration,Mirage Arcana,6th,PHB
+Wizard,Alteration,Mordenkainen's Lucubration,6th,PHB
+Wizard,Alteration,Move Earth,6th,PHB
+Wizard,Alteration,Otiluke's Freezing Sphere,6th,PHB
+Wizard,Alteration,Part Water,6th,PHB
+Wizard,Alteration,Project Image,6th,PHB
+Wizard,Alteration,Stone to flesh/flesh to Stone,6th,PHB
+Wizard,Alteration,Superior Magnetism,6th,PHB
+Wizard,Alteration,Tenser's Transformation,6th,PHB
+Wizard,Alteration,TENTACLES,6th,CWH
+Wizard,Alteration,Transmute Water to Dust/Improved Create Water,6th,PHB
+Wizard,Alteration,Duo-dimension,7th,PHB
+Wizard,Alteration,Hatch the Stone from the Egg,7th,PHB
+Wizard,Alteration,Mordenkainen's Magnificent Mansion,7th,PHB
+Wizard,Alteration,Phase Door,7th,PHB
+Wizard,Alteration,Reverse Gravity,7th,PHB
+Wizard,Alteration,Statue,7th,PHB
+Wizard,Alteration,Suffocate,7th,PHB
+Wizard,Alteration,Vanish,7th,PHB
+Wizard,Alteration,Abi-Dalzim's Horrid Wilting,8th,PHB
+Wizard,Alteration,Airboat,8th,PHB
+Wizard,Alteration,Glassteel,8th,PHB
+Wizard,Alteration,Incendiary Cloud,8th,PHB
+Wizard,Alteration,Iron Body,8th,PHB
+Wizard,Alteration,Otiluke's Telekinetic Sphere,8th,PHB
+Wizard,Alteration,Polymorph Any Object,8th,PHB
+Wizard,Alteration,Sink,8th,PHB
+Wizard,Alteration,Crystalbrittle,8th,PHB
+Wizard,Alteration,Estate Transference,9th,PHB
+Wizard,Alteration,Glorious Transmutation,9th,PHB
+Wizard,Alteration,Mordenkainen's Disjunction,9th,PHB
+Wizard,Alteration,Shape Change,9th,PHB
+Wizard,Alteration,Succor/Call,9th,PHB
+Wizard,Alteration,Temporal Stasis/Temporal Reinstatement,9th,PHB
+Wizard,Alteration,Time Stop,9th,PHB
+Wizard,Conjuration/Summoning,Armor,1st,PHB
+Wizard,Conjuration/Summoning,Conjure Spell Component,1st,PHB
+Wizard,Conjuration/Summoning,Find Familiar,1st,PHB
+Wizard,Conjuration/Summoning,Grease,1st,PHB
+Wizard,Conjuration/Summoning,Mount,1st,PHB
+Wizard,Conjuration/Summoning,Unseen Servant,1st,PHB
+Wizard,Conjuration/Summoning,CHOKE,2nd,CWH
+Wizard,Conjuration/Summoning,Glitterdust,2nd,PHB
+Wizard,Conjuration/Summoning,Melf's Acid Arrow,2nd,PHB
+Wizard,Conjuration/Summoning,Summon Swarm,2nd,PHB
+Wizard,Conjuration/Summoning,Wall of Gloom,2nd,PHB
+Wizard,Conjuration/Summoning,Bands of Sirellyn,3rd,PHB
+Wizard,Conjuration/Summoning,Flame Arrow,3rd,PHB
+Wizard,Conjuration/Summoning,Monster Summoning I,3rd,PHB
+Wizard,Conjuration/Summoning,Phantom Steed,3rd,PHB
+Wizard,Conjuration/Summoning,Sepia Snake Sigil,3rd,PHB
+Wizard,Conjuration/Summoning,SNAPPING TEETH,3rd,CWH
+Wizard,Conjuration/Summoning,Solvent of Corrosion,3rd,PHB
+Wizard,Conjuration/Summoning,Watery Double,3rd,PHB
+Wizard,Conjuration/Summoning,Conjure Elemental-Kin,4th,PHB
+Wizard,Conjuration/Summoning,DUPLICATE,4th,CWH
+Wizard,Conjuration/Summoning,Evard's Black Tentacles,4th,PHB
+Wizard,Conjuration/Summoning,HALO OF EYES,4th,CWH
+Wizard,Conjuration/Summoning,Monster Summoning II,4th,PHB
+Wizard,Conjuration/Summoning,Summon Lycanthrope,4th,PHB
+Wizard,Conjuration/Summoning,Vitriolic Sphere,4th,PHB
+Wizard,Conjuration/Summoning,Conjure Elemental,5th,PHB
+Wizard,Conjuration/Summoning,Khazid's Procurement,5th,PHB
+Wizard,Conjuration/Summoning,Leomund's Secret Chest,5th,PHB
+Wizard,Conjuration/Summoning,Monster Summoning III,5th,PHB
+Wizard,Conjuration/Summoning,Mordenkainen's Faithful Hound,5th,PHB
+Wizard,Conjuration/Summoning,Summon Shadow,5th,PHB
+Wizard,Conjuration/Summoning,Vile Venom,5th,PHB
+Wizard,Conjuration/Summoning,WALL OF BONES,5th,CWH
+Wizard,Conjuration/Summoning,Conjure Animals,6th,PHB
+Wizard,Conjuration/Summoning,Ensnarement,6th,PHB
+Wizard,Conjuration/Summoning,Forest's Fiery Constrictor,6th,PHB
+Wizard,Conjuration/Summoning,Invisible Stalker,6th,PHB
+Wizard,Conjuration/Summoning,Monster Summoning IV,6th,PHB
+Wizard,Conjuration/Summoning,TENTACLES,6th,CWH
+Wizard,Conjuration/Summoning,Drawmij's Instant Summons,7th,PHB
+Wizard,Conjuration/Summoning,Intensify Summoning,7th,PHB
+Wizard,Conjuration/Summoning,Limited Wish,7th,PHB
+Wizard,Conjuration/Summoning,Monster Summoning V,7th,PHB
+Wizard,Conjuration/Summoning,Mordenkainen's Magnificent Mansion,7th,PHB
+Wizard,Conjuration/Summoning,"Power Word, Stun",7th,PHB
+Wizard,Conjuration/Summoning,Prismatic Spray,7th,PHB
+Wizard,Conjuration/Summoning,Seven-eyes,7th,PHB
+Wizard,Conjuration/Summoning,Maze,8th,PHB
+Wizard,Conjuration/Summoning,Monster Summoning VI,8th,PHB
+Wizard,Conjuration/Summoning,"Power Word, Blind",8th,PHB
+Wizard,Conjuration/Summoning,Prismatic Wall,8th,PHB
+Wizard,Conjuration/Summoning,Symbol,8th,PHB
+Wizard,Conjuration/Summoning,Trap the Soul,8th,PHB
+Wizard,Conjuration/Summoning,Gate,9th,PHB
+Wizard,Conjuration/Summoning,Monster Summoning VII,9th,PHB
+Wizard,Conjuration/Summoning,"Power Word, Kill",9th,PHB
+Wizard,Conjuration/Summoning,Prismatic Sphere,9th,PHB
+Wizard,Conjuration/Summoning,Sphere of Ultimate Destruction,9th,PHB
+Wizard,Conjuration/Summoning,Wish,9th,PHB
+Wizard,Divination,DETECT DISEASE,1st,CWH
+Wizard,Divination,Detect Phase,1st,PHB
+Wizard,Divination,Detect Secret Passages & Portals,1st,PHB
+Wizard,Divination,Detect Undead,1st,PHB
+Wizard,Divination,DIVINING ROD,1st,CWH
+Wizard,Divination,DEATH RECALL,2nd,CWH
+Wizard,Divination,Detect Evil/Detect Good,2nd,PHB
+Wizard,Divination,Detect Invisibility,2nd,PHB
+Wizard,Divination,DETECT LIFE,2nd,CWH
+Wizard,Divination,ESP,2nd,CWH
+Wizard,Divination,Know Alignment/Undetectable Alignment,2nd,PHB
+Wizard,Divination,Locate Object/Obscure Object,2nd,PHB
+Wizard,Divination,Past Life,2nd,PHB
+Wizard,Divination,Alamir's Fundamental Breakdown,3rd,PHB
+Wizard,Divination,Clairaudience,3rd,PHB
+Wizard,Divination,Clairvoyance,3rd,PHB
+Wizard,Divination,Wizard Sight,3rd,PHB
+Wizard,Divination,Detect Scrying,4th,PHB
+Wizard,Divination,Locate Creature,4th,PHB
+Wizard,Divination,Magic Mirror,4th,PHB
+Wizard,Divination,Contact Other Plane,5th,PHB
+Wizard,Divination,False Vision,5th,PHB
+Wizard,Divination,Khazid's Procurement,5th,PHB
+Wizard,Divination,KNOW VALUE,5th,CWH
+Wizard,Divination,Prying Eyes,5th,PHB
+Wizard,Divination,RARY'S TELEPATHIC BOND,5th,CWH
+Wizard,Divination,Legend Lore,6th,PHB
+Wizard,Divination,True Seeing,6th,PHB
+Wizard,Divination,Vision,7th,PHB
+Wizard,Divination,Analyze Dweomer,8th,PHB
+Wizard,Divination,Screen,8th,PHB
+Wizard,Divination,Foresight,9th,PHB
+Wizard,Enchantment/Charm,Charm Person,1st,PHB
+Wizard,Enchantment/Charm,DIVINING ROD,1st,CWH
+Wizard,Enchantment/Charm,Friends,1st,PHB
+Wizard,Enchantment/Charm,Hypnotism,1st,PHB
+Wizard,Enchantment/Charm,Sleep,1st,PHB
+Wizard,Enchantment/Charm,Taunt,1st,PHB
+Wizard,Enchantment/Charm,Bind,2nd,PHB
+Wizard,Enchantment/Charm,Deeppockets,2nd,PHB
+Wizard,Enchantment/Charm,Forget,2nd,PHB
+Wizard,Enchantment/Charm,Insatiable Thirst,2nd,PHB
+Wizard,Enchantment/Charm,Ray of Enfeeblement,2nd,PHB
+Wizard,Enchantment/Charm,Scare,2nd,PHB
+Wizard,Enchantment/Charm,Tasha's Uncontrollable Hideous Laughter,2nd,PHB
+Wizard,Enchantment/Charm,DELAY DEATH,3rd,CWH
+Wizard,Enchantment/Charm,Hold Person,3rd,PHB
+Wizard,Enchantment/Charm,Minor Malison,3rd,PHB
+Wizard,Enchantment/Charm,Suggestion,3rd,PHB
+Wizard,Enchantment/Charm,Watery Double,3rd,PHB
+Wizard,Enchantment/Charm,Charm Monster,4th,PHB
+Wizard,Enchantment/Charm,Confusion,4th,PHB
+Wizard,Enchantment/Charm,Emotion,4th,PHB
+Wizard,Enchantment/Charm,Enchanted Weapon,4th,PHB
+Wizard,Enchantment/Charm,Fire Charm,4th,PHB
+Wizard,Enchantment/Charm,Fumble,4th,PHB
+Wizard,Enchantment/Charm,Greater Malison,4th,PHB
+Wizard,Enchantment/Charm,Leomund's Secure Shelter,4th,PHB
+Wizard,Enchantment/Charm,Lesser Geas,4th,PHB
+Wizard,Enchantment/Charm,Magic Mirror,4th,PHB
+Wizard,Enchantment/Charm,Chaos,5th,PHB
+Wizard,Enchantment/Charm,Domination,5th,PHB
+Wizard,Enchantment/Charm,Fabricate,5th,PHB
+Wizard,Enchantment/Charm,Feeblemind,5th,PHB
+Wizard,Enchantment/Charm,Hold Monster,5th,PHB
+Wizard,Enchantment/Charm,Leomund's Hidden Lodge,5th,PHB
+Wizard,Enchantment/Charm,Leomund's Lamentable Belaborment,5th,PHB
+Wizard,Enchantment/Charm,Magic Staff,5th,PHB
+Wizard,Enchantment/Charm,Mind Fog,5th,PHB
+Wizard,Enchantment/Charm,BLACKMANTLE,6th,CWH
+Wizard,Enchantment/Charm,Eyebite,6th,PHB
+Wizard,Enchantment/Charm,Geas,6th,PHB
+Wizard,Enchantment/Charm,Guards and Wards,6th,PHB
+Wizard,Enchantment/Charm,Mass Suggestion,6th,PHB
+Wizard,Enchantment/Charm,Charm Plants,7th,PHB
+Wizard,Enchantment/Charm,Descent into Madness,7th,PHB
+Wizard,Enchantment/Charm,Hatch the Stone from the Egg,7th,PHB
+Wizard,Enchantment/Charm,Shadow Walk,7th,PHB
+Wizard,Enchantment/Charm,Steal Enchantment,7th,PHB
+Wizard,Enchantment/Charm,Airboat,8th,PHB
+Wizard,Enchantment/Charm,Antipathy-sympathy,8th,PHB
+Wizard,Enchantment/Charm,Binding,8th,PHB
+Wizard,Enchantment/Charm,Demand,8th,PHB
+Wizard,Enchantment/Charm,Mass Charm,8th,PHB
+Wizard,Enchantment/Charm,Otto's Irresistible Dance,8th,PHB
+Wizard,Enchantment/Charm,Sink,8th,PHB
+Wizard,Enchantment/Charm,Mordenkainen's Disjunction,9th,PHB
+Wizard,Enchantment/Charm,Programmed Amnesia,9th,PHB
+Wizard,Enchantment/Charm,Succor/Call,9th,PHB
+Wizard,Illusion/Phantasm,Audible Glamer,1st,PHB
+Wizard,Illusion/Phantasm,Change Self,1st,PHB
+Wizard,Illusion/Phantasm,CORPSE VISAGE,1st,CWH
+Wizard,Illusion/Phantasm,Nystul's Magic Aura,1st,PHB
+Wizard,Illusion/Phantasm,Phantasmal Force,1st,PHB
+Wizard,Illusion/Phantasm,Spook,1st,PHB
+Wizard,Illusion/Phantasm,Ventriloquism,1st,PHB
+Wizard,Illusion/Phantasm,Blindness,2nd,PHB
+Wizard,Illusion/Phantasm,Blur,2nd,PHB
+Wizard,Illusion/Phantasm,Deafness,2nd,PHB
+Wizard,Illusion/Phantasm,Fool's Gold,2nd,PHB
+Wizard,Illusion/Phantasm,Hypnotic Pattern,2nd,PHB
+Wizard,Illusion/Phantasm,Improved Phantasmal Force,2nd,PHB
+Wizard,Illusion/Phantasm,Invisibility,2nd,PHB
+Wizard,Illusion/Phantasm,Leomund's Trap,2nd,PHB
+Wizard,Illusion/Phantasm,Mirror Image,2nd,PHB
+Wizard,Illusion/Phantasm,Misdirection,2nd,PHB
+Wizard,Illusion/Phantasm,Whispering Wind,2nd,PHB
+Wizard,Illusion/Phantasm,Illusionary Script,3rd,PHB
+Wizard,Illusion/Phantasm,"Invisibility, 10' Radius",3rd,PHB
+Wizard,Illusion/Phantasm,Lorloveim's Creeping Shadow,3rd,PHB
+Wizard,Illusion/Phantasm,Phantom Steed,3rd,PHB
+Wizard,Illusion/Phantasm,Spectral Force,3rd,PHB
+Wizard,Illusion/Phantasm,Wraithform,3rd,PHB
+Wizard,Illusion/Phantasm,Fear,4th,PHB
+Wizard,Illusion/Phantasm,Hallucinatory Terrain,4th,PHB
+Wizard,Illusion/Phantasm,Illusionary Wall,4th,PHB
+Wizard,Illusion/Phantasm,Improved Invisibility,4th,PHB
+Wizard,Illusion/Phantasm,Minor Creation,4th,PHB
+Wizard,Illusion/Phantasm,Phantasmal Killer,4th,PHB
+Wizard,Illusion/Phantasm,Rainbow Pattern,4th,PHB
+Wizard,Illusion/Phantasm,Shadow Monsters,4th,PHB
+Wizard,Illusion/Phantasm,Vacancy,4th,PHB
+Wizard,Illusion/Phantasm,Advanced Illusion,5th,PHB
+Wizard,Illusion/Phantasm,Demishadow Monsters,5th,PHB
+Wizard,Illusion/Phantasm,Dream/Nightmare,5th,PHB
+Wizard,Illusion/Phantasm,Major Creation,5th,PHB
+Wizard,Illusion/Phantasm,Seeming,5th,PHB
+Wizard,Illusion/Phantasm,Shadow Door,5th,PHB
+Wizard,Illusion/Phantasm,Shadow Magic,5th,PHB
+Wizard,Illusion/Phantasm,Demishadow Magic,6th,PHB
+Wizard,Illusion/Phantasm,Eyebite,6th,PHB
+Wizard,Illusion/Phantasm,Lorloveim's Shadowy Transformation,6th,PHB
+Wizard,Illusion/Phantasm,Mirage Arcana,6th,PHB
+Wizard,Illusion/Phantasm,Mislead,6th,PHB
+Wizard,Illusion/Phantasm,Permanent Illusion,6th,PHB
+Wizard,Illusion/Phantasm,Programmed Illusion,6th,PHB
+Wizard,Illusion/Phantasm,Project Image,6th,PHB
+Wizard,Illusion/Phantasm,Shades,6th,PHB
+Wizard,Illusion/Phantasm,Veil,6th,PHB
+Wizard,Illusion/Phantasm,Mass Invisibility,7th,PHB
+Wizard,Illusion/Phantasm,Sequester,7th,PHB
+Wizard,Illusion/Phantasm,Shadow Walk,7th,PHB
+Wizard,Illusion/Phantasm,Shadowcat,7th,PHB
+Wizard,Illusion/Phantasm,Simulacrum,7th,PHB
+Wizard,Illusion/Phantasm,Screen,8th,PHB
+Wizard,Illusion/Phantasm,Weird,9th,PHB
+Wizard,Invocation/Evocation,Alarm,1st,PHB
+Wizard,Invocation/Evocation,COPY,1st,CWH
+Wizard,Invocation/Evocation,CHROMATIC ORB,1st,CWH
+Wizard,Invocation/Evocation,Dictation,1st,PHB
+Wizard,Invocation/Evocation,Fire Burst,1st,PHB
+Wizard,Invocation/Evocation,Magic Missile,1st,PHB
+Wizard,Invocation/Evocation,Shield,1st,PHB
+Wizard,Invocation/Evocation,Tenser's Floating Disc,1st,PHB
+Wizard,Invocation/Evocation,Wall of Fog,1st,PHB
+Wizard,Invocation/Evocation,Flaming Sphere,2nd,PHB
+Wizard,Invocation/Evocation,ICE KNIFE,2nd,CWH
+Wizard,Invocation/Evocation,Stinking Cloud,2nd,PHB
+Wizard,Invocation/Evocation,Web,2nd,PHB
+Wizard,Invocation/Evocation,Augmentation I,3rd,PHB
+Wizard,Invocation/Evocation,Fireball,3rd,PHB
+Wizard,Invocation/Evocation,INVISIBLE MAIL,3rd,CWH
+Wizard,Invocation/Evocation,Lance of Disruption,3rd,PHB
+Wizard,Invocation/Evocation,Lightning Bolt,3rd,PHB
+Wizard,Invocation/Evocation,Melf's Minute Meteors,3rd,PHB
+Wizard,Invocation/Evocation,Wall of Water,3rd,PHB
+Wizard,Invocation/Evocation,Dig,4th,PHB
+Wizard,Invocation/Evocation,Divination Enhancement,4th,PHB
+Wizard,Invocation/Evocation,Fire Shield,4th,PHB
+Wizard,Invocation/Evocation,Fire Trap,4th,PHB
+Wizard,Invocation/Evocation,Ice Storm,4th,PHB
+Wizard,Invocation/Evocation,Mordenkainen's Celerity,4th,PHB
+Wizard,Invocation/Evocation,Mordenkainen's Force Missiles,4th,PHB
+Wizard,Invocation/Evocation,OTILUKE'S DISPELLING SCREEN,4th,CWH
+Wizard,Invocation/Evocation,Otiluke's Resilient Sphere,4th,PHB
+Wizard,Invocation/Evocation,Shout,4th,PHB
+Wizard,Invocation/Evocation,Thunder Staff,4th,PHB
+Wizard,Invocation/Evocation,Wall of Fire,4th,PHB
+Wizard,Invocation/Evocation,Wall of Ice,4th,PHB
+Wizard,Invocation/Evocation,WIND BREATH,4th,CWH
+Wizard,Invocation/Evocation,Bigby's Interposing Hand,5th,PHB
+Wizard,Invocation/Evocation,Cloudkill,5th,PHB
+Wizard,Invocation/Evocation,Cone of Cold,5th,PHB
+Wizard,Invocation/Evocation,Dream,5th,PHB
+Wizard,Invocation/Evocation,Leomund's Lamentable Belaborment,5th,PHB
+Wizard,Invocation/Evocation,Sending,5th,PHB
+Wizard,Invocation/Evocation,Tenser's Destructive Resonance,5th,PHB
+Wizard,Invocation/Evocation,Wall of Force,5th,PHB
+Wizard,Invocation/Evocation,Wall of Iron,5th,PHB
+Wizard,Invocation/Evocation,Wall of Stone,5th,PHB
+Wizard,Invocation/Evocation,Augmentation II,6th,PHB
+Wizard,Invocation/Evocation,Bigby's Forceful Hand,6th,PHB
+Wizard,Invocation/Evocation,Chain Lightning,6th,PHB
+Wizard,Invocation/Evocation,Contingency,6th,PHB
+Wizard,Invocation/Evocation,Death Fog,6th,PHB
+Wizard,Invocation/Evocation,Dimensional Blade,6th,PHB
+Wizard,Invocation/Evocation,Guards and Wards,6th,PHB
+Wizard,Invocation/Evocation,Otiluke's Freezing Sphere,6th,PHB
+Wizard,Invocation/Evocation,Tenser's Transformation,6th,PHB
+Wizard,Invocation/Evocation,Acid Storm,7th,PHB
+Wizard,Invocation/Evocation,Bigby's Grasping Hand,7th,PHB
+Wizard,Invocation/Evocation,Delayed Blast Fireball,7th,PHB
+Wizard,Invocation/Evocation,Forcecage,7th,PHB
+Wizard,Invocation/Evocation,Hatch the Stone from the Egg,7th,PHB
+Wizard,Invocation/Evocation,Limited Wish,7th,PHB
+Wizard,Invocation/Evocation,Malec-Keth's Flame Fist,7th,PHB
+Wizard,Invocation/Evocation,Mordenkainen's Sword,7th,PHB
+Wizard,Invocation/Evocation,Persistence,7th,PHB
+Wizard,Invocation/Evocation,Bigby's Clenched Fist,8th,PHB
+Wizard,Invocation/Evocation,Binding,8th,PHB
+Wizard,Invocation/Evocation,Demand,8th,PHB
+Wizard,Invocation/Evocation,Gunther's Kaleidoscopic Strike,8th,PHB
+Wizard,Invocation/Evocation,Homunculus Shield,8th,PHB
+Wizard,Invocation/Evocation,Incendiary Cloud,8th,PHB
+Wizard,Invocation/Evocation,Otiluke's Telekinetic Sphere,8th,PHB
+Wizard,Invocation/Evocation,Bigby's Crushing Hand,9th,PHB
+Wizard,Invocation/Evocation,Chain Contingency,9th,PHB
+Wizard,Invocation/Evocation,Elemental Aura,9th,PHB
+Wizard,Invocation/Evocation,Energy Drain,9th,PHB
+Wizard,Invocation/Evocation,Meteor Swarm,9th,PHB
+Wizard,Necromancy,Chill Touch,1st,PHB
+Wizard,Necromancy,CORPSE VISAGE,1st,CWH
+Wizard,Necromancy,Detect Undead,1st,PHB
+Wizard,Necromancy,Ray of Fatigue,1st,PHB
+Wizard,Necromancy,CHOKE,2nd,CWH
+Wizard,Necromancy,DEATH RECALL,2nd,CWH
+Wizard,Necromancy,GHOUL TOUCH,2nd,CWH
+Wizard,Necromancy,Spectral Hand,2nd,PHB
+Wizard,Necromancy,BONE CLUB,3rd,CWH
+Wizard,Necromancy,DELAY DEATH,3rd,CWH
+Wizard,Necromancy,Feign Death,3rd,PHB
+Wizard,Necromancy,Hold Undead,3rd,PHB
+Wizard,Necromancy,HOVERING SKULL,3rd,CWH
+Wizard,Necromancy,PAIN TOUCH,3rd,CWH
+Wizard,Necromancy,Spirit Armor,3rd,PHB
+Wizard,Necromancy,Vampiric Touch,3rd,PHB
+Wizard,Necromancy,Contagion,4th,PHB
+Wizard,Necromancy,Enervation,4th,PHB
+Wizard,Necromancy,Mask of Death,4th,PHB
+Wizard,Necromancy,Animate Dead,5th,PHB
+Wizard,Necromancy,FORCE SHAPECHANGE,5th,CWH
+Wizard,Necromancy,Magic Jar,5th,PHB
+Wizard,Necromancy,MUMMY ROT,5th,CWH
+Wizard,Necromancy,Summon Shadow,5th,PHB
+Wizard,Necromancy,THROBBING BONES,5th,CWH
+Wizard,Necromancy,WALL OF BONES,5th,CWH
+Wizard,Necromancy,Arrow of Bone,6th,PHB
+Wizard,Necromancy,BLACKMANTLE,6th,CWH
+Wizard,Necromancy,Bloodstone's Spectral Steed,6th,PHB
+Wizard,Necromancy,DEAD MAN'S EYES,6th,CWH
+Wizard,Necromancy,Death Spell,6th,PHB
+Wizard,Necromancy,Reincarnation,6th,PHB
+Wizard,Necromancy,Trollish Fortitude,6th,PHB
+Wizard,Necromancy,Bloodstone's Frightful Joining,7th,PHB
+Wizard,Necromancy,Control Undead,7th,PHB
+Wizard,Necromancy,Finger of Death,7th,PHB
+Wizard,Necromancy,Intensify Summoning,7th,PHB
+Wizard,Necromancy,Suffocate,7th,PHB
+Wizard,Necromancy,ZOMBIE DOUBLE,7th,CWH
+Wizard,Necromancy,Abi-Dalzim's Horrid Wilting,8th,PHB
+Wizard,Necromancy,Clone,8th,PHB
+Wizard,Necromancy,DEFOLIATE,8th,CWH
+Wizard,Necromancy,Heart of Stone,8th,PHB
+Wizard,Necromancy,Homunculus Shield,8th,PHB
+Wizard,Necromancy,SHADOW FORM,8th,CWH
+Wizard,Necromancy,Energy Drain,9th,PHB
+Wizard,Necromancy,Wail of the Banshee,9th,PHB
+Wizard,Elemental Air,Feather Fall,1st,PHB
+Wizard,Elemental Air,Lasting Breath,1st,PHB
+Wizard,Elemental Air,Wall of Fog,1st,PHB
+Wizard,Elemental Air,Fog Cloud,2nd,PHB
+Wizard,Elemental Air,Ride the Wind,2nd,PHB
+Wizard,Elemental Air,Stinking Cloud,2nd,PHB
+Wizard,Elemental Air,Whispering Wind,2nd,PHB
+Wizard,Elemental Air,Alamir's Fundamental Breakdown,3rd,PHB
+Wizard,Elemental Air,Gust of Wind,3rd,PHB
+Wizard,Elemental Air,Lance of Disruption,3rd,PHB
+Wizard,Elemental Air,Water Breathing/Air Breathing,3rd,PHB
+Wizard,Elemental Air,Wind Wall,3rd,PHB
+Wizard,Elemental Air,Conjure Elemental-Kin,4th,PHB
+Wizard,Elemental Air,Solid Fog,4th,PHB
+Wizard,Elemental Air,Airy Water,5th,PHB
+Wizard,Elemental Air,Cloudkill,5th,PHB
+Wizard,Elemental Air,Conjure Elemental,5th,PHB
+Wizard,Elemental Air,Control Weather,6th,PHB
+Wizard,Elemental Air,Death Fog,6th,PHB
+Wizard,Elemental Air,Neutralize Gas,7th,PHB
+Wizard,Elemental Air,Suffocate,7th,PHB
+Wizard,Elemental Air,Airboat,8th,PHB
+Wizard,Elemental Air,Incendiary Cloud,8th,PHB
+Wizard,Elemental Air,Elemental Aura,9th,PHB
+Wizard,Elemental Earth,Fist of Stone,1st,PHB
+Wizard,Elemental Earth,Fool's Gold,2nd,PHB
+Wizard,Elemental Earth,Maximilian's Earthen Grasp,2nd,PHB
+Wizard,Elemental Earth,Alamir's Fundamental Breakdown,3rd,PHB
+Wizard,Elemental Earth,Maximilian's Stony Grasp,3rd,PHB
+Wizard,Elemental Earth,Conjure Elemental-Kin,4th,PHB
+Wizard,Elemental Earth,Dig,4th,PHB
+Wizard,Elemental Earth,Stoneskin,4th,PHB
+Wizard,Elemental Earth,Turn Pebble to Boulder/Turn Boulder to Pebble,4th,PHB
+Wizard,Elemental Earth,Conjure Elemental,5th,PHB
+Wizard,Elemental Earth,Distance Distortion,5th,PHB
+Wizard,Elemental Earth,Passwall,5th,PHB
+Wizard,Elemental Earth,Stone Shape,5th,PHB
+Wizard,Elemental Earth,Transmute Rock to Mud/Transmute Mud to Rock,5th,PHB
+Wizard,Elemental Earth,Wall of Iron,5th,PHB
+Wizard,Elemental Earth,Wall of Stone,5th,PHB
+Wizard,Elemental Earth,Glassee,6th,PHB
+Wizard,Elemental Earth,Move Earth,6th,PHB
+Wizard,Elemental Earth,Stone to Flesh/Flesh to Stone,6th,PHB
+Wizard,Elemental Earth,Transmute Water to Dust/Improved Create Water,6th,PHB
+Wizard,Elemental Earth,Hatch the Stone from the Egg,7th,PHB
+Wizard,Elemental Earth,Statue,7th,PHB
+Wizard,Elemental Earth,Glassteel,8th,PHB
+Wizard,Elemental Earth,Iron Body,8th,PHB
+Wizard,Elemental Earth,Sink,8th,PHB
+Wizard,Elemental Earth,Crystalbrittle,9th,PHB
+Wizard,Elemental Earth,Elemental Aura,9th,PHB
+Wizard,Elemental Fire,Affect Normal Fires,1st,PHB
+Wizard,Elemental Fire,Burning Hands,1st,PHB
+Wizard,Elemental Fire,Dancing Lights,1st,PHB
+Wizard,Elemental Fire,Fire Burst,1st,PHB
+Wizard,Elemental Fire,Flaming Sphere,2nd,PHB
+Wizard,Elemental Fire,Pyrotechnics,2nd,PHB
+Wizard,Elemental Fire,Alamir's Fundamental Breakdown,3rd,PHB
+Wizard,Elemental Fire,Fireball,3rd,PHB
+Wizard,Elemental Fire,Flame Arrow,3rd,PHB
+Wizard,Elemental Fire,Melf's Minute Meteors,3rd,PHB
+Wizard,Elemental Fire,Conjure Elemental-Kin,4th,PHB
+Wizard,Elemental Fire,Fire Charm,4th,PHB
+Wizard,Elemental Fire,Fire Shield,4th,PHB
+Wizard,Elemental Fire,Fire Trap,4th,PHB
+Wizard,Elemental Fire,Wall of Fire,4th,PHB
+Wizard,Elemental Fire,Conjure Elemental,5th,PHB
+Wizard,Elemental Fire,Proofing vs. Combustion,5th,PHB
+Wizard,Elemental Fire,Forest's Fiery Constrictor,6th,PHB
+Wizard,Elemental Fire,Delayed Blast Fireball,7th,PHB
+Wizard,Elemental Fire,Malec-Keth's Flame Fist,7th,PHB
+Wizard,Elemental Fire,Incendiary Cloud,8th,PHB
+Wizard,Elemental Fire,Elemental Aura,9th,PHB
+Wizard,Elemental Fire,Meteor Swarm,9th,PHB
+Wizard,Elemental Water,Metamorphose Liquids,1st,PHB
+Wizard,Elemental Water,Insatiable Thirst,2nd,PHB
+Wizard,Elemental Water,Alamir's Fundamental Breakdown,3rd,PHB
+Wizard,Elemental Water,Wall of Water,3rd,PHB
+Wizard,Elemental Water,Water Breathing/Air Breathing,3rd,PHB
+Wizard,Elemental Water,Watery Double,3rd,PHB
+Wizard,Elemental Water,Conjure Elemental-Kin,4th,PHB
+Wizard,Elemental Water,Ice Storm,4th,PHB
+Wizard,Elemental Water,Vitriolic Sphere,4th,PHB
+Wizard,Elemental Water,Wall of Ice,4th,PHB
+Wizard,Elemental Water,Airy Water,5th,PHB
+Wizard,Elemental Water,Cone of Cold,5th,PHB
+Wizard,Elemental Water,Conjure Elemental,5th,PHB
+Wizard,Elemental Water,Rusting Grasp,5th,PHB
+Wizard,Elemental Water,Transmute Rock to Mud/Transmute Mud to Rock,5th,PHB
+Wizard,Elemental Water,Vile Venom,5th,PHB
+Wizard,Elemental Water,Lower Water,6th,PHB
+Wizard,Elemental Water,Otiluke's Freezing Sphere,6th,PHB
+Wizard,Elemental Water,Part Water,6th,PHB
+Wizard,Elemental Water,Transmute Water to Dust/Improved Create Water,6th,PHB
+Wizard,Elemental Water,Acid Storm,7th,PHB
+Wizard,Elemental Water,Abi-Dalzim's Horrid Wilting,8th,PHB
+Wizard,Elemental Water,Elemental Aura,9th,PHB
+Wizard,Dimension,Detect Phase,1st,PHB
+Wizard,Dimension,Enlarge/Reduce,1st,PHB
+Wizard,Dimension,Gaze Reflection,1st,PHB
+Wizard,Dimension,Deeppockets,2nd,PHB
+Wizard,Dimension,Displace Self,2nd,PHB
+Wizard,Dimension,Rope Trick,2nd,PHB
+Wizard,Dimension,Blink,3rd,PHB
+Wizard,Dimension,Dimension Door,4th,PHB
+Wizard,Dimension,Distance Distortion,5th,PHB
+Wizard,Dimension,Improved Blink,5th,PHB
+Wizard,Dimension,Leomund's Secret Chest,5th,PHB
+Wizard,Dimension,Dimensional Blade,6th,PHB
+Wizard,Dimension,Etherealness,6th,PHB
+Wizard,Dimension,Drawmij's Instant Summons,7th,PHB
+Wizard,Dimension,Duo-dimension,7th,PHB
+Wizard,Dimension,Mordenkainen's Magnificent Mansion,7th,PHB
+Wizard,Dimension,Phase Door,7th,PHB
+Wizard,Dimension,Shadow Walk,7th,PHB
+Wizard,Dimension,Maze,8th,PHB
+Wizard,Dimension,Gate,9th,PHB
+Wizard,Dimension,Sphere of Ultimate Destruction,9th,PHB
+Wizard,Dimension,Time Stop,9th,PHB
+Wizard,Force,Armor,1st,PHB
+Wizard,Force,Magic Missile,1st,PHB
+Wizard,Force,Shield,1st,PHB
+Wizard,Force,Tenser's Floating Disc,1st,PHB
+Wizard,Force,Levitate,2nd,PHB
+Wizard,Force,INVISIBLE MAIL,3rd,CWH
+Wizard,Force,Lance of Disruption,3rd,PHB
+Wizard,Force,Mordenkainen's Force Missiles,4th,PHB
+Wizard,Force,Otiluke's Resilient Sphere,4th,PHB
+Wizard,Force,Bigby's Interposing Hand,5th,PHB
+Wizard,Force,Telekinesis,5th,PHB
+Wizard,Force,Tenser's Destructive Resonance,5th,PHB
+Wizard,Force,Wall of Force,5th,PHB
+Wizard,Force,Bigby's Forceful Hand,6th,PHB
+Wizard,Force,Repulsion,6th,PHB
+Wizard,Force,Bigby's Grasping Hand,7th,PHB
+Wizard,Force,Forcecage,7th,PHB
+Wizard,Force,Mordenkainen's Sword,7th,PHB
+Wizard,Force,Bigby's Clenched Fist,8th,PHB
+Wizard,Force,Otiluke's Telekinetic Sphere,8th,PHB
+Wizard,Force,Bigby's Crushing Hand,9th,PHB
+Wizard,Mentalism,Charm Person,1st,PHB
+Wizard,Mentalism,Hypnotism,1st,PHB
+Wizard,Mentalism,Spook,1st,PHB
+Wizard,Mentalism,ESP,2nd,CWH
+Wizard,Mentalism,Forget,2nd,PHB
+Wizard,Mentalism,Clairaudience,3rd,PHB
+Wizard,Mentalism,Clairvoyance,3rd,PHB
+Wizard,Mentalism,IRON MIND,3rd,CWH
+Wizard,Mentalism,Suggestion,3rd,PHB
+Wizard,Mentalism,Charm Monster,4th,PHB
+Wizard,Mentalism,Phantasmal Killer,4th,PHB
+Wizard,Mentalism,Psychic Protection,4th,PHB
+Wizard,Mentalism,Rarv's Mnemonic Enhancer,4th,PHB
+Wizard,Mentalism,Domination,5th,PHB
+Wizard,Mentalism,Feeblemind,5th,PHB
+Wizard,Mentalism,Magic Jar,5th,PHB
+Wizard,Mentalism,Sending,5th,PHB
+Wizard,Mentalism,Eyebite,6th,PHB
+Wizard,Mentalism,Geas,6th,PHB
+Wizard,Mentalism,Mass Suggestion,6th,PHB
+Wizard,Mentalism,Tower of Mental Resistance,6th,PHB
+Wizard,Mentalism,Descent into Madness,7th,PHB
+Wizard,Mentalism,Demand,8th,PHB
+Wizard,Mentalism,Mind Blank,8th,PHB
+Wizard,Mentalism,Programmed Amnesia,9th,PHB
+Wizard,Shadow,Chill Touch,1st,PHB
+Wizard,Shadow,Sleep,1st,PHB
+Wizard,Shadow,Spook,1st,PHB
+Wizard,Shadow,Blur,2nd,PHB
+Wizard,Shadow,Continual Darkness,2nd,PHB
+Wizard,Shadow,"Darkness, 15' Radius",2nd,PHB
+Wizard,Shadow,Ray of Enfeeblement,2nd,PHB
+Wizard,Shadow,Scare,2nd,PHB
+Wizard,Shadow,Spectral Hand,2nd,PHB
+Wizard,Shadow,Wall of Gloom,2nd,PHB
+Wizard,Shadow,Lorloveim's Creeping Shadow,3rd,PHB
+Wizard,Shadow,Nondetection,3rd,PHB
+Wizard,Shadow,Phantom Steed,3rd,PHB
+Wizard,Shadow,SPIRIT ARMOR,3rd,CWH
+Wizard,Shadow,Wraithform,3rd,PHB
+Wizard,Shadow,Dimension Door,4th,PHB
+Wizard,Shadow,Enervation,4th,PHB
+Wizard,Shadow,Evard's Black Tentacles,4th,PHB
+Wizard,Shadow,Fear,4th,PHB
+Wizard,Shadow,Minor Creation,4th,PHB
+Wizard,Shadow,Shadow Monsters,4th,PHB
+Wizard,Shadow,Demishadow Monsters,5th,PHB
+Wizard,Shadow,Major Creation,5th,PHB
+Wizard,Shadow,Mordenkainen's Faithful Hound,5th,PHB
+Wizard,Shadow,Passwall,5th,PHB
+Wizard,Shadow,Shadow Door,5th,PHB
+Wizard,Shadow,Shadow Magic,5th,PHB
+Wizard,Shadow,BLACKMANTLE,6th,CWH
+Wizard,Shadow,Bloodstone's Spectral Steed,6th,PHB
+Wizard,Shadow,Demishadow Magic,6th,PHB
+Wizard,Shadow,Lorloveim's Shadowy Transformation,6th,PHB
+Wizard,Shadow,Shades,6th,PHB
+Wizard,Shadow,Duo-dimension,7th,PHB
+Wizard,Shadow,Phase Door,7th,PHB
+Wizard,Shadow,Shadowcat,7th,PHB
+Wizard,Shadow,Shadow Walk,7th,PHB
+Wizard,Shadow,Maze,8th,PHB
+Wizard,Shadow,SHADOWFORM,8th,CWH
+Wizard,Shadow,Energy Drain,9th,PHB
+Wizard,Alchemy,Affect Normal Fires,1st,PHB
+Wizard,Alchemy,Fire Burst,1st,PHB
+Wizard,Alchemy,Grease,1st,PHB
+Wizard,Alchemy,Metamorphose Liquids,1st,PHB
+Wizard,Alchemy,Patternweave,1st,PHB
+Wizard,Alchemy,Protection from Evil/Protection from Good,1st,PHB
+Wizard,Alchemy,Fool's Gold,2nd,PHB
+Wizard,Alchemy,Glitterdust,2nd,PHB
+Wizard,Alchemy,Melf's Acid Arrow,2nd,PHB
+Wizard,Alchemy,Pyrotechnics,2nd,PHB
+Wizard,Alchemy,Sense Shifting,2nd,PHB
+Wizard,Alchemy,Stinking Cloud,2nd,PHB
+Wizard,Alchemy,Alamir's Fundamental Breakdown,3rd,PHB
+Wizard,Alchemy,Flame Arrow,3rd,PHB
+Wizard,Alchemy,Melf's Minute Meteors,3rd,PHB
+Wizard,Alchemy,"Protection from Evil, 10' Radius/Protection from Good, 10' Radius",3rd,PHB
+Wizard,Alchemy,Solvent of Corrosion,3rd,PHB
+Wizard,Alchemy,Enchanted Weapon,4th,PHB
+Wizard,Alchemy,Fire Charm,4th,PHB
+Wizard,Alchemy,Fire Trap,4th,PHB
+Wizard,Alchemy,Vitriolic Sphere,4th,PHB
+Wizard,Alchemy,Cloudkill,5th,PHB
+Wizard,Alchemy,Fabricate,5th,PHB
+Wizard,Alchemy,Rusting Grasp,5th,PHB
+Wizard,Alchemy,Transmute Rock to Mud/Transmute Mud to Rock,5th,PHB
+Wizard,Alchemy,Vile Venom,5th,PHB
+Wizard,Alchemy,Death Fog,6th,PHB
+Wizard,Alchemy,Glassee,6th,PHB
+Wizard,Alchemy,Stone to Flesh/Flesh to Stone,6th,PHB
+Wizard,Alchemy,Transmute Water to Dust/Improved Create Water,6th,PHB
+Wizard,Alchemy,Acid Storm,7th,PHB
+Wizard,Alchemy,Hatch the Stone from the Egg,7th,PHB
+Wizard,Alchemy,Neutralize Gas,7th,PHB
+Wizard,Alchemy,Statue,7th,PHB
+Wizard,Alchemy,Glassteel,8th,PHB
+Wizard,Alchemy,Incendiary Cloud,8th,PHB
+Wizard,Alchemy,Crystalbrittle,9th,PHB
+Wizard,Alchemy,Glorious Transmutation,9th,PHB
+Wizard,Artifice,CHROMATIC ORB,1st,CWH
+Wizard,Artifice,DIVINING ROD,1st,CWH
+Wizard,Artifice,Mending,1st,PHB
+Wizard,Artifice,Bind,2nd,PHB
+Wizard,Artifice,ICE KNIFE,2nd,CWH
+Wizard,Artifice,Leomund's Trap,2nd,PHB
+Wizard,Artifice,Moon Rune,2nd,PHB
+Wizard,Artifice,BONE CLUB,3rd,CWH
+Wizard,Artifice,Explosive Runes,3rd,PHB
+Wizard,Artifice,Flame Arrow,3rd,PHB
+Wizard,Artifice,Item,3rd,PHB
+Wizard,Artifice,Melf's Minute Meteors,3rd,PHB
+Wizard,Artifice,SNAPPING TEETH,3rd,CWH
+Wizard,Artifice,Enchanted Weapon,4th,PHB
+Wizard,Artifice,Magic Mirror,4th,PHB
+Wizard,Artifice,Thunder Staff,4th,PHB
+Wizard,Artifice,Magic Staff,5th,PHB
+Wizard,Artifice,Arrow of Bone,6th,PHB
+Wizard,Artifice,Dimensional Blade,6th,PHB
+Wizard,Artifice,Steal Enchantment,7th,PHB
+Wizard,Artifice,Analyze Dweomer,8th,PHB
+Wizard,Artifice,Antipathy-sympathy,8th,PHB
+Wizard,Artifice,Shape Change,9th,PHB
+Wizard,Geometry,Alarm,1st,PHB
+Wizard,Geometry,COPY,1st,CWH
+Wizard,Geometry,Dictation,1st,PHB
+Wizard,Geometry,Erase,1st,PHB
+Wizard,Geometry,Shield,1st,PHB
+Wizard,Geometry,Homung's Baneful Deflector,1st,PHB
+Wizard,Geometry,Hypnotic Pattern,2nd,PHB
+Wizard,Geometry,Moon Rune,2nd,PHB
+Wizard,Geometry,BONE CLUB,3rd,CWH
+Wizard,Geometry,Explosive Runes,3rd,PHB
+Wizard,Geometry,Lesser Sign of Sealing,3rd,PHB
+Wizard,Geometry,Secret Page,3rd,PHB
+Wizard,Geometry,Sepia Snake Sigil,3rd,PHB
+Wizard,Geometry,Conjure Elemental-Kin,4th,PHB
+Wizard,Geometry,Fire Trap,4th,PHB
+Wizard,Geometry,Minor Globe of Invulnerability,4th,PHB
+Wizard,Geometry,Rainbow Pattern,4th,PHB
+Wizard,Geometry,There/Not There,4th,PHB
+Wizard,Geometry,Thunder Staff,4th,PHB
+Wizard,Geometry,Animate Dead,5th,PHB
+Wizard,Geometry,Avoidance,5th,PHB
+Wizard,Geometry,Conjure Elemental,5th,PHB
+Wizard,Geometry,INVULNERABILITY TO NORMAL WEAPONS,5th,CWH
+Wizard,Geometry,Khazid's Procurement,5th,PHB
+Wizard,Geometry,MORDENKAINEN'S PRIVATE SANCTUM,5th,CWH
+Wizard,Geometry,Von Gasik's Refusal,5th,PHB
+Wizard,Geometry,Ensnarement,6th,PHB
+Wizard,Geometry,Globe of Invulnerability,6th,PHB
+Wizard,Geometry,Greater Sign of Sealing,6th,PHB
+Wizard,Geometry,Guards and Wards,6th,PHB
+Wizard,Geometry,INVULNERABILITY TO MAGICAL WEAPONS,6th,CWH
+Wizard,Geometry,FEAR WARD,7th,CWH
+Wizard,Geometry,Phase Door,7th,PHB
+Wizard,Geometry,Sequester,7th,PHB
+Wizard,Geometry,Vanish,7th,PHB
+Wizard,Geometry,Binding,8th,PHB
+Wizard,Geometry,Maze,8th,PHB
+Wizard,Geometry,Symbol,8th,PHB
+Wizard,Geometry,Trap the Soul,8th,PHB
+Wizard,Geometry,Gate,9th,PHB
+Wizard,Geometry,Shape Change,9th,PHB
+Wizard,Song,Audible Glamer,1st,PHB
+Wizard,Song,Charm Person,1st,PHB
+Wizard,Song,Find Familiar,1st,PHB
+Wizard,Song,Friends,1st,PHB
+Wizard,Song,Sleep,1st,PHB
+Wizard,Song,Taunt,1st,PHB
+Wizard,Song,Forget,2nd,PHB
+Wizard,Song,Summon Swarm,2nd,PHB
+Wizard,Song,Tasha's Uncontrollable Hideous Laughter,2nd,PHB
+Wizard,Song,Whispering Wind,2nd,PHB
+Wizard,Song,Fireflow,3rd,PHB
+Wizard,Song,Hold Person,3rd,PHB
+Wizard,Song,Monster Summoning I,3rd,PHB
+Wizard,Song,Suggestion,3rd,PHB
+Wizard,Song,Charm Monster,4th,PHB
+Wizard,Song,Confusion,4th,PHB
+Wizard,Song,Emotion,4th,PHB
+Wizard,Song,Lesser Geas,4th,PHB
+Wizard,Song,Monster Summoning II,4th,PHB
+Wizard,Song,Shout,4th,PHB
+Wizard,Song,Summon Lycanthrope,4th,PHB
+Wizard,Song,Chaos,5th,PHB
+Wizard,Song,Dismissal,5th,PHB
+Wizard,Song,Hold Monster,5th,PHB
+Wizard,Song,Leomund's Lamentable Belaborment,5th,PHB
+Wizard,Song,Monster Summoning III,5th,PHB
+Wizard,Song,Control Weather,6th,PHB
+Wizard,Song,Mass Suggestion,6th,PHB
+Wizard,Song,Monster Summoning IV,6th,PHB
+Wizard,Song,Banishment,7th,PHB
+Wizard,Song,Charm Plants,7th,PHB
+Wizard,Song,Monster Summoning V,7th,PHB
+Wizard,Song,"Power Word, Stun",7th,PHB
+Wizard,Song,Spell Shape,7th,PHB
+Wizard,Song,Binding,8th,PHB
+Wizard,Song,Mass Charm,8th,PHB
+Wizard,Song,Monster Summoning VI,8th,PHB
+Wizard,Song,Otto's Irresistible Dance,8th,PHB
+Wizard,Song,"Power Word, Blind",8th,PHB
+Wizard,Song,Monster Summoning VII,8th,PHB
+Wizard,Song,"Power Word, Kill",9th,PHB
+Wizard,Song,Wail of the Banshee,9th,PHB
+Wizard,Wild Magic,Homung's Guess,1st,PHB
+Wizard,Wild Magic,Nahal's Reckless Dweomer,1st,PHB
+Wizard,Wild Magic,Pattemweave,1st,PHB
+Wizard,Wild Magic,Chaos Shield,2nd,PHB
+Wizard,Wild Magic,Homung's Baneful Deflector,2nd,PHB
+Wizard,Wild Magic,Nahal's Nonsensical Nullifier,2nd,PHB
+Wizard,Wild Magic,Alternate Reality,3rd,PHB
+Wizard,Wild Magic,Fireflow,3rd,PHB
+Wizard,Wild Magic,Fool's Speech,3rd,PHB
+Wizard,Wild Magic,There/Not There,4th,PHB
+Wizard,Wild Magic,Unluck,4th,PHB
+Wizard,Wild Magic,Vortex,5th,PHB
+Wizard,Wild Magic,Waveform,5th,PHB
+Wizard,Wild Magic,Wildshield,6th,PHB
+Wizard,Wild Magic,Wildstrike,6th,PHB
+Wizard,Wild Magic,Homung's Surge Selector,7th,PHB
+Wizard,Wild Magic,Spell Shape,7th,PHB
+Wizard,Wild Magic,Hornung's Random Dispatcher,8th,PHB
+Wizard,Wild Magic,Wildzone,8th,PHB
+Wizard,Wild Magic,Stabilize,9th,PHB
+Wizard,Wild Magic,Wildfire,9th,PHB
+Wizard,Wild Magic,Wildwind,9th,PHB
+Priest,All,Bless/Curse,1st,PHB
+Priest,All,Combine,1st,PHB
+Priest,All,Detect Magic,1st,PHB
+Priest,All,Orison,1st,PHB
+Priest,All,Purify Food & Drink/Putrefy Food & Drink,1st,PHB
+Priest,All,Chant,2nd,PHB
+Priest,All,Mystic Transfer*,2nd,PHB
+Priest,All,Sanctify/Defile*,2nd,PHB
+Priest,All,Dispel Magic,3rd,PHB
+Priest,All,Remove Curse/Bestow Curse,3rd,PHB
+Priest,All,Focus*,4th,PHB
+Priest,All,Tongues,4th,PHB
+Priest,All,Uplift*,4th,PHB
+Priest,All,Atonement,5th,PHB
+Priest,All,Commune,5th,PHB
+Priest,All,Meld*,5th,PHB
+Priest,All,Quest,5th,PHB
+Priest,All,True Seeing/False Seeing,5th,PHB
+Priest,All,Speak with Monsters,6th,PHB
+Priest,All,Gate,7th,PHB
+Priest,Animal,Animal Friendship,1st,PHB
+Priest,Animal,Calm Animals,1st,PHB
+Priest,Animal,Invisibility to Animals,1st,PHB
+Priest,Animal,Locate Animals or Plants,1st,PHB
+Priest,Animal,Charm Person or Mammal,2nd,PHB
+Priest,Animal,Messenger,2nd,PHB
+Priest,Animal,Snake Charm,2nd,PHB
+Priest,Animal,Speak with Animals,2nd,PHB
+Priest,Animal,Control Animal,3rd,PHB
+Priest,Animal,Hold Animal,3rd,PHB
+Priest,Animal,Summon Insects,3rd,PHB
+Priest,Animal,Animal Summoning I,4th,PHB
+Priest,Animal,Call Woodland Beings,4th,PHB
+Priest,Animal,Giant Insect,4th,PHB
+Priest,Animal,Repel Insects,4th,PHB
+Priest,Animal,Animal Growth,5th,PHB
+Priest,Animal,Animal Summoning II,5th,PHB
+Priest,Animal,Commune with Nature,5th,PHB
+Priest,Animal,Insect Plague,5th,PHB
+Priest,Animal,Animal Summoning III,6th,PHB
+Priest,Animal,Antianimal Shell,6th,PHB
+Priest,Animal,Creeping Doom,7th,PHB
+Priest,Animal,Reincarnate,7th,PHB
+Priest,Astral,Astral Celerity,1st,PHB
+Priest,Astral,Speak with Astral Traveler,1st,PHB
+Priest,Astral,Astral Awareness,2nd,PHB
+Priest,Astral,Ethereal Barrier,2nd,PHB
+Priest,Astral,Astral Window,3rd,PHB
+Priest,Astral,Etherealness,3rd,PHB
+Priest,Astral,Join with Astral Traveler,4th,PHB
+Priest,Astral,Plane Shift,5th,PHB
+Priest,Astral,Astral Spell,7th,PHB
+Priest,Chaos,Battlefate,1st,PHB
+Priest,Chaos,Mistaken Missive,1st,PHB
+Priest,Chaos,Chaos Ward,2nd,PHB
+Priest,Chaos,Dissension's Feast,2nd,PHB
+Priest,Chaos,Miscast Magic,3rd,PHB
+Priest,Chaos,Random Causality,3rd,PHB
+Priest,Chaos,Chaotic Combat,4th,PHB
+Priest,Chaos,Chaotic Sleep,4th,PHB
+Priest,Chaos,Inverted Ethics,4th,PHB
+Priest,Chaos,Chaotic Commands,5th,PHB
+Priest,Chaos,Entropy Shield,6th,PHB
+Priest,Chaos,Uncontrolled Weather,7th,PHB
+Priest,Charm,Command,1st,PHB
+Priest,Charm,Remove Fear/Cause Fear,1st,PHB
+Priest,Charm,Sanctuary,1st,PHB
+Priest,Charm,Enthrall,2nd,PHB
+Priest,Charm,Hold Person,2nd,PHB
+Priest,Charm,Music of the Spheres,2nd,PHB
+Priest,Charm,Snake Charm,2nd,PHB
+Priest,Charm,Dictate,3rd,PHB
+Priest,Charm,Emotion Control,3rd,PHB
+Priest,Charm,Cloak of Bravery/Cloak of Fear,4th,PHB
+Priest,Charm,Free Action,4th,PHB
+Priest,Charm,Imbue with Spell Ability,4th,PHB
+Priest,Charm,Command Monster,6th,PHB
+Priest,Charm,Confusion,7th,PHB
+Priest,Charm,Exaction,7th,PHB
+Priest,Combat,Command,1st,PHB
+Priest,Combat,Magical Stone,1st,PHB
+Priest,Combat,Aid,2nd,PHB
+Priest,Combat,Spiritual Hammer,2nd,PHB
+Priest,Combat,Prayer,3rd,PHB
+Priest,Combat,Unearthly Choir*,3rd,PHB
+Priest,Combat,Flame Strike,5th,PHB
+Priest,Combat,Righteous Wrath of the Faithful,5th,PHB
+Priest,Combat,Spiritual Wrath*,6th,PHB
+Priest,Combat,Word of Recall,6th,PHB
+Priest,Combat,Holy Word/Unholy Word,7th,PHB
+Priest,Creation,Light/Darkness,1st,PHB
+Priest,Creation,Create Holy Symbol,2nd,PHB
+Priest,Creation,Continual Light/Continual Darkness,3rd,PHB
+Priest,Creation,Create Food & Water,3rd,PHB
+Priest,Creation,Blessed Abundance,5th,PHB
+Priest,Creation,Blade Barrier,6th,PHB
+Priest,Creation,Heroes' Feast,6th,PHB
+Priest,Creation,The Great Circle/The Black Circle*,6th,PHB
+Priest,Divination,Analyze Balance,1st,PHB
+Priest,Divination,Detect Evil/Detect Good,1st,PHB
+Priest,Divination,Detect Poison,1st,PHB
+Priest,Divination,Augury,2nd,PHB
+Priest,Divination,Detect Charm/Undetectable Charm,2nd,PHB
+Priest,Divination,Find Traps,2nd,PHB
+Priest,Divination,Detect Spirits,3rd,PHB
+Priest,Divination,Extradimensional Detection,3rd,PHB
+Priest,Divination,Locate Object/Obscure Object,3rd,PHB
+Priest,Divination,Speak with Dead,3rd,PHB
+Priest,Divination,Detect Lie/Undetectable Lie,4th,PHB
+Priest,Divination,Divination,4th,PHB
+Priest,Divination,Omniscient Eye,4th,PHB
+Priest,Divination,Consequence,5th,PHB
+Priest,Divination,Magic Font,5th,PHB
+Priest,Divination,Find the Path/Lose the Path,6th,PHB
+Priest,Divination,Stone Tell,6th,PHB
+Priest,Divination,Divine Inspiration,7th,PHB
+Priest,"Elemental, Air",Wind Column,1st,PHB
+Priest,"Elemental, Air",Dust Devil,2nd,PHB
+Priest,"Elemental, Air",Wind Servant,3rd,PHB
+Priest,"Elemental, Air",Zone of Sweet Air,3rd,PHB
+Priest,"Elemental, Air",Windborne,4th,PHB
+Priest,"Elemental, Air",Air Walk,5th,PHB
+Priest,"Elemental, Air",Cloud of Purification,5th,PHB
+Priest,"Elemental, Air",Control Winds,5th,PHB
+Priest,"Elemental, Air",Whirlwind,6th,PHB
+Priest,"Elemental, Air",Conjure Air Elemental,7th,PHB
+Priest,"Elemental, Air",Wind Walk,7th,PHB
+Priest,"Elemental, Earth",Strength of Stone,1st,PHB
+Priest,"Elemental, Earth",Soften Earth and Stone,2nd,PHB
+Priest,"Elemental, Earth",Meld into Stone,3rd,PHB
+Priest,"Elemental, Earth",Stone Shape,3rd,PHB
+Priest,"Elemental, Earth",Adamantite Mace,4th,PHB
+Priest,"Elemental, Earth",Spike Stones,5th,PHB
+Priest,"Elemental, Earth",Transmute Rock to Mud/Transmute Mud to Rock,5th,PHB
+Priest,"Elemental, Earth",Stone Tell,6th,PHB
+Priest,"Elemental, Earth",Animate Rock,7th,PHB
+Priest,"Elemental, Earth",Antimineral Shell,7th,PHB
+Priest,"Elemental, Earth",Conjure Earth Elemental,7th,PHB
+Priest,"Elemental, Earth",Earthquake,7th,PHB
+Priest,"Elemental, Earth",Transmute Metal to Wood,7th,PHB
+Priest,"Elemental, Fire",Firelight,1st,PHB
+Priest,"Elemental, Fire",Log of Everbuming,1st,PHB
+Priest,"Elemental, Fire",Fire Trap,2nd,PHB
+Priest,"Elemental, Fire",Flame Blade,2nd,PHB
+Priest,"Elemental, Fire",Heat Metal/Chill Metal,2nd,PHB
+Priest,"Elemental, Fire",Produce Flame,2nd,PHB
+Priest,"Elemental, Fire",Flame Walk,3rd,PHB
+Priest,"Elemental, Fire",Protection from Fire,3rd,PHB
+Priest,"Elemental, Fire",Pyrotechnics,3rd,PHB
+Priest,"Elemental, Fire",Produce Fire/Quench Fire,4th,PHB
+Priest,"Elemental, Fire",Animate Flame,5th,PHB
+Priest,"Elemental, Fire",Wall of Fire,5th,PHB
+Priest,"Elemental, Fire",Conjure Fire Elemental,6th,PHB
+Priest,"Elemental, Fire",Fire Seeds,6th,PHB
+Priest,"Elemental, Fire",Chariot of Sustarre,7th,PHB
+Priest,"Elemental, Fire",Fire Storm,7th,PHB
+Priest,"Elemental, Water",Create Water/Destroy Water,1st,PHB
+Priest,"Elemental, Water",Watery Fist,2nd,PHB
+Priest,"Elemental, Water",Water Breathing/Air Breathing,3rd,PHB
+Priest,"Elemental, Water",Water Walk,3rd,PHB
+Priest,"Elemental, Water",Lower Water/Raise Water,4th,PHB
+Priest,"Elemental, Water",Reflecting Pool,4th,PHB
+Priest,"Elemental, Water",Produce Ice,5th,PHB
+Priest,"Elemental, Water",Part Water,6th,PHB
+Priest,"Elemental, Water",Transmute Water to Dust/Improved Create Water,6th,PHB
+Priest,"Elemental, Water",Conjure Water Elemental,7th,PHB
+Priest,"Elemental, Water",Tsunami,7th,PHB
+Priest,Guardian,Blessed Watchfulness,1st,PHB
+Priest,Guardian,Light/Darkness,1st,PHB
+Priest,Guardian,Sacred Guardian,1st,PHB
+Priest,Guardian,Iron Vigil,2nd,PHB
+Priest,Guardian,"Silence, 15' Radius",2nd,PHB
+Priest,Guardian,Wyvern Watch,2nd,PHB
+Priest,Guardian,Continual Light/Continual Darkness,3rd,PHB
+Priest,Guardian,Glyph of Warding,3rd,PHB
+Priest,Guardian,Abjure,4th,PHB
+Priest,Guardian,Dimensional Anchor,4th,PHB
+Priest,Guardian,Dispel Evil/Dispel Good,5th,PHB
+Priest,Guardian,Unceasing Vigilance of the Holy Sentinel,5th,PHB
+Priest,Guardian,Blade Barrier,6th,PHB
+Priest,Guardian,Forbiddance,6th,PHB
+Priest,Guardian,Symbol,7th,PHB
+Priest,Healing,Cure Light Wounds/Cause Light Wounds,1st,PHB
+Priest,Healing,Cure Moderate Wounds/Cause Moderate Wounds,2nd,PHB
+Priest,Healing,Slow Poison,2nd,PHB
+Priest,Healing,Cure Blindness or Deafness/Cause Blindness or Deafness,3rd,PHB
+Priest,Healing,Cure Disease/Cause Disease,3rd,PHB
+Priest,Healing,Hold Poison,3rd,PHB
+Priest,Healing,Repair Injury,3rd,PHB
+Priest,Healing,Cure Serious Wounds/Cause Serious Wounds,4th,PHB
+Priest,Healing,Fortify*,4th,PHB
+Priest,Healing,Neutralize Poison/Poison,4th,PHB
+Priest,Healing,Cure Critical Wounds/Cause Critical Wounds,5th,PHB
+Priest,Healing,Heal/Harm,6th,PHB
+Priest,Healing,Regenerate,7th,PHB
+Priest,Law,Command,1st,PHB
+Priest,Law,Protection from Chaos,1st,PHB
+Priest,Law,Calm Chaos,2nd,PHB
+Priest,Law,Enthrall,2nd,PHB
+Priest,Law,Hold Person,2nd,PHB
+Priest,Law,Dictate,3rd,PHB
+Priest,Law,Rigid Thinking,3rd,PHB
+Priest,Law,Strength of One,3rd,PHB
+Priest,Law,Compulsive Order,4th,PHB
+Priest,Law,Defensive Harmony,4th,PHB
+Priest,Law,Champion's Strength,5th,PHB
+Priest,Law,Impeding Permission,5th,PHB
+Priest,Law,Legal Thoughts,6th,PHB
+Priest,Necromantic,Dispel Fatigue,1st,PHB
+Priest,Necromantic,Invisibility to Undead,1st,PHB
+Priest,Necromantic,Aid,2nd,PHB
+Priest,Necromantic,Restore Strength,2nd,PHB
+Priest,Necromantic,Animate Dead,3rd,PHB
+Priest,Necromantic,Feign Death,3rd,PHB
+Priest,Necromantic,Negative Plane Protection,3rd,PHB
+Priest,Necromantic,Remove Paralysis,3rd,PHB
+Priest,Necromantic,Speak with Dead,3rd,PHB
+Priest,Necromantic,Suspended Animation,4th,PHB
+Priest,Necromantic,Unfailing Endurance,4th,PHB
+Priest,Necromantic,Raise Dead,5th,PHB
+Priest,Necromantic,Restoration,7th,PHB
+Priest,Necromantic,Resurrection,7th,PHB
+Priest,Numbers,Analyze Balance,1st,PHB
+Priest,Numbers,Calculate,1st,PHB
+Priest,Numbers,Personal Reading,1st,PHB
+Priest,Numbers,Moment,2nd,PHB
+Priest,Numbers,Music of the Spheres,2nd,PHB
+Priest,Numbers,Etherealness,3rd,PHB
+Priest,Numbers,Extradimensional Detection,3rd,PHB
+Priest,Numbers,Moment Reading,3rd,PHB
+Priest,Numbers,Telethaumaturgy,3rd,PHB
+Priest,Numbers,Addition,4th,PHB
+Priest,Numbers,Dimensional Folding,4th,PHB
+Priest,Numbers,Probability Control,4th,PHB
+Priest,Numbers,Consequence,5th,PHB
+Priest,Numbers,Dimensional Translocation,5th,PHB
+Priest,Numbers,Extradimensional Manipulation,5th,PHB
+Priest,Numbers,Extradimensional Pocket,5th,PHB
+Priest,Numbers,Physical Mirror,6th,PHB
+Priest,Numbers,Seclusion,6th,PHB
+Priest,Numbers,Spacewarp,7th,PHB
+Priest,Numbers,Timelessness,7th,PHB
+Priest,Plant,Entangle,1st,PHB
+Priest,Plant,Locate Animals or Plants,1st,PHB
+Priest,Plant,Pass without Trace,1st,PHB
+Priest,Plant,Shillelagh,1st,PHB
+Priest,Plant,Barkskin,2nd,PHB
+Priest,Plant,Detect Snares & Pits,2nd,PHB
+Priest,Plant,Goodberry/Badberry,2nd,PHB
+Priest,Plant,Trip,2nd,PHB
+Priest,Plant,Warp Wood,2nd,PHB
+Priest,Plant,Plant Growth,3rd,PHB
+Priest,Plant,Slow Rot,3rd,PHB
+Priest,Plant,Snare,3rd,PHB
+Priest,Plant,Spike Growth,3rd,PHB
+Priest,Plant,Tree,3rd,PHB
+Priest,Plant,Hallucinatory Forest,4th,PHB
+Priest,Plant,Hold Plant,4th,PHB
+Priest,Plant,Plant Door,4th,PHB
+Priest,Plant,Speak with Plants,4th,PHB
+Priest,Plant,Sticks to Snakes,4th,PHB
+Priest,Plant,Antiplant Shell,5th,PHB
+Priest,Plant,Commune with Nature,5th,PHB
+Priest,Plant,Pass Plant,5th,PHB
+Priest,Plant,Liveoak,6th,PHB
+Priest,Plant,Transport Via Plants,6th,PHB
+Priest,Plant,Turn Wood,6th,PHB
+Priest,Plant,Wall of Thorns,6th,PHB
+Priest,Plant,Changestaff,7th,PHB
+Priest,Protection,Endure Cold/Endure Heat,1st,PHB
+Priest,Protection,Protection from Evil/Protection from Good,1st,PHB
+Priest,Protection,Ring of Hands/Ring of Woe*,1st,PHB
+Priest,Protection,Sanctuary,1st,PHB
+Priest,Protection,Resist Acid and Corrosion,2nd,PHB
+Priest,Protection,Resist Fire/Resist Cold,2nd,PHB
+Priest,Protection,Withdraw,2nd,PHB
+Priest,Protection,Line of Protection/Line of Destruction,3rd,PHB
+Priest,Protection,Magical Vestment,3rd,PHB
+Priest,Protection,Negative Plane Protection,3rd,PHB
+Priest,Protection,"Protection from Evil, 10' Radius/Prot. from Good, 10' Radius",3rd,PHB
+Priest,Protection,Remove Paralysis,3rd,PHB
+Priest,Protection,Spell Immunity,4th,PHB
+Priest,Protection,Antiplant Shell,5th,PHB
+Priest,Protection,Impregnable Mind,5th,PHB
+Priest,Protection,Antianimal Shell,6th,PHB
+Priest,Protection,Antimineral Shell,7th,PHB
+Priest,Protection,Impervious Sanctity of Mind,7th,PHB
+Priest,Summoning,Call Upon Faith,1st,PHB
+Priest,Summoning,Draw Upon Holy Might,2nd,PHB
+Priest,Summoning,Dust Devil,2nd,PHB
+Priest,Summoning,Messenger,2nd,PHB
+Priest,Summoning,Summon Animal Spirit,3rd,PHB
+Priest,Summoning,Abjure,4th,PHB
+Priest,Summoning,Dimensional Translocation,5th,PHB
+Priest,Summoning,Dispel Evil/Dispel Good,5th,PHB
+Priest,Summoning,Aerial Servant,6th,PHB
+Priest,Summoning,Animate Object,6th,PHB
+Priest,Summoning,Conjure Animals,6th,PHB
+Priest,Summoning,Word of Recall,6th,PHB
+Priest,Summoning,Exaction,7th,PHB
+Priest,Summoning,Mind Tracker,7th,PHB
+Priest,Summoning,Spirit of Power,7th,PHB
+Priest,Summoning,Succor,7th,PHB
+Priest,Sun,Light/Darkness,1st,PHB
+Priest,Sun,Sunscorch,1st,PHB
+Priest,Sun,Continual Light/Continual Darkness,3rd,PHB
+Priest,Sun,Starshine,3rd,PHB
+Priest,Sun,Blessed Warmth,4th,PHB
+Priest,Sun,Moonbeam,5th,PHB
+Priest,Sun,Rainbow,5th,PHB
+Priest,Sun,Sol's Searing Orb,6th,PHB
+Priest,Sun,Sunray,7th,PHB
+Priest,Thought,Emotion Read,1st,PHB
+Priest,Thought,Thought Capture,1st,PHB
+Priest,Thought,Idea,2nd,PHB
+Priest,Thought,Mind Read,2nd,PHB
+Priest,Thought,Emotion Control,3rd,PHB
+Priest,Thought,Memory Read,3rd,PHB
+Priest,Thought,Telepathy,3rd,PHB
+Priest,Thought,Genius,4th,PHB
+Priest,Thought,Mental Domination,4th,PHB
+Priest,Thought,Modify Memory,4th,PHB
+Priest,Thought,Rapport,4th,PHB
+Priest,Thought,Solipsism,4th,PHB
+Priest,Thought,Thought Broadcast,4th,PHB
+Priest,Thought,Impregnable Mind,5th,PHB
+Priest,Thought,Memory Wrack,5th,PHB
+Priest,Thought,Mindshatter,5th,PHB
+Priest,Thought,Thoughtwave,5th,PHB
+Priest,Thought,Disbelief,6th,PHB
+Priest,Thought,Group Mind,6th,PHB
+Priest,Thought,Impervious Sanctity of Mind,7th,PHB
+Priest,Thought,Mind Tracker,7th,PHB
+Priest,Time,Know Age,1st,PHB
+Priest,Time,Know Time,1st,PHB
+Priest,Time,Hesitation,2nd,PHB
+Priest,Time,Nap,2nd,PHB
+Priest,Time,Accelerate Healing,3rd,PHB
+Priest,Time,Choose Future,3rd,PHB
+Priest,Time,Unfailing Premonition,3rd,PHB
+Priest,Time,Age Plant,4th,PHB
+Priest,Time,Body Clock,4th,PHB
+Priest,Time,Age Object,5th,PHB
+Priest,Time,Othertirne,5th,PHB
+Priest,Time,Repeat Action,5th,PHB
+Priest,Time,Time Pool,5th,PHB
+Priest,Time,Age Creature,6th,PHB
+Priest,Time,Reverse Time,6th,PHB
+Priest,Time,Skip Day,6th,PHB
+Priest,Time,Age Dragon,7th,PHB
+Priest,Travelers,Know Direction,1st,PHB
+Priest,Travelers,Aura of Comfort,2nd,PHB
+Priest,Travelers,Lighten Load,2nd,PHB
+Priest,Travelers,Create Campsite,3rd,PHB
+Priest,Travelers,Helping Hand,3rd,PHB
+Priest,Travelers,Know Customs,3rd,PHB
+Priest,Travelers,Circle of Privacy,4th,PHB
+Priest,Travelers,Tree Steed,4th,PHB
+Priest,Travelers,Clear Path,5th,PHB
+Priest,Travelers,Easy March,5th,PHB
+Priest,Travelers,Monster Mount,6th,PHB
+Priest,Travelers,Hovering Road,7th,PHB
+Priest,War,Courage,1st,PHB
+Priest,War,Morale,1st,PHB
+Priest,War,Emotion Perception,2nd,PHB
+Priest,War,Rally,2nd,PHB
+Priest,War,Adaptation,3rd,PHB
+Priest,War,Caltrops,3rd,PHB
+Priest,War,Fortify,3rd,PHB
+Priest,War,Entrench,4th,PHB
+Priest,War,Leadership/Doubt,4th,PHB
+Priest,War,Tanglefoot/Selective Passage,4th,PHB
+Priest,War,Disguise,5th,PHB
+Priest,War,Illusory Artillery,5th,PHB
+Priest,War,Gravity Variation,6th,PHB
+Priest,War,Illusory Fortification,7th,PHB
+Priest,War,Shadow Engine,7th,PHB
+Priest,Wards,Antivermin Barrier,1st,PHB
+Priest,Wards,Weighty Chest,1st,PHB
+Priest,Wards,Ethereal Barrier,2nd,PHB
+Priest,Wards,Frisky Chest,2nd,PHB
+Priest,Wards,Zone of Truth,2nd,PHB
+Priest,Wards,Efficacious Monster Ward,3rd,PHB
+Priest,Wards,Invisibility Purge,3rd,PHB
+Priest,Wards,Squeaking Floor,3rd,PHB
+Priest,Wards,Thief's Lament,3rd,PHB
+Priest,Wards,Zone of Sweet Air,3rd,PHB
+Priest,Wards,Fire Purge,4th,PHB
+Priest,Wards,Weather Stasis,4th,PHB
+Priest,Wards,Barrier of Retention,5th,PHB
+Priest,Wards,Elemental Forbiddance,5th,PHB
+Priest,Wards,Grounding,5th,PHB
+Priest,Wards,Shrieking Walls,5th,PHB
+Priest,Wards,Undead Ward,5th,PHB
+Priest,Wards,Crushing Walls,6th,PHB
+Priest,Wards,Dragonbane,6th,PHB
+Priest,Wards,Land of Stability,6th,PHB
+Priest,Wards,Tentacle Walls,7th,PHB
+Priest,Weather,Faerie Fire,1st,PHB
+Priest,Weather,Obscurement,1st,PHB
+Priest,Weather,Call Lightning,3rd,PHB
+Priest,Weather,Weather Prediction,3rd,PHB
+Priest,Weather,"Control Temperature, 10' Radius",4th,PHB
+Priest,Weather,Protection from Lightning,4th,PHB
+Priest,Weather,Weather Stasis,4th,PHB
+Priest,Weather,Control Winds,5th,PHB
+Priest,Weather,Rainbow,5th,PHB
+Priest,Weather,Weather Summoning,6th,PHB
+Priest,Weather,Control Weather,7th,PHB

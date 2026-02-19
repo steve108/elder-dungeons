@@ -1,0 +1,68 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum MagicalResistance {
+  YES
+  NO
+}
+
+model Spell {
+  id                  Int               @id @default(autoincrement())
+  dedupeKey           String            @unique @map("dedupe_key")
+  name                String
+  level               Int
+  spellClass          String            @map("spell_class")
+  school              String?
+  sphere              String?
+  source              String?
+  rangeText           String
+  target              String?
+  durationText        String
+  castingTime         String
+  components          String
+  componentDesc       String?           @db.Text @map("component_desc")
+  componentCost       String?           @db.Text @map("component_cost")
+  componentConsumed   Boolean           @default(false) @map("component_consumed")
+  canBeDispelled      Boolean           @default(false) @map("can_be_dispelled")
+  dispelHow           String?           @db.Text @map("dispel_how")
+  combat              Boolean           @default(false)
+  utility             Boolean           @default(false)
+  savingThrow         String
+  magicalResistance   MagicalResistance
+  summaryEn           String            @default("") @db.Text @map("summary_en")
+  summaryPtBr         String            @default("") @db.Text @map("summary_pt_br")
+  descriptionOriginal String            @db.Text
+  descriptionPtBr     String?           @db.Text
+  sourceImageUrl      String?
+  createdAt           DateTime          @default(now())
+  updatedAt           DateTime          @updatedAt
+
+  @@map("Spell")
+}
+
+model SpellReference {
+  id             Int      @id @default(autoincrement())
+  className      String   @map("class_name")
+  groupName      String   @map("group_name")
+  name           String
+  normalizedName String   @map("normalized_name")
+  level          Int
+  source         String
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
+
+  @@index([normalizedName])
+  @@unique([normalizedName, className, groupName, level, source])
+  @@map("SpellReference")
+}
