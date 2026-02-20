@@ -135,6 +135,288 @@ function normalizeOptionalString(value: unknown): string | undefined {
   return trimmed.length > 0 ? trimmed : undefined;
 }
 
+function toTitleCase(value: string): string {
+  return value
+    .split(/\s+/)
+    .filter(Boolean)
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(" ");
+}
+
+function removeCorruptedChar(value: string): string {
+  return value.replace(/�/g, "");
+}
+
+const nonSpellInterpretationSchema = z.object({
+  nomeMagia: z.string().trim().min(1),
+  escolaMagia: z.string().trim().min(1),
+  nivel: z.union([z.number().int().min(0).max(9), z.string().trim().min(1)]),
+  componentes: z.union([z.string().trim().min(1), z.array(z.string().trim().min(1)).min(1)]),
+  tempoConjuracao: z.string().trim().min(1),
+  alcance: z.string().trim().min(1),
+  duracao: z.string().trim().min(1),
+  descricaoEfeito: z.string().trim().min(1),
+  efeitoColateralComico: z.string().trim().min(1),
+  falhaCritica: z.string().trim().min(1),
+  notaArquimago: z.string().trim().min(1),
+  resumoEn: z.string().trim().min(1).optional(),
+  resumoPtBr: z.string().trim().min(1).optional(),
+});
+
+function buildSummaryFromInterpretation(params: {
+  nomeMagia: string;
+  escolaMagia: string;
+  descricaoEfeito: string;
+  efeitoColateralComico: string;
+  locale: "en" | "pt";
+}): string {
+  const effectSnippet = params.descricaoEfeito.split(/[.!?]/)[0]?.trim() || params.descricaoEfeito;
+  const sideEffectSnippet = params.efeitoColateralComico.split(/[.!?]/)[0]?.trim() || params.efeitoColateralComico;
+
+  if (params.locale === "en") {
+    return `${params.nomeMagia} (${params.escolaMagia}) channels an improvised effect: ${effectSnippet}. Side effect: ${sideEffectSnippet}.`;
+  }
+
+  return `${params.nomeMagia} (${params.escolaMagia}) canaliza um efeito improvisado: ${effectSnippet}. Efeito colateral: ${sideEffectSnippet}.`;
+}
+
+function normalizeLevel(value: string | number): number {
+  if (typeof value === "number") {
+    return Math.max(0, Math.min(9, value));
+  }
+
+  const match = value.match(/[0-9]/);
+  if (!match) return 1;
+
+  const parsed = Number(match[0]);
+  if (!Number.isInteger(parsed)) return 1;
+  return Math.max(0, Math.min(9, parsed));
+}
+
+async function buildCreativeFallbackSpellFromPrompt(
+  client: OpenAI,
+  model: string,
+  text: string,
+  sourceImageUrl?: string | null,
+): Promise<SpellPayload> {
+  const cleaned = removeCorruptedChar(text).replace(/\s+/g, " ").trim();
+
+  const completion = await createCompletionWithRetry(client, {
+    model,
+    response_format: { type: "json_object" },
+    temperature: 0.9,
+    messages: [
+      {
+        role: "system",
+        content: `Você é um arquimago excêntrico que interpreta QUALQUER texto como se fosse uma magia de RPG.
+
+Regras:
+1) Sempre converta o texto em magia, mesmo que seja receita, lista, bula, recado, desabafo ou nonsense.
+2) Tom irônico, sarcástico e divertido, como um mago veterano cansado de aprendizes.
+3) Gere JSON válido com EXATAMENTE estes campos:
+  nomeMagia, escolaMagia, nivel, componentes, tempoConjuracao, alcance, duracao, descricaoEfeito, efeitoColateralComico, falhaCritica, notaArquimago, resumoEn, resumoPtBr
+4) Se o texto for absurdo, a magia deve funcionar de maneira inesperada e ridícula.
+5) Nunca diga que o texto não é magia.
+6) Interprete o conteúdo de verdade: extraia temas, intenções e pistas do que foi enviado, sem só copiar o texto.`,
+      },
+      {
+        role: "user",
+        content: `Texto a interpretar como magia:\n${cleaned}`,
+      },
+    ],
+  });
+
+  const content = completion.choices[0]?.message?.content;
+  if (!content) {
+    throw new Error("OpenAI returned empty non-spell interpretation content");
+  }
+
+  const interpreted = nonSpellInterpretationSchema.parse(JSON.parse(content));
+  const components =
+    typeof interpreted.componentes === "string" ? interpreted.componentes : interpreted.componentes.join(", ");
+  const level = normalizeLevel(interpreted.nivel);
+  const summaryEn =
+    interpreted.resumoEn?.trim() ||
+    buildSummaryFromInterpretation({
+      nomeMagia: interpreted.nomeMagia,
+      escolaMagia: interpreted.escolaMagia,
+      descricaoEfeito: interpreted.descricaoEfeito,
+      efeitoColateralComico: interpreted.efeitoColateralComico,
+      locale: "en",
+    });
+  const summaryPtBr =
+    interpreted.resumoPtBr?.trim() ||
+    buildSummaryFromInterpretation({
+      nomeMagia: interpreted.nomeMagia,
+      escolaMagia: interpreted.escolaMagia,
+      descricaoEfeito: interpreted.descricaoEfeito,
+      efeitoColateralComico: interpreted.efeitoColateralComico,
+      locale: "pt",
+    });
+
+  return spellPayloadSchema.parse({
+    name: removeCorruptedChar(interpreted.nomeMagia),
+    level,
+    spellClass: "arcane",
+    school: removeCorruptedChar(interpreted.escolaMagia),
+    sphere: null,
+    source: "Recovered Field Notes",
+    rangeText: removeCorruptedChar(interpreted.alcance),
+    target: "Conjurador e criaturas no raio narrativo",
+    durationText: removeCorruptedChar(interpreted.duracao),
+    castingTime: removeCorruptedChar(interpreted.tempoConjuracao),
+    components: removeCorruptedChar(components),
+    componentDesc: removeCorruptedChar(components),
+    componentCost: null,
+    componentConsumed: false,
+    canBeDispelled: true,
+    dispelHow: "Dispel Magic, autoconsciência súbita ou intervenção de um arquimago mais sóbrio",
+    combat: /dano|explos|combate|ataca|hostil|inimig|destr/i.test(interpreted.descricaoEfeito),
+    utility: true,
+    savingThrow: "Spell",
+    savingThrowOutcome: "OTHER",
+    magicalResistance: "YES",
+    summaryEn: removeCorruptedChar(summaryEn),
+    summaryPtBr: removeCorruptedChar(summaryPtBr),
+    descriptionOriginal: removeCorruptedChar(
+      [
+        interpreted.descricaoEfeito,
+        `Comedic Side Effect: ${interpreted.efeitoColateralComico}`,
+        `Possible Critical Failure: ${interpreted.falhaCritica}`,
+        `Archmage Note: ${interpreted.notaArquimago}`,
+      ].join("\n\n"),
+    ),
+    descriptionPtBr: removeCorruptedChar(
+      [
+        interpreted.descricaoEfeito,
+        `Efeito Colateral Cômico: ${interpreted.efeitoColateralComico}`,
+        `Possível Falha Crítica: ${interpreted.falhaCritica}`,
+        `Nota do Arquimago: ${interpreted.notaArquimago}`,
+      ].join("\n\n"),
+    ),
+    sourceImageUrl: sourceImageUrl ?? null,
+    iconUrl: null,
+    iconPrompt: `Arcane emblem for ${interpreted.nomeMagia}, styled as ${interpreted.escolaMagia}, whimsical and mystical`,
+  });
+}
+
+function looksLikeNonSpellText(text: string): boolean {
+  const normalized = text.replace(/\s+/g, " ").trim().toLowerCase();
+  if (!normalized) return false;
+
+  const words = normalized.split(" ").filter(Boolean);
+  if (words.length < 4) return false;
+
+  const hardSpellHints = [
+    "range:",
+    "duration:",
+    "components:",
+    "casting time:",
+    "saving throw:",
+    "target:",
+    "school:",
+    "sphere:",
+    "level:",
+  ];
+
+  if (hardSpellHints.some((hint) => normalized.includes(hint))) {
+    return false;
+  }
+
+  const softSpellHints = [
+    "spell",
+    "magic",
+    "wizard",
+    "priest",
+    "caster",
+    "summon",
+    "damage",
+    "arcane",
+    "divine",
+    "magia",
+    "conjur",
+    "dano",
+    "mago",
+    "clér",
+  ];
+
+  const softHintCount = softSpellHints.filter((hint) => normalized.includes(hint)).length;
+
+  const casualHints = [
+    "oi",
+    "olá",
+    "bom dia",
+    "boa tarde",
+    "boa noite",
+    "kkkk",
+    "haha",
+    "teste",
+    "reunião",
+    "whatsapp",
+    "trabalho",
+  ];
+
+  const casualHintCount = casualHints.filter((hint) => normalized.includes(hint)).length;
+
+  if (casualHintCount > 0 && softHintCount === 0) {
+    return true;
+  }
+
+  return softHintCount === 0 && words.length >= 7;
+}
+
+function buildHumorousFallbackSpell(text: string, sourceImageUrl?: string | null): SpellPayload {
+  const cleaned = removeCorruptedChar(text).replace(/\s+/g, " ").trim();
+  const snippet = cleaned.split(" ").slice(0, 4).join(" ");
+  const titledSnippet = toTitleCase(snippet || "Sinal Inesperado");
+  const probableEffects = [
+    "Versão mansa: reorganiza o caos em intenção funcional por alguns minutos.",
+    "Versão instável: dá sentido narrativo improvável ao texto, com excesso de convicção arcana.",
+    "Versão épica: cria uma solução brilhante, mas cobra o preço em constrangimento social ritualístico.",
+  ];
+
+  return spellPayloadSchema.parse({
+    name: `Interpretação de ${titledSnippet}`,
+    level: 1,
+    spellClass: "arcane",
+    school: "Wild Semiotics",
+    sphere: null,
+    source: "Recovered Field Notes",
+    rangeText: "Linha de visão (ou alcance da conversa)",
+    target: "Conjurador e testemunhas do evento",
+    durationText: "1d4 risadas ou até a realidade se recompor",
+    castingTime: "1 ação improvisada",
+    components: "V, S, M",
+    componentDesc: "Uma frase fora de contexto e confiança excessiva",
+    componentCost: null,
+    componentConsumed: false,
+    canBeDispelled: true,
+    dispelHow: "Dispel Magic, silêncio constrangedor ou mudança de assunto",
+    combat: false,
+    utility: true,
+    savingThrow: "Spell",
+    savingThrowOutcome: "OTHER",
+    magicalResistance: "YES",
+    summaryEn: removeCorruptedChar("Interprets unusual text as an emergent spell pattern with plausible outcomes."),
+    summaryPtBr: removeCorruptedChar("Interpreta texto incomum como padrão mágico emergente com efeitos plausíveis."),
+    descriptionOriginal: removeCorruptedChar([
+      "Field interpretation from an unstructured incantation fragment:",
+      `\"${cleaned.slice(0, 240)}${cleaned.length > 240 ? "..." : ""}\"`,
+      "Probable effect branches:",
+      ...probableEffects,
+    ].join("\n\n")),
+    descriptionPtBr: removeCorruptedChar([
+      "Interpretação de campo a partir de um fragmento de encantamento não estruturado:",
+      `\"${cleaned.slice(0, 240)}${cleaned.length > 240 ? "..." : ""}\"`,
+      "Prováveis versões do efeito:",
+      ...probableEffects,
+    ].join("\n\n")),
+    sourceImageUrl: sourceImageUrl ?? null,
+    iconUrl: null,
+    iconPrompt: "Comedic arcane glyph made of floating chat bubbles and chaotic sparkles",
+  });
+}
+
 const requestSchema = z
   .object({
     text: z.preprocess((value) => normalizeFlexibleText(value), z.string().optional()),
@@ -615,176 +897,196 @@ async function resolveSpellLevelFromWeb(spellName: string): Promise<number | und
 
 export async function parseSpellFromOpenAI(rawInput: unknown): Promise<SpellPayload> {
   const input = requestSchema.parse(rawInput);
-  const model = process.env.OPENAI_MODEL ?? "gpt-4.1-mini";
-  const client = getOpenAIClient();
 
-  const userContent: OpenAI.Chat.Completions.ChatCompletionContentPart[] = [];
+  try {
+    const model = process.env.OPENAI_MODEL ?? "gpt-4.1-mini";
+    const client = getOpenAIClient();
 
-  if (input.text?.trim()) {
-    userContent.push({
-      type: "text",
-      text: `SPELL_TEXT:\n${input.text}`,
+    const userContent: OpenAI.Chat.Completions.ChatCompletionContentPart[] = [];
+
+    if (input.text?.trim()) {
+      userContent.push({
+        type: "text",
+        text: `SPELL_TEXT:\n${input.text}`,
+      });
+    }
+
+    if (input.imageDataUrl) {
+      userContent.push({
+        type: "image_url",
+        image_url: { url: input.imageDataUrl },
+      });
+    }
+
+    const completion = await createCompletionWithRetry(client, {
+      model,
+      response_format: { type: "json_object" },
+      temperature: 0,
+      messages: [
+        { role: "system", content: SPELL_PARSE_PROMPT },
+        {
+          role: "user",
+          content: userContent,
+        },
+      ],
     });
-  }
 
-  if (input.imageDataUrl) {
-    userContent.push({
-      type: "image_url",
-      image_url: { url: input.imageDataUrl },
-    });
-  }
+    const content = completion.choices[0]?.message?.content;
+    if (!content) {
+      throw new Error("OpenAI returned empty content");
+    }
 
-  const completion = await createCompletionWithRetry(client, {
-    model,
-    response_format: { type: "json_object" },
-    temperature: 0,
-    messages: [
-      { role: "system", content: SPELL_PARSE_PROMPT },
-      {
-        role: "user",
-        content: userContent,
-      },
-    ],
-  });
+    const parsed = openAiParseResponseSchema.parse(JSON.parse(content));
+    const reference = await findSpellReferenceByName(parsed.name);
 
-  const content = completion.choices[0]?.message?.content;
-  if (!content) {
-    throw new Error("OpenAI returned empty content");
-  }
+    const descriptionOriginal = parsed.descriptionOriginal?.trim()
+      ? parsed.descriptionOriginal
+      : input.text?.trim()
+        ? extractDescriptionBody(input.text)
+        : "";
 
-  const parsed = openAiParseResponseSchema.parse(JSON.parse(content));
-  const reference = await findSpellReferenceByName(parsed.name);
-
-  const descriptionOriginal = parsed.descriptionOriginal?.trim()
-    ? parsed.descriptionOriginal
-    : input.text?.trim()
-      ? extractDescriptionBody(input.text)
-      : "";
-
-  const localization = await ensureLocalizedFields(client, model, {
-    name: parsed.name,
-    descriptionOriginal,
-    descriptionPtBr: parsed.descriptionPtBr,
-    summaryEn: parsed.summaryEn,
-    summaryPtBr: parsed.summaryPtBr,
-  });
-
-  const magicalResistance =
-    parsed.magicalResistance ??
-    inferMagicalResistance({
+    const localization = await ensureLocalizedFields(client, model, {
       name: parsed.name,
       descriptionOriginal,
-      target: parsed.target ?? null,
-      savingThrow: parsed.savingThrow ?? null,
+      descriptionPtBr: parsed.descriptionPtBr,
+      summaryEn: parsed.summaryEn,
+      summaryPtBr: parsed.summaryPtBr,
     });
+
+    const magicalResistance =
+      parsed.magicalResistance ??
+      inferMagicalResistance({
+        name: parsed.name,
+        descriptionOriginal,
+        target: parsed.target ?? null,
+        savingThrow: parsed.savingThrow ?? null,
+      });
 
   const parsedSchools = normalizeGroupValues(splitGroupList(parsed.school ?? null));
   const parsedSpheres = normalizeGroupValues(splitGroupList(parsed.sphere ?? null));
   const referenceSchools = normalizeGroupValues(reference?.schools ?? []);
   const referenceSpheres = normalizeGroupValues(reference?.spheres ?? []);
 
-  let schoolValues = referenceSchools.length > 0 ? referenceSchools : parsedSchools;
-  let sphereValues = referenceSpheres.length > 0 ? referenceSpheres : parsedSpheres;
-  const sourceValues = mergeUniqueValues(splitCsvLikeList(parsed.source ?? null), reference?.sources ?? []);
-  const spellClass = inferSpellClass({
-    parsedSpellClass: parsed.spellClass,
-    parsedSchool: parsed.school,
-    parsedSphere: parsed.sphere,
-    mergedSchools: schoolValues,
-    mergedSpheres: sphereValues,
-    referenceClassNames: reference?.classNames,
-  });
+    let schoolValues = referenceSchools.length > 0 ? referenceSchools : parsedSchools;
+    let sphereValues = referenceSpheres.length > 0 ? referenceSpheres : parsedSpheres;
+    const sourceValues = mergeUniqueValues(splitCsvLikeList(parsed.source ?? null), reference?.sources ?? []);
+    const spellClass = inferSpellClass({
+      parsedSpellClass: parsed.spellClass,
+      parsedSchool: parsed.school,
+      parsedSphere: parsed.sphere,
+      mergedSchools: schoolValues,
+      mergedSpheres: sphereValues,
+      referenceClassNames: reference?.classNames,
+    });
 
-  if (spellClass === "arcane") {
-    if (schoolValues.length === 0 && sphereValues.length > 0) {
-      schoolValues = sphereValues;
+    if (spellClass === "arcane") {
+      if (schoolValues.length === 0 && sphereValues.length > 0) {
+        schoolValues = sphereValues;
+      }
+      sphereValues = [];
     }
-    sphereValues = [];
-  }
 
-  if (spellClass === "divine" && sphereValues.length === 0 && schoolValues.length > 0) {
-    sphereValues = schoolValues;
-  }
+    if (spellClass === "divine" && sphereValues.length === 0 && schoolValues.length > 0) {
+      sphereValues = schoolValues;
+    }
 
-  if (spellClass === "divine" && sphereValues.length === 0) {
-    throw new Error(
-      `Não foi possível determinar a esfera da magia divina "${parsed.name}". Pelo menos uma esfera é obrigatória.`,
-    );
-  }
+    if (spellClass === "divine" && sphereValues.length === 0) {
+      throw new Error(
+        `Não foi possível determinar a esfera da magia divina "${parsed.name}". Pelo menos uma esfera é obrigatória.`,
+      );
+    }
 
-  const fallbackLevel = reference?.levels.length ? reference.levels[0] : undefined;
-  let resolvedLevel =
-    parsed.level === undefined
-      ? fallbackLevel
-      : reference?.levels?.length && !reference.levels.includes(parsed.level)
+    const fallbackLevel = reference?.levels.length ? reference.levels[0] : undefined;
+    let resolvedLevel =
+      parsed.level === undefined
         ? fallbackLevel
-        : parsed.level;
+        : reference?.levels?.length && !reference.levels.includes(parsed.level)
+          ? fallbackLevel
+          : parsed.level;
 
-  const isZeroLevelAllowed = isZeroLevelExceptionSpell(parsed.name);
-  const hasReferenceLevel = reference?.levels.length ? true : false;
+    const isZeroLevelAllowed = isZeroLevelExceptionSpell(parsed.name);
+    const hasReferenceLevel = reference?.levels.length ? true : false;
 
-  if (resolvedLevel === undefined || (resolvedLevel === 0 && !isZeroLevelAllowed)) {
-    const webLevel = await resolveSpellLevelFromWeb(parsed.name);
-    if (webLevel !== undefined) {
-      resolvedLevel = webLevel;
+    if (resolvedLevel === undefined || (resolvedLevel === 0 && !isZeroLevelAllowed)) {
+      const webLevel = await resolveSpellLevelFromWeb(parsed.name);
+      if (webLevel !== undefined) {
+        resolvedLevel = webLevel;
+      }
     }
-  }
 
-  if (resolvedLevel === undefined) {
-    throw new Error(`Não foi possível determinar o nível da magia "${parsed.name}" na referência local nem na web.`);
-  }
+    if (resolvedLevel === undefined) {
+      throw new Error(`Não foi possível determinar o nível da magia "${parsed.name}" na referência local nem na web.`);
+    }
 
-  if (resolvedLevel === 0 && !isZeroLevelAllowed) {
-    const sourceHint = hasReferenceLevel ? "referência local" : "parse";
-    throw new Error(
-      `A magia "${parsed.name}" foi classificada como nível 0 por ${sourceHint}, mas apenas Cantrip e Orison podem ser nível 0.`,
-    );
-  }
+    if (resolvedLevel === 0 && !isZeroLevelAllowed) {
+      const sourceHint = hasReferenceLevel ? "referência local" : "parse";
+      throw new Error(
+        `A magia "${parsed.name}" foi classificada como nível 0 por ${sourceHint}, mas apenas Cantrip e Orison podem ser nível 0.`,
+      );
+    }
 
-  const inferredSavingThrow = inferSavingThrow2e({
-    parsedSavingThrow: parsed.savingThrow,
-    name: parsed.name,
-    descriptionOriginal,
-    target: parsed.target ?? null,
-  });
+    const inferredSavingThrow = inferSavingThrow2e({
+      parsedSavingThrow: parsed.savingThrow,
+      name: parsed.name,
+      descriptionOriginal,
+      target: parsed.target ?? null,
+    });
 
-  const payload = spellPayloadSchema.parse({
-    ...parsed,
-    level: resolvedLevel,
-    spellClass,
-    school: schoolValues.length > 0 ? schoolValues.join(", ") : null,
-    sphere: sphereValues.length > 0 ? sphereValues.join(", ") : null,
-    source: sourceValues.length > 0 ? sourceValues.join(", ") : null,
-    target: parsed.target ?? null,
-    componentConsumed: parsed.componentConsumed ?? false,
-    canBeDispelled: parsed.canBeDispelled ?? false,
-    dispelHow: parsed.canBeDispelled ? (parsed.dispelHow?.trim() || null) : null,
-    combat: parsed.combat ?? false,
-    utility: parsed.utility ?? true,
-    savingThrow: inferredSavingThrow.category,
-    savingThrowOutcome: parsed.savingThrowOutcome ?? inferredSavingThrow.outcome,
-    magicalResistance,
-    summaryEn: localization.summaryEn,
-    summaryPtBr: localization.summaryPtBr,
-    descriptionOriginal,
-    descriptionPtBr: localization.descriptionPtBr,
-    sourceImageUrl: input.sourceImageUrl ?? null,
-    iconUrl: null,
-    iconPrompt: null,
-  });
+    const payload = spellPayloadSchema.parse({
+      ...parsed,
+      level: resolvedLevel,
+      spellClass,
+      school: schoolValues.length > 0 ? schoolValues.join(", ") : null,
+      sphere: sphereValues.length > 0 ? sphereValues.join(", ") : null,
+      source: sourceValues.length > 0 ? sourceValues.join(", ") : null,
+      target: parsed.target ?? null,
+      componentConsumed: parsed.componentConsumed ?? false,
+      canBeDispelled: parsed.canBeDispelled ?? false,
+      dispelHow: parsed.canBeDispelled ? (parsed.dispelHow?.trim() || null) : null,
+      combat: parsed.combat ?? false,
+      utility: parsed.utility ?? true,
+      savingThrow: inferredSavingThrow.category,
+      savingThrowOutcome: parsed.savingThrowOutcome ?? inferredSavingThrow.outcome,
+      magicalResistance,
+      summaryEn: localization.summaryEn,
+      summaryPtBr: localization.summaryPtBr,
+      descriptionOriginal,
+      descriptionPtBr: localization.descriptionPtBr,
+      sourceImageUrl: input.sourceImageUrl ?? null,
+      iconUrl: null,
+      iconPrompt: null,
+    });
 
-  try {
-    const icon = await generateAndUploadSpellIcon(payload);
+    try {
+      const icon = await generateAndUploadSpellIcon(payload);
 
-    return {
-      ...payload,
-      iconUrl: icon.iconUrl,
-      iconPrompt: icon.iconPrompt,
-    };
+      return {
+        ...payload,
+        iconUrl: icon.iconUrl,
+        iconPrompt: icon.iconPrompt,
+      };
+    } catch (error) {
+      const reason = error instanceof Error ? error.message : "unknown error";
+      console.error("[spell-icon] generate/upload failed during parse:", reason);
+
+      return payload;
+    }
   } catch (error) {
-    const reason = error instanceof Error ? error.message : "unknown error";
-    console.error("[spell-icon] generate/upload failed during parse:", reason);
+    if (input.text && !input.imageDataUrl && looksLikeNonSpellText(input.text)) {
+      try {
+        const creativeModel = process.env.OPENAI_MODEL ?? "gpt-4.1-mini";
+        const creativeClient = getOpenAIClient();
+        return await buildCreativeFallbackSpellFromPrompt(
+          creativeClient,
+          creativeModel,
+          input.text,
+          input.sourceImageUrl ?? null,
+        );
+      } catch {
+        return buildHumorousFallbackSpell(input.text, input.sourceImageUrl ?? null);
+      }
+    }
 
-    return payload;
+    throw error;
   }
 }
