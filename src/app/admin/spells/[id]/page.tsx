@@ -1,6 +1,5 @@
 "use client";
 
-import { MagicalResistance } from "@prisma/client";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
@@ -32,7 +31,7 @@ type SpellApiResponse = {
     utility: boolean;
     savingThrow: string;
     savingThrowOutcome: "NEGATES" | "HALF" | "PARTIAL" | "OTHER" | null;
-    magicalResistance: MagicalResistance;
+    magicalResistance: "YES" | "NO";
     summaryEn: string;
     summaryPtBr: string;
     descriptionOriginal: string;
@@ -74,7 +73,7 @@ const emptyForm: SpellEditForm = {
   utility: true,
   savingThrow: "",
   savingThrowOutcome: "",
-  magicalResistance: MagicalResistance.NO,
+  magicalResistance: "NO",
   summaryEn: "",
   summaryPtBr: "",
   descriptionOriginal: "",
@@ -541,13 +540,13 @@ export default function SpellEditPage() {
               onChange={(event) =>
                 updateField(
                   "magicalResistance",
-                  event.target.value === MagicalResistance.YES ? MagicalResistance.YES : MagicalResistance.NO,
+                  event.target.value === "YES" ? "YES" : "NO",
                 )
               }
               className={inputClass}
             >
-              <option value={MagicalResistance.NO}>NO</option>
-              <option value={MagicalResistance.YES}>YES</option>
+              <option value="NO">NO</option>
+              <option value="YES">YES</option>
             </select>
           </Field>
 
