@@ -1,11 +1,21 @@
 "use client";
 
 import * as Label from "@radix-ui/react-label";
+import Image from "next/image";
 import { useMemo, useState } from "react";
 
 import { SpellPreview } from "@/components/spell-preview";
 import { getAdminAuthHeader } from "@/lib/admin-client";
 import type { SpellPayload } from "@/lib/spell";
+
+function BusyIndicator({ label }: { label: string }) {
+  return (
+    <div className="inline-flex items-center gap-2 rounded-md border border-amber-300/40 bg-zinc-900/70 px-3 py-2 text-xs text-amber-200">
+      <span className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-amber-300/40 border-t-amber-300" />
+      <span>{label}</span>
+    </div>
+  );
+}
 
 type ApiError = {
   error?: string;
@@ -57,7 +67,9 @@ export default function SpellImportPage() {
   const [status, setStatus] = useState<string>("");
   const [isParsing, setIsParsing] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+  const [isRegeneratingIcon, setIsRegeneratingIcon] = useState(false);
   const [isDragOverImageArea, setIsDragOverImageArea] = useState(false);
+  const isBusy = isParsing || isSaving || isRegeneratingIcon;
 
   const canParse = useMemo(() => spellText.trim().length > 0 || Boolean(imageDataUrl), [spellText, imageDataUrl]);
 
@@ -176,7 +188,11 @@ export default function SpellImportPage() {
       }
 
       setParsedSpell(data.spell);
-      setStatus("Spell analisada com sucesso.");
+      if (data.spell.iconUrl) {
+        setStatus("Spell analisada com sucesso e ícone gerado.");
+      } else {
+        setStatus("Spell analisada com sucesso. Ícone não foi gerado automaticamente; use 'Regenerar Ícone'.");
+      }
     } catch (error) {
       setStatus(error instanceof Error ? error.message : "Erro inesperado no parse");
     } finally {
@@ -225,6 +241,55 @@ export default function SpellImportPage() {
       setStatus(error instanceof Error ? error.message : "Erro inesperado ao salvar");
     } finally {
       setIsSaving(false);
+    }
+  }
+
+  async function regenerateSpellIcon() {
+    if (!parsedSpell) {
+      setStatus("Faça o parse antes de regenerar o ícone.");
+      return;
+    }
+
+    setIsRegeneratingIcon(true);
+    setStatus("Regenerando ícone da spell...");
+
+    try {
+      const authHeader = getAdminAuthHeader();
+
+      if (!authHeader) {
+        throw new Error("Sessão admin inválida. Faça login novamente.");
+      }
+
+      const response = await fetch("/api/spell-icon-generate", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: authHeader,
+        },
+        body: JSON.stringify(parsedSpell),
+      });
+
+      const data = await parseJsonResponse<{ iconUrl?: string; iconPrompt?: string } & ApiError>(response);
+
+      if (!response.ok || !data.iconUrl || !data.iconPrompt) {
+        throw new Error(formatApiError(data, "Falha ao regenerar ícone"));
+      }
+
+      setParsedSpell((prev) =>
+        prev
+          ? {
+              ...prev,
+              iconUrl: data.iconUrl,
+              iconPrompt: data.iconPrompt,
+            }
+          : prev,
+      );
+
+      setStatus("Ícone regenerado com sucesso.");
+    } catch (error) {
+      setStatus(error instanceof Error ? error.message : "Erro inesperado ao regenerar ícone");
+    } finally {
+      setIsRegeneratingIcon(false);
     }
   }
 
@@ -280,9 +345,12 @@ export default function SpellImportPage() {
           {imageDataUrl ? (
             <div className="mt-1 w-fit rounded-md border border-zinc-700 bg-zinc-900 p-2">
               <p className="mb-2 text-xs text-zinc-400">Preview da imagem</p>
-              <img
+              <Image
                 src={imageDataUrl}
                 alt="Preview da imagem da spell"
+                width={96}
+                height={96}
+                unoptimized
                 className="h-24 w-24 rounded object-cover"
               />
             </div>
@@ -307,11 +375,12 @@ export default function SpellImportPage() {
           <button
             type="button"
             onClick={parseSpell}
-            disabled={!canParse || isParsing}
+            disabled={!canParse || isBusy}
             className="rounded-md bg-amber-300 px-4 py-2 text-sm font-semibold text-zinc-950 disabled:cursor-not-allowed disabled:opacity-50"
           >
             {isParsing ? "Parsing..." : "Parse Spell"}
           </button>
+          {isParsing ? <BusyIndicator label="Analisando spell e gerando imagem..." /> : null}
         </div>
       </section>
 
@@ -344,6 +413,9 @@ export default function SpellImportPage() {
             <p>
               <span className="text-zinc-400">Como dispersar:</span> {parsedSpell.dispelHow ?? "-"}
             </p>
+            <p>
+              <span className="text-zinc-400">Resultado do Save:</span> {parsedSpell.savingThrowOutcome ?? "-"}
+            </p>
           </div>
         ) : (
           <p className="text-sm text-zinc-400">Nenhuma spell parseada ainda.</p>
@@ -351,8 +423,17 @@ export default function SpellImportPage() {
         <div className="flex flex-wrap gap-3">
           <button
             type="button"
+            onClick={regenerateSpellIcon}
+            disabled={!parsedSpell || isBusy}
+            className="rounded-md bg-zinc-700 px-4 py-2 text-sm font-semibold text-zinc-100 disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            {isRegeneratingIcon ? "Regenerando ícone..." : "Regenerar Ícone"}
+          </button>
+          {isRegeneratingIcon ? <BusyIndicator label="Gerando e enviando ícone para o bucket..." /> : null}
+          <button
+            type="button"
             onClick={saveSpell}
-            disabled={!parsedSpell || isSaving}
+            disabled={!parsedSpell || isBusy}
             className="rounded-md bg-zinc-100 px-4 py-2 text-sm font-semibold text-zinc-950 disabled:cursor-not-allowed disabled:opacity-50"
           >
             {isSaving ? "Salvando..." : "Save Spell"}

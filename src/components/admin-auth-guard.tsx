@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, ReactNode, useEffect, useState, useSyncExternalStore } from "react";
+import { FormEvent, ReactNode, useState, useSyncExternalStore } from "react";
 
 import { ADMIN_BASIC_KEY, ADMIN_SESSION_KEY, buildAdminBasicHeader, isValidAdminLogin } from "@/lib/admin-auth";
 
@@ -37,16 +37,16 @@ export function AdminAuthGuard({ children }: AdminAuthGuardProps) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const [isMounted, setIsMounted] = useState(false);
+  const isMounted = useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false,
+  );
   const isAuthenticated = useSyncExternalStore(
     subscribeAdminAuth,
     getAdminAuthSnapshot,
     () => false,
   );
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
 
   if (!isMounted) {
     return null;

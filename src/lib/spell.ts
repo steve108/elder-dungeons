@@ -2,8 +2,13 @@ import { MagicalResistance } from "@prisma/client";
 import { createHash } from "node:crypto";
 import { z } from "zod";
 
+import { normalizeSpellName } from "@/lib/spell-reference";
+
 export const spellClassSchema = z.enum(["arcane", "divine"]);
 export type SpellClass = z.infer<typeof spellClassSchema>;
+
+export const savingThrowOutcomeSchema = z.enum(["NEGATES", "HALF", "PARTIAL", "OTHER"]);
+export type SavingThrowOutcome = z.infer<typeof savingThrowOutcomeSchema>;
 
 export const spellPayloadSchema = z.object({
   name: z.string().trim().min(1),
@@ -25,6 +30,7 @@ export const spellPayloadSchema = z.object({
   combat: z.boolean().default(false),
   utility: z.boolean().default(false),
   savingThrow: z.string().trim().min(1),
+  savingThrowOutcome: savingThrowOutcomeSchema.optional().nullable(),
   magicalResistance: z.nativeEnum(MagicalResistance),
   summaryEn: z.string().trim().min(1),
   summaryPtBr: z
@@ -43,6 +49,8 @@ export const spellPayloadSchema = z.object({
       message: "descriptionPtBr contains invalid character encoding",
     }),
   sourceImageUrl: z.string().url().optional().nullable(),
+  iconUrl: z.string().url().optional().nullable(),
+  iconPrompt: z.string().trim().min(1).optional().nullable(),
 });
 
 export type SpellPayload = z.infer<typeof spellPayloadSchema>;
@@ -76,21 +84,7 @@ export function inferMagicalResistance(params: {
 }
 
 export function buildSpellDedupeKey(payload: SpellPayload): string {
-  const key = [
-    payload.name.trim().toLowerCase(),
-    String(payload.level),
-    (payload.school ?? "").trim().toLowerCase(),
-    (payload.sphere ?? "").trim().toLowerCase(),
-    (payload.source ?? "").trim().toLowerCase(),
-    payload.rangeText.trim().toLowerCase(),
-    (payload.target ?? "").trim().toLowerCase(),
-    payload.durationText.trim().toLowerCase(),
-    payload.castingTime.trim().toLowerCase(),
-    payload.components.trim().toLowerCase(),
-    payload.savingThrow.trim().toLowerCase(),
-    payload.magicalResistance,
-    payload.descriptionOriginal.trim(),
-  ].join("|");
+  const key = [normalizeSpellName(payload.name), payload.spellClass].join("|");
 
   return createHash("sha256").update(key, "utf8").digest("hex");
 }

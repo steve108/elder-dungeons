@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 const links = [
   { href: "/admin/spell-import", label: "Inserir Spell" },
   { href: "/admin/spells", label: "Listar Spells" },
+  { href: "/admin/missing-retry", label: "Retry Missing" },
 ];
 
 export function AdminNav() {

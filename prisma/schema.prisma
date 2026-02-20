@@ -39,12 +39,15 @@ model Spell {
   combat              Boolean           @default(false)
   utility             Boolean           @default(false)
   savingThrow         String
+  savingThrowOutcome  String?           @map("saving_throw_outcome")
   magicalResistance   MagicalResistance
   summaryEn           String            @default("") @db.Text @map("summary_en")
   summaryPtBr         String            @default("") @db.Text @map("summary_pt_br")
   descriptionOriginal String            @db.Text
   descriptionPtBr     String?           @db.Text
   sourceImageUrl      String?
+  iconUrl             String?           @map("icon_url")
+  iconPrompt          String?           @db.Text @map("icon_prompt")
   createdAt           DateTime          @default(now())
   updatedAt           DateTime          @updatedAt
 
@@ -65,4 +68,21 @@ model SpellReference {
   @@index([normalizedName])
   @@unique([normalizedName, className, groupName, level, source])
   @@map("SpellReference")
+}
+
+model SpellReferenceMissing {
+  id              Int      @id @default(autoincrement())
+  normalizedName  String   @map("normalized_name")
+  spellName       String   @map("spell_name")
+  spellClass      String   @map("spell_class")
+  referenceSource String?  @map("reference_source")
+  reason          String
+  lastUrl         String?  @map("last_url")
+  attemptCount    Int      @default(1) @map("attempt_count")
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+
+  @@unique([normalizedName, spellClass])
+  @@index([updatedAt])
+  @@map("SpellReferenceMissing")
 }

@@ -2,7 +2,14 @@ import OpenAI from "openai";
 import { z } from "zod";
 
 import { findSpellReferenceByName } from "@/lib/spell-reference";
-import { inferMagicalResistance, spellPayloadSchema, type SpellClass, type SpellPayload } from "@/lib/spell";
+import { generateAndUploadSpellIcon } from "@/lib/spell-icon";
+import {
+  inferMagicalResistance,
+  spellPayloadSchema,
+  type SavingThrowOutcome,
+  type SpellClass,
+  type SpellPayload,
+} from "@/lib/spell";
 
 const openAiParseResponseSchema = spellPayloadSchema.omit({ sourceImageUrl: true, spellClass: true }).extend({
   level: z.number().int().min(0).max(9).optional(),
@@ -22,6 +29,7 @@ const openAiParseResponseSchema = spellPayloadSchema.omit({ sourceImageUrl: true
   componentConsumed: z.boolean().optional(),
   canBeDispelled: z.boolean().optional(),
   dispelHow: z.string().trim().optional().nullable(),
+  savingThrowOutcome: z.enum(["NEGATES", "HALF", "PARTIAL", "OTHER"]).optional().nullable(),
   magicalResistance: z.enum(["YES", "NO"]).optional(),
 });
 
@@ -62,7 +70,23 @@ If uncertain, use best effort from school/sphere context.
   - dispelHow: short explanation of how dispel works for this spell effect.
   - Ignore dispel/counterspell interactions during casting time or before the effect exists.
   - If unclear, prefer conservative output: canBeDispelled=false and dispelHow=null.
-12) Do not invent unknown values. Use best effort with AD&D 2e conventions.
+12) Saving Throw must follow AD&D 2e categories only. Never use ability-save terms from other editions (e.g., Constitution save).
+  Allowed categories:
+  - Paralyzation, Poison, or Death Magic
+  - Rod, Staff, or Wand
+  - Petrification or Polymorph
+  - Breath Weapon
+  - Spell
+  Priority order when more than one could apply:
+  1. If effect includes paralysis/poison/death magic, use "Paralyzation, Poison, or Death Magic".
+  2. Else if it is specifically resisted as rod/staff/wand effect, use "Rod, Staff, or Wand".
+  3. Else if effect includes petrification/polymorph/transformation, use "Petrification or Polymorph".
+  4. Else if it is breath-weapon-type effect, use "Breath Weapon".
+  5. Otherwise use "Spell" (e.g., Fireball-like spell effects).
+  Also analyze save outcome words such as "Neg.", "1/2", "half", "partial":
+  - These indicate outcome resolution (negates / half damage / partial effect),
+  - But category must still be one of the AD&D 2e categories above.
+13) Do not invent unknown values. Use best effort with AD&D 2e conventions.
 
 Return this JSON shape:
 {
@@ -85,6 +109,7 @@ Return this JSON shape:
   "combat": false,
   "utility": true,
   "savingThrow": "string",
+  "savingThrowOutcome": "NEGATES | HALF | PARTIAL | OTHER | null",
   "magicalResistance": "YES | NO",
   "summaryEn": "string",
   "summaryPtBr": "string",
@@ -131,8 +156,22 @@ const requestSchema = z
 
 export type SpellParseRequest = z.infer<typeof requestSchema>;
 
+const canonicalSavingThrows2e = [
+  "Paralyzation, Poison, or Death Magic",
+  "Rod, Staff, or Wand",
+  "Petrification or Polymorph",
+  "Breath Weapon",
+  "Spell",
+] as const;
+
 const metadataLineRegex =
   /^(Range|Duration|Area of Effect|Components|Casting Time|Saving Throw|Target|Targets|School|Sphere|Level|Source|Class|Group)\s*:/i;
+
+const metadataLineLooseRegex =
+  /^(Spell Level|Class|School|Sphere|Details|Range|Duration|AOE|Casting Time|Save|Requirements|Source)\b/i;
+
+const nonNarrativeLineRegex =
+  /^(For other .* see .*|[A-Za-z0-9'\-\s]+\(\s*[SMV, ]+\s*\))$/i;
 
 function extractDescriptionBody(rawText: string): string {
   const lines = rawText.split(/\r?\n/);
@@ -154,7 +193,12 @@ function extractDescriptionBody(rawText: string): string {
       continue;
     }
 
-    if (/^\(.*\)$/.test(trimmed) || metadataLineRegex.test(trimmed)) {
+    if (
+      /^\(.*\)$/.test(trimmed) ||
+      metadataLineRegex.test(trimmed) ||
+      metadataLineLooseRegex.test(trimmed) ||
+      nonNarrativeLineRegex.test(trimmed)
+    ) {
       index += 1;
       continue;
     }
@@ -173,6 +217,75 @@ function splitCsvLikeList(value?: string | null): string[] {
     .split(/[,/;|]+/)
     .map((item) => item.trim())
     .filter(Boolean);
+}
+
+function splitGroupList(value?: string | null): string[] {
+  if (!value) return [];
+
+  return value
+    .split(/[,;|]+/)
+    .map((item) => item.trim())
+    .filter(Boolean);
+}
+
+function normalizeGroupToken(value: string): string {
+  return value
+    .normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9/\s-]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function titleCaseWords(value: string): string {
+  return value
+    .split(/\s+/)
+    .filter(Boolean)
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(" ");
+}
+
+function canonicalizeGroupName(value: string): string {
+  const token = normalizeGroupToken(value);
+
+  if (["invocation", "evocation", "invocation/evocation", "evocation/invocation"].includes(token)) {
+    return "Invocation/Evocation";
+  }
+
+  if (["conjuration", "summoning", "conjuration/summoning", "summoning/conjuration"].includes(token)) {
+    return "Conjuration/Summoning";
+  }
+
+  if (["illusion", "phantasm", "illusion/phantasm", "phantasm/illusion"].includes(token)) {
+    return "Illusion/Phantasm";
+  }
+
+  if (["enchantment", "charm", "enchantment/charm", "charm/enchantment"].includes(token)) {
+    return "Enchantment/Charm";
+  }
+
+  if (token.includes("/")) {
+    return token
+      .split("/")
+      .map((part) => titleCaseWords(part))
+      .join("/");
+  }
+
+  return titleCaseWords(token);
+}
+
+function normalizeGroupValues(values: string[]): string[] {
+  const set = new Set<string>();
+
+  for (const value of values) {
+    const canonical = canonicalizeGroupName(value);
+    if (canonical) {
+      set.add(canonical);
+    }
+  }
+
+  return Array.from(set).sort((a, b) => a.localeCompare(b));
 }
 
 function mergeUniqueValues(...lists: string[][]): string[] {
@@ -214,6 +327,54 @@ function inferSpellClass(params: {
   if (params.mergedSpheres.length > 0 && params.mergedSchools.length === 0) return "divine";
 
   return hasPriest ? "divine" : "arcane";
+}
+
+function inferSavingThrow2e(params: {
+  parsedSavingThrow?: string;
+  name: string;
+  descriptionOriginal: string;
+  target?: string | null;
+}): { category: string; outcome: SavingThrowOutcome | null } {
+  const raw = (params.parsedSavingThrow ?? "").trim();
+  const rawLower = raw.toLowerCase();
+
+  if (/^none$|^no\s+save$/i.test(rawLower)) {
+    return { category: "None", outcome: null };
+  }
+
+  const context = [params.name, params.target ?? "", params.descriptionOriginal, raw].join("\n").toLowerCase();
+  const saveOutcome: SavingThrowOutcome =
+    /\bneg\.?\b|negates?|no\s+effect\s+on\s+save|if\s+save\s+is\s+made.*no\s+effect/.test(context)
+      ? "NEGATES"
+      : /1\s*\/\s*2|half\s+damage|half\s+effect/.test(context)
+        ? "HALF"
+        : /partial|reduced\s+effect|lesser\s+effect/.test(context)
+          ? "PARTIAL"
+          : "OTHER";
+
+  for (const category of canonicalSavingThrows2e) {
+    if (rawLower === category.toLowerCase()) {
+      return { category, outcome: saveOutcome };
+    }
+  }
+
+  if (/paraly|paralys|poison|death\s*magic|save\s+vs\s+death|slay|slain|instantly\s+die|instant\s+death/.test(context)) {
+    return { category: "Paralyzation, Poison, or Death Magic", outcome: saveOutcome };
+  }
+
+  if (/\brod\b|\bstaff\b|\bwand\b/.test(context)) {
+    return { category: "Rod, Staff, or Wand", outcome: saveOutcome };
+  }
+
+  if (/petrif|polymorph|to\s+stone|stone\s+to\s+flesh|transform(?:ed|ation)?/.test(context)) {
+    return { category: "Petrification or Polymorph", outcome: saveOutcome };
+  }
+
+  if (/breath\s*weapon|dragon\s*breath|breath\s+attack/.test(context)) {
+    return { category: "Breath Weapon", outcome: saveOutcome };
+  }
+
+  return { category: "Spell", outcome: saveOutcome };
 }
 
 function isRetryableOpenAIError(error: unknown): boolean {
@@ -317,6 +478,141 @@ function getOpenAIClient(): OpenAI {
   return new OpenAI({ apiKey });
 }
 
+function normalizeSpellNameForComparison(name: string): string {
+  return name
+    .normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9\s'-]/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function isZeroLevelExceptionSpell(spellName: string): boolean {
+  const normalized = normalizeSpellNameForComparison(spellName);
+  return normalized === "cantrip" || normalized === "orison";
+}
+
+function pickMostFrequentLevel(text: string): number | undefined {
+  const counts = new Map<number, number>();
+  const levelRegexes = [
+    /\blevel\s*[:\-]?\s*([0-9])\b/gi,
+    /\b([0-9])\s*(?:st|nd|rd|th)?\s*[- ]?level\b/gi,
+  ];
+
+  for (const regex of levelRegexes) {
+    for (const match of text.matchAll(regex)) {
+      const value = Number(match[1]);
+      if (!Number.isInteger(value) || value < 0 || value > 9) continue;
+      counts.set(value, (counts.get(value) ?? 0) + 1);
+    }
+  }
+
+  const ranked = Array.from(counts.entries()).sort((a, b) => {
+    if (b[1] !== a[1]) return b[1] - a[1];
+    return a[0] - b[0];
+  });
+
+  if (ranked.length === 0) return undefined;
+  if (ranked.length > 1 && ranked[0][1] === ranked[1][1]) return undefined;
+  return ranked[0][0];
+}
+
+function htmlToPlainText(value: string): string {
+  return value
+    .replace(/<script[\s\S]*?<\/script>/gi, " ")
+    .replace(/<style[\s\S]*?<\/style>/gi, " ")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/&nbsp;/g, " ")
+    .replace(/&amp;/g, "&")
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+async function fetchLevelFromDuckDuckGoLite(spellName: string): Promise<number | undefined> {
+  const query = encodeURIComponent(`AD&D 2e ${spellName} spell level`);
+  const url = `https://lite.duckduckgo.com/lite/?q=${query}`;
+
+  const response = await fetch(url, {
+    headers: {
+      "User-Agent": "Mozilla/5.0 ElderDungeons/1.0",
+      Accept: "text/html,application/xhtml+xml",
+    },
+    cache: "no-store",
+  });
+
+  if (!response.ok) {
+    return undefined;
+  }
+
+  const html = await response.text();
+  return pickMostFrequentLevel(htmlToPlainText(html));
+}
+
+async function fetchLevelFromDuckDuckGoInstant(spellName: string): Promise<number | undefined> {
+  const query = encodeURIComponent(`AD&D 2e ${spellName} spell level`);
+  const url = `https://api.duckduckgo.com/?q=${query}&format=json&no_html=1&skip_disambig=1`;
+
+  const response = await fetch(url, {
+    headers: {
+      "User-Agent": "Mozilla/5.0 ElderDungeons/1.0",
+      Accept: "application/json,text/plain",
+    },
+    cache: "no-store",
+  });
+
+  if (!response.ok) {
+    return undefined;
+  }
+
+  const data = (await response.json()) as {
+    AbstractText?: string;
+    Answer?: string;
+    Definition?: string;
+    RelatedTopics?: Array<{ Text?: string } | { Topics?: Array<{ Text?: string }> }>;
+  };
+
+  const relatedTexts: string[] = [];
+  for (const topic of data.RelatedTopics ?? []) {
+    if ("Text" in topic && topic.Text) {
+      relatedTexts.push(topic.Text);
+      continue;
+    }
+
+    if ("Topics" in topic && Array.isArray(topic.Topics)) {
+      for (const nested of topic.Topics) {
+        if (nested.Text) {
+          relatedTexts.push(nested.Text);
+        }
+      }
+    }
+  }
+
+  const text = [data.AbstractText ?? "", data.Answer ?? "", data.Definition ?? "", ...relatedTexts]
+    .join(" ")
+    .trim();
+
+  if (!text) return undefined;
+  return pickMostFrequentLevel(text);
+}
+
+async function resolveSpellLevelFromWeb(spellName: string): Promise<number | undefined> {
+  try {
+    const instantLevel = await fetchLevelFromDuckDuckGoInstant(spellName);
+    if (instantLevel !== undefined) return instantLevel;
+  } catch {
+    // ignore lookup errors and continue with other providers
+  }
+
+  try {
+    return await fetchLevelFromDuckDuckGoLite(spellName);
+  } catch {
+    return undefined;
+  }
+}
+
 export async function parseSpellFromOpenAI(rawInput: unknown): Promise<SpellPayload> {
   const input = requestSchema.parse(rawInput);
   const model = process.env.OPENAI_MODEL ?? "gpt-4.1-mini";
@@ -382,8 +678,13 @@ export async function parseSpellFromOpenAI(rawInput: unknown): Promise<SpellPayl
       savingThrow: parsed.savingThrow ?? null,
     });
 
-  const schoolValues = mergeUniqueValues(splitCsvLikeList(parsed.school ?? null), reference?.schools ?? []);
-  const sphereValues = mergeUniqueValues(splitCsvLikeList(parsed.sphere ?? null), reference?.spheres ?? []);
+  const parsedSchools = normalizeGroupValues(splitGroupList(parsed.school ?? null));
+  const parsedSpheres = normalizeGroupValues(splitGroupList(parsed.sphere ?? null));
+  const referenceSchools = normalizeGroupValues(reference?.schools ?? []);
+  const referenceSpheres = normalizeGroupValues(reference?.spheres ?? []);
+
+  let schoolValues = referenceSchools.length > 0 ? referenceSchools : parsedSchools;
+  let sphereValues = referenceSpheres.length > 0 ? referenceSpheres : parsedSpheres;
   const sourceValues = mergeUniqueValues(splitCsvLikeList(parsed.source ?? null), reference?.sources ?? []);
   const spellClass = inferSpellClass({
     parsedSpellClass: parsed.spellClass,
@@ -394,15 +695,60 @@ export async function parseSpellFromOpenAI(rawInput: unknown): Promise<SpellPayl
     referenceClassNames: reference?.classNames,
   });
 
+  if (spellClass === "arcane") {
+    if (schoolValues.length === 0 && sphereValues.length > 0) {
+      schoolValues = sphereValues;
+    }
+    sphereValues = [];
+  }
+
+  if (spellClass === "divine" && sphereValues.length === 0 && schoolValues.length > 0) {
+    sphereValues = schoolValues;
+  }
+
+  if (spellClass === "divine" && sphereValues.length === 0) {
+    throw new Error(
+      `Não foi possível determinar a esfera da magia divina "${parsed.name}". Pelo menos uma esfera é obrigatória.`,
+    );
+  }
+
   const fallbackLevel = reference?.levels.length ? reference.levels[0] : undefined;
-  const resolvedLevel =
+  let resolvedLevel =
     parsed.level === undefined
       ? fallbackLevel
       : reference?.levels?.length && !reference.levels.includes(parsed.level)
         ? fallbackLevel
         : parsed.level;
 
-  return spellPayloadSchema.parse({
+  const isZeroLevelAllowed = isZeroLevelExceptionSpell(parsed.name);
+  const hasReferenceLevel = reference?.levels.length ? true : false;
+
+  if (resolvedLevel === undefined || (resolvedLevel === 0 && !isZeroLevelAllowed)) {
+    const webLevel = await resolveSpellLevelFromWeb(parsed.name);
+    if (webLevel !== undefined) {
+      resolvedLevel = webLevel;
+    }
+  }
+
+  if (resolvedLevel === undefined) {
+    throw new Error(`Não foi possível determinar o nível da magia "${parsed.name}" na referência local nem na web.`);
+  }
+
+  if (resolvedLevel === 0 && !isZeroLevelAllowed) {
+    const sourceHint = hasReferenceLevel ? "referência local" : "parse";
+    throw new Error(
+      `A magia "${parsed.name}" foi classificada como nível 0 por ${sourceHint}, mas apenas Cantrip e Orison podem ser nível 0.`,
+    );
+  }
+
+  const inferredSavingThrow = inferSavingThrow2e({
+    parsedSavingThrow: parsed.savingThrow,
+    name: parsed.name,
+    descriptionOriginal,
+    target: parsed.target ?? null,
+  });
+
+  const payload = spellPayloadSchema.parse({
     ...parsed,
     level: resolvedLevel,
     spellClass,
@@ -415,11 +761,30 @@ export async function parseSpellFromOpenAI(rawInput: unknown): Promise<SpellPayl
     dispelHow: parsed.canBeDispelled ? (parsed.dispelHow?.trim() || null) : null,
     combat: parsed.combat ?? false,
     utility: parsed.utility ?? true,
+    savingThrow: inferredSavingThrow.category,
+    savingThrowOutcome: parsed.savingThrowOutcome ?? inferredSavingThrow.outcome,
     magicalResistance,
     summaryEn: localization.summaryEn,
     summaryPtBr: localization.summaryPtBr,
     descriptionOriginal,
     descriptionPtBr: localization.descriptionPtBr,
     sourceImageUrl: input.sourceImageUrl ?? null,
+    iconUrl: null,
+    iconPrompt: null,
   });
+
+  try {
+    const icon = await generateAndUploadSpellIcon(payload);
+
+    return {
+      ...payload,
+      iconUrl: icon.iconUrl,
+      iconPrompt: icon.iconPrompt,
+    };
+  } catch (error) {
+    const reason = error instanceof Error ? error.message : "unknown error";
+    console.error("[spell-icon] generate/upload failed during parse:", reason);
+
+    return payload;
+  }
 }

@@ -25,16 +25,19 @@ type SpellDetails = {
   combat: boolean;
   utility: boolean;
   savingThrow: string;
+  savingThrowOutcome: "NEGATES" | "HALF" | "PARTIAL" | "OTHER" | null;
   magicalResistance: MagicalResistance;
   summaryEn: string;
   summaryPtBr: string;
   descriptionOriginal: string;
   descriptionPtBr: string | null;
   sourceImageUrl: string | null;
+  iconUrl: string | null;
+  iconPrompt: string | null;
 };
 
 type ResponseBody =
-  | { item: SpellDetails }
+  | { item: SpellDetails; prevSpellId: number | null; nextSpellId: number | null }
   | { id: number; updated: true }
   | { error: string };
 
@@ -57,6 +60,16 @@ function normalizeNullableText(value: unknown, fallback: string | null = null): 
 
 function normalizeSpellClass(value: unknown, fallback: "arcane" | "divine" = "arcane"): "arcane" | "divine" {
   return value === "divine" ? "divine" : value === "arcane" ? "arcane" : fallback;
+}
+
+function normalizeSavingThrowOutcome(
+  value: unknown,
+): "NEGATES" | "HALF" | "PARTIAL" | "OTHER" | null {
+  if (value === "NEGATES" || value === "HALF" || value === "PARTIAL" || value === "OTHER") {
+    return value;
+  }
+
+  return null;
 }
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<ResponseBody>) {
@@ -99,12 +112,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
           combat: true,
           utility: true,
           savingThrow: true,
+          savingThrowOutcome: true,
           magicalResistance: true,
           summaryEn: true,
           summaryPtBr: true,
           descriptionOriginal: true,
           descriptionPtBr: true,
           sourceImageUrl: true,
+          iconUrl: true,
+          iconPrompt: true,
         },
       });
 
@@ -112,7 +128,28 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
         return res.status(404).json({ error: "Spell not found" });
       }
 
-      return res.status(200).json({ item: { ...item, spellClass: normalizeSpellClass(item.spellClass) } });
+      const [previousSpell, nextSpell] = await Promise.all([
+        prisma.spell.findFirst({
+          where: { id: { lt: id } },
+          orderBy: { id: "desc" },
+          select: { id: true },
+        }),
+        prisma.spell.findFirst({
+          where: { id: { gt: id } },
+          orderBy: { id: "asc" },
+          select: { id: true },
+        }),
+      ]);
+
+      return res.status(200).json({
+        item: {
+          ...item,
+          spellClass: normalizeSpellClass(item.spellClass),
+          savingThrowOutcome: normalizeSavingThrowOutcome(item.savingThrowOutcome),
+        },
+        prevSpellId: previousSpell?.id ?? null,
+        nextSpellId: nextSpell?.id ?? null,
+      });
     }
 
     const body = (req.body ?? {}) as Record<string, unknown>;
@@ -139,12 +176,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
         combat: true,
         utility: true,
         savingThrow: true,
+        savingThrowOutcome: true,
         magicalResistance: true,
         summaryEn: true,
         summaryPtBr: true,
         descriptionOriginal: true,
         descriptionPtBr: true,
         sourceImageUrl: true,
+        iconUrl: true,
+        iconPrompt: true,
       },
     });
 
@@ -190,6 +230,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
         combat: typeof body.combat === "boolean" ? body.combat : current.combat,
         utility: typeof body.utility === "boolean" ? body.utility : current.utility,
         savingThrow: normalizeRequiredText(body.savingThrow, current.savingThrow),
+        savingThrowOutcome:
+          body.savingThrowOutcome === "NEGATES" ||
+          body.savingThrowOutcome === "HALF" ||
+          body.savingThrowOutcome === "PARTIAL" ||
+          body.savingThrowOutcome === "OTHER"
+            ? body.savingThrowOutcome
+            : body.savingThrowOutcome === ""
+              ? null
+              : normalizeSavingThrowOutcome(current.savingThrowOutcome),
         magicalResistance:
           body.magicalResistance === MagicalResistance.YES || body.magicalResistance === MagicalResistance.NO
             ? body.magicalResistance
@@ -202,6 +251,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
         ),
         descriptionPtBr: normalizeText(body.descriptionPtBr, current.descriptionPtBr),
         sourceImageUrl: normalizeText(body.sourceImageUrl, current.sourceImageUrl),
+        iconUrl: normalizeText(body.iconUrl, current.iconUrl),
+        iconPrompt: normalizeText(body.iconPrompt, current.iconPrompt),
       },
       select: { id: true },
     });
