@@ -3,7 +3,7 @@
 	"account_id": "01d428416ae7063b1b5aac121e625ead",
 	"main": ".open-next/worker.js",
 	"name": "elder-dungeons",
-	"compatibility_date": "2026-02-27",
+	"compatibility_date": "2026-02-20",
 	"compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
 	"assets": {
 		"directory": ".open-next/assets",
