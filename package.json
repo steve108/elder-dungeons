@@ -12,13 +12,14 @@
     "repair:spell-ptbr": "node scripts/repair-spell-ptbr-encoding.mjs"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.883.0",
     "@prisma/adapter-pg": "^7.4.0",
-    "@radix-ui/react-label": "^2.1.7",
     "@prisma/client": "^7.4.0",
+    "@radix-ui/react-label": "^2.1.7",
+    "csv-parse": "^5.6.0",
     "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.17.2",
     "next": "16.1.6",
-    "csv-parse": "^5.6.0",
     "openai": "^6.8.1",
     "pg": "^8.16.3",
     "prisma": "^7.4.0",

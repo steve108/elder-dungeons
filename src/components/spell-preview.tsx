@@ -1,3 +1,4 @@
+import Image from "next/image";
 import type { SpellPayload } from "@/lib/spell";
 
 type SpellPreviewProps = {
@@ -16,6 +17,20 @@ export function SpellPreview({ value }: SpellPreviewProps) {
   return (
     <div className="rounded-lg border border-zinc-800 bg-zinc-900/40 p-4">
       <h3 className="mb-3 text-base font-semibold text-zinc-100">Conferência da Spell</h3>
+      {value.iconUrl ? (
+        <section className="mb-4 grid gap-2">
+          <h4 className="text-sm font-semibold text-amber-300">Ícone Gerado</h4>
+          <Image
+            src={value.iconUrl}
+            alt={`Ícone da magia ${value.name}`}
+            width={128}
+            height={128}
+            unoptimized
+            className="h-32 w-32 rounded border border-zinc-700 bg-zinc-900 object-cover"
+          />
+          <p className="break-words text-xs text-zinc-400">{value.iconPrompt ?? "-"}</p>
+        </section>
+      ) : null}
       <div className="grid gap-1 text-sm text-zinc-200 md:grid-cols-2">
         <p><span className="text-zinc-400">Nome:</span> {value.name}</p>
         <p><span className="text-zinc-400">Nível:</span> {value.level}</p>
@@ -36,6 +51,7 @@ export function SpellPreview({ value }: SpellPreviewProps) {
         <p><span className="text-zinc-400">Combat:</span> {value.combat ? "Sim" : "Não"}</p>
         <p><span className="text-zinc-400">Utility:</span> {value.utility ? "Sim" : "Não"}</p>
         <p><span className="text-zinc-400">Saving Throw:</span> {value.savingThrow}</p>
+        <p><span className="text-zinc-400">Resultado do Save:</span> {value.savingThrowOutcome ?? "-"}</p>
         <p><span className="text-zinc-400">Magic Resistance:</span> {value.magicalResistance}</p>
       </div>
 
