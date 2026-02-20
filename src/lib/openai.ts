@@ -159,7 +159,26 @@ const nonSpellInterpretationSchema = z.object({
   efeitoColateralComico: z.string().trim().min(1),
   falhaCritica: z.string().trim().min(1),
   notaArquimago: z.string().trim().min(1),
+  resumoEn: z.string().trim().min(1).optional(),
+  resumoPtBr: z.string().trim().min(1).optional(),
 });
+
+function buildSummaryFromInterpretation(params: {
+  nomeMagia: string;
+  escolaMagia: string;
+  descricaoEfeito: string;
+  efeitoColateralComico: string;
+  locale: "en" | "pt";
+}): string {
+  const effectSnippet = params.descricaoEfeito.split(/[.!?]/)[0]?.trim() || params.descricaoEfeito;
+  const sideEffectSnippet = params.efeitoColateralComico.split(/[.!?]/)[0]?.trim() || params.efeitoColateralComico;
+
+  if (params.locale === "en") {
+    return `${params.nomeMagia} (${params.escolaMagia}) channels an improvised effect: ${effectSnippet}. Side effect: ${sideEffectSnippet}.`;
+  }
+
+  return `${params.nomeMagia} (${params.escolaMagia}) canaliza um efeito improvisado: ${effectSnippet}. Efeito colateral: ${sideEffectSnippet}.`;
+}
 
 function normalizeLevel(value: string | number): number {
   if (typeof value === "number") {
@@ -195,7 +214,7 @@ Regras:
 1) Sempre converta o texto em magia, mesmo que seja receita, lista, bula, recado, desabafo ou nonsense.
 2) Tom irônico, sarcástico e divertido, como um mago veterano cansado de aprendizes.
 3) Gere JSON válido com EXATAMENTE estes campos:
-   nomeMagia, escolaMagia, nivel, componentes, tempoConjuracao, alcance, duracao, descricaoEfeito, efeitoColateralComico, falhaCritica, notaArquimago
+  nomeMagia, escolaMagia, nivel, componentes, tempoConjuracao, alcance, duracao, descricaoEfeito, efeitoColateralComico, falhaCritica, notaArquimago, resumoEn, resumoPtBr
 4) Se o texto for absurdo, a magia deve funcionar de maneira inesperada e ridícula.
 5) Nunca diga que o texto não é magia.
 6) Interprete o conteúdo de verdade: extraia temas, intenções e pistas do que foi enviado, sem só copiar o texto.`,
@@ -216,6 +235,24 @@ Regras:
   const components =
     typeof interpreted.componentes === "string" ? interpreted.componentes : interpreted.componentes.join(", ");
   const level = normalizeLevel(interpreted.nivel);
+  const summaryEn =
+    interpreted.resumoEn?.trim() ||
+    buildSummaryFromInterpretation({
+      nomeMagia: interpreted.nomeMagia,
+      escolaMagia: interpreted.escolaMagia,
+      descricaoEfeito: interpreted.descricaoEfeito,
+      efeitoColateralComico: interpreted.efeitoColateralComico,
+      locale: "en",
+    });
+  const summaryPtBr =
+    interpreted.resumoPtBr?.trim() ||
+    buildSummaryFromInterpretation({
+      nomeMagia: interpreted.nomeMagia,
+      escolaMagia: interpreted.escolaMagia,
+      descricaoEfeito: interpreted.descricaoEfeito,
+      efeitoColateralComico: interpreted.efeitoColateralComico,
+      locale: "pt",
+    });
 
   return spellPayloadSchema.parse({
     name: removeCorruptedChar(interpreted.nomeMagia),
@@ -239,12 +276,8 @@ Regras:
     savingThrow: "Spell",
     savingThrowOutcome: "OTHER",
     magicalResistance: "YES",
-    summaryEn: removeCorruptedChar(
-      "A creative spell interpretation extracted from unconventional text with plausible magical consequences.",
-    ),
-    summaryPtBr: removeCorruptedChar(
-      "Interpretação criativa de um texto não convencional, convertida em magia com consequências plausíveis.",
-    ),
+    summaryEn: removeCorruptedChar(summaryEn),
+    summaryPtBr: removeCorruptedChar(summaryPtBr),
     descriptionOriginal: removeCorruptedChar(
       [
         interpreted.descricaoEfeito,
