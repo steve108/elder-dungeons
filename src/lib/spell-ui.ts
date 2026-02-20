@@ -1,5 +1,4 @@
-import { MagicalResistance } from "@prisma/client";
-import type { SavingThrowOutcome, SpellClass } from "@/lib/spell";
+import type { MagicalResistance, SavingThrowOutcome, SpellClass } from "@/lib/spell";
 
 export type SpellEditForm = {
   id: number;
