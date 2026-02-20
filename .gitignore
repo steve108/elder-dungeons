@@ -42,3 +42,15 @@ yarn-error.log*
 next-env.d.ts
 
 /src/generated/prisma
+
+# OpenNext
+.open-next
+
+# local cloudflare/open-next
+.dev.vars
+
+# local workspace and temporary artifacts
+.vscode/
+scripts/*.log
+tmp-*.json
+tmp-*.sql
