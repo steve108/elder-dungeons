@@ -1,6 +1,5 @@
 "use client";
 
-import { MagicalResistance } from "@prisma/client";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
@@ -31,7 +30,7 @@ type SpellApiResponse = {
     utility: boolean;
     savingThrow: string;
     savingThrowOutcome: "NEGATES" | "HALF" | "PARTIAL" | "OTHER" | null;
-    magicalResistance: MagicalResistance;
+    magicalResistance: "YES" | "NO";
     summaryEn: string;
     summaryPtBr: string;
     descriptionOriginal: string;

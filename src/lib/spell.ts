@@ -1,4 +1,3 @@
-import { MagicalResistance } from "@prisma/client";
 import { createHash } from "node:crypto";
 import { z } from "zod";
 
@@ -9,6 +8,9 @@ export type SpellClass = z.infer<typeof spellClassSchema>;
 
 export const savingThrowOutcomeSchema = z.enum(["NEGATES", "HALF", "PARTIAL", "OTHER"]);
 export type SavingThrowOutcome = z.infer<typeof savingThrowOutcomeSchema>;
+
+export const magicalResistanceSchema = z.enum(["YES", "NO"]);
+export type MagicalResistance = z.infer<typeof magicalResistanceSchema>;
 
 export const spellPayloadSchema = z.object({
   name: z.string().trim().min(1),
@@ -31,7 +33,7 @@ export const spellPayloadSchema = z.object({
   utility: z.boolean().default(false),
   savingThrow: z.string().trim().min(1),
   savingThrowOutcome: savingThrowOutcomeSchema.optional().nullable(),
-  magicalResistance: z.nativeEnum(MagicalResistance),
+  magicalResistance: magicalResistanceSchema,
   summaryEn: z.string().trim().min(1),
   summaryPtBr: z
     .string()
@@ -73,14 +75,14 @@ export function inferMagicalResistance(params: {
   const isSummonOrCreation = summonOrCreationRegex.test(text);
 
   if (!hasDirectCreatureTarget) {
-    return MagicalResistance.NO;
+    return "NO";
   }
 
   if (isSummonOrCreation && !(params.target ?? "").trim()) {
-    return MagicalResistance.NO;
+    return "NO";
   }
 
-  return MagicalResistance.YES;
+  return "YES";
 }
 
 export function buildSpellDedupeKey(payload: SpellPayload): string {
