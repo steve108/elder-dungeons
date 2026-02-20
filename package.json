@@ -4,22 +4,15 @@
   "private": true,
   "scripts": {
     "build": "prisma generate && next build",
-    "build:worker": "opennextjs-cloudflare build",
     "dev": "prisma generate && next dev",
     "start": "next start",
     "lint": "eslint",
     "import:spell-reference": "node scripts/import-spell-reference.mjs",
     "sync:spell-reference": "node scripts/import-spell-reference.mjs",
-    "repair:spell-ptbr": "node scripts/repair-spell-ptbr-encoding.mjs",
-    "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
-    "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
-    "deploy:worker": "npm run build:worker && CLOUDFLARE_ACCOUNT_ID=$(printf %s \"$CLOUDFLARE_ACCOUNT_ID\" | tr -d '\"') wrangler deploy --config wrangler.jsonc --compatibility-date 2026-02-20",
-    "upload": "opennextjs-cloudflare build && opennextjs-cloudflare upload",
-    "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts"
+    "repair:spell-ptbr": "node scripts/repair-spell-ptbr-encoding.mjs"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.883.0",
-    "@opennextjs/cloudflare": "^1.16.5",
     "@prisma/adapter-pg": "^7.4.0",
     "@prisma/client": "^7.4.0",
     "@radix-ui/react-label": "^2.1.7",
@@ -44,7 +37,6 @@
     "eslint": "^9",
     "eslint-config-next": "16.1.6",
     "tailwindcss": "^4",
-    "typescript": "^5",
-    "wrangler": "^4.67.0"
+    "typescript": "^5"
   }
 }
