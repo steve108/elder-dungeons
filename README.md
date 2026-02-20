@@ -1,128 +1,150 @@
 # Elder Dungeons
 
-Painel administrativo para ingestão, parse com IA, conferência e manutenção de magias de AD&D 2e.
+Painel administrativo para ingestão, parse com IA, geração de ícones e manutenção de magias AD&D 2e.
 
 ## Visão Geral
 
-Este projeto usa Next.js + Prisma + OpenAI para transformar texto/imagem de spell em dados estruturados e persistir no banco.
+O projeto usa Next.js + Prisma + OpenAI para converter texto/imagem de spells em dados estruturados, com persistência em PostgreSQL e assets de ícone no Cloudflare R2.
 
 Fluxo principal:
 
-1. Admin envia texto e/ou imagem (`/admin/spell-import`).
-2. API `/api/spell-parse` chama OpenAI com prompt estruturado e valida retorno com Zod.
-3. Usuário confere o resultado e salva em `/api/spell-save`.
-4. Spell fica disponível para listagem/edição em `/admin/spells`.
+1. Admin envia texto e/ou imagem em `/admin/spell-import`.
+2. API `/api/spell-parse` chama OpenAI, valida com Zod e aplica normalizações de domínio.
+3. Ícone pode ser gerado automaticamente durante o parse (com fallback seguro em caso de falha).
+4. Admin revisa/edita e salva em `/api/spell-save`.
+5. Spell fica disponível para listagem, visualização e edição em `/admin/spells`.
 
 ## Stack
 
-- Next.js 16 (App Router para UI admin + Pages API para endpoints)
-- TypeScript (strict)
+- Next.js 16 (App Router + Pages API)
+- TypeScript
 - Prisma 7 + PostgreSQL
-- OpenAI SDK
-- Zod (validação de payload)
+- OpenAI SDK (texto + imagem)
+- AWS SDK S3 Client (upload para Cloudflare R2)
+- Zod
 - TailwindCSS
+
+## Funcionalidades Implementadas
+
+### Import e Parse
+
+- Importa spell por texto e/ou imagem.
+- Entrada de imagem por upload, colar da área de transferência e drag-and-drop.
+- Parse com instruções AD&D 2e para:
+	- `savingThrow` canônico (categorias 2e),
+	- `savingThrowOutcome` (`NEGATES | HALF | PARTIAL | OTHER`),
+	- `magicalResistance`, `canBeDispelled`, `dispelHow`.
+- Canonicalização de grupos (ex.: `Invocation/Evocation`, `Conjuration/Summoning`, etc.).
+
+### Ícones de Spell
+
+- Geração de ícone por prompt com estilo baseado em escola/esfera.
+- Upload do PNG para Cloudflare R2 e persistência de:
+	- `iconUrl`
+	- `iconPrompt`
+- Regeneração manual de ícone sem reparse da spell.
+- Geração automática de prompt (`Prompt automático`) sem gerar imagem.
+- Suporte a prompt customizado para regeneração de ícone.
+
+### Admin UI
+
+- `/admin/spells`:
+	- filtros por nome, classe (`Arcane/Divine`), nível e grupo;
+	- ações de `view` e `edit` por registro.
+- `/admin/spells/[id]/view`:
+	- visão somente leitura com alternância PT/EN;
+	- exibição do ícone da spell.
+- `/admin/spells/[id]` (edição):
+	- seção de ícone com preview, URL e prompt editável;
+	- botões `Regenerar Ícone` e `Prompt automático`;
+	- navegação entre spells (`anterior`, `view`, `próximo`) com suporte a lacunas de IDs;
+	- proteção contra saída com alterações não salvas.
+- `/admin/missing-retry`:
+	- tela dedicada para retry de pendências de hidratação (`missing`).
 
 ## Estrutura Relevante
 
-- `src/app/admin/spell-import/page.tsx`: importação via texto, upload, arrastar/soltar e colar imagem.
-- `src/components/spell-preview.tsx`: conferência dos campos parseados.
-- `src/lib/openai.ts`: prompt, parse, fallbacks e normalizações.
-- `src/lib/spell.ts`: schema canônico de spell e heurísticas.
-- `src/pages/api/spell-parse.ts`: endpoint de parse (com body limit para imagem base64).
-- `src/pages/api/spell-save.ts`: persistência (upsert por chave dedupe).
-- `src/pages/api/spells/*.ts`: listagem e edição.
-- `src/lib/spell-reference-sync.ts`: sincronização de `SpellReference` por CSV.
-- `prisma/schema.prisma`: modelos e campos do domínio.
-
-## Campos importantes do domínio
-
-- Classificação: `spellClass`, `combat`, `utility`
-- Resistência: `magicalResistance`
-- Dispel: `canBeDispelled`, `dispelHow`
-- Conteúdo: `summaryEn`, `summaryPtBr`, `descriptionOriginal`, `descriptionPtBr`
-
-## Regras implementadas
-
-- Parse de nível aceita formatos como `1`, `1st`, `2nd` etc. na referência CSV.
-- `magicalResistance` foi refinada para evitar falso positivo em casos de summon/creation (ex.: `Mount`).
-- `canBeDispelled` considera efeito ativo da magia e ignora interação durante conjuração.
-- Import de imagem aceita:
-	- upload por arquivo,
-	- colar da área de transferência,
-	- arrastar/soltar,
-	- preview em miniatura antes do parse.
+- `src/app/admin/spell-import/page.tsx`
+- `src/app/admin/missing-retry/page.tsx`
+- `src/app/admin/spells/page.tsx`
+- `src/app/admin/spells/[id]/view/page.tsx`
+- `src/app/admin/spells/[id]/page.tsx`
+- `src/lib/openai.ts`
+- `src/lib/spell-icon.ts`
+- `src/lib/spell.ts`
+- `src/lib/spell-ui.ts`
+- `src/pages/api/spell-icon-generate.ts`
+- `src/pages/api/spell-icon-prompt.ts`
+- `src/pages/api/spell-save.ts`
+- `src/pages/api/spells/index.ts`
+- `src/pages/api/spells/[id].ts`
+- `src/pages/api/spell-reference-hydrate.ts`
+- `prisma/schema.prisma`
 
 ## Endpoints
 
 - `GET /api/health`
-	- Check de banco (`SELECT 1`) e check de runtime Prisma.
-	- `200` quando saudável, `503` quando degradado.
 - `POST /api/spell-parse`
-	- Parse de spell por texto/imagem.
 - `POST /api/spell-save`
-	- Salva spell parseada.
+- `POST /api/spell-icon-generate`
+- `POST /api/spell-icon-prompt`
 - `GET /api/spells`
-	- Listagem paginada.
 - `GET|PUT /api/spells/[id]`
-	- Consulta e atualização.
+- `GET|POST /api/spell-reference-hydrate`
 - `POST /api/spell-reference-sync`
-	- Sincroniza tabela de referência por CSV(s) em `data/`.
 
-## Ambiente
+## Banco e Migrations
 
-Crie `.env` com os valores necessários:
+Campos adicionados/ajustados no domínio de spell:
+
+- `saving_throw_outcome`
+- `icon_url`
+- `icon_prompt`
+
+Tabela de suporte para backlog de hidratação:
+
+- `SpellReferenceMissing`
+
+## Variáveis de Ambiente
+
+Crie `.env` com:
 
 - `DATABASE_URL`
 - `DATABASE_SSL_REJECT_UNAUTHORIZED` (`true`/`false`)
 - `OPENAI_API_KEY`
 - `OPENAI_MODEL` (opcional, default `gpt-4.1-mini`)
-- `JWT_SECRET` (para Bearer token nas rotas protegidas)
+- `OPENAI_IMAGE_MODEL` (opcional, default `gpt-image-1`)
+- `OPENAI_ICON_TEXT_MODEL` (opcional)
+- `CLOUDFLARE_R2_ACCESS_KEY_ID`
+- `CLOUDFLARE_R2_SECRET_ACCESS_KEY`
+- `CLOUDFLARE_R2_BUCKET`
+- `CLOUDFLARE_R2_ENDPOINT`
+- `CLOUDFLARE_R2_PUBLIC_URL`
+- `JWT_SECRET`
 
 ## Execução
 
-Instalar dependências:
-
 ```bash
 npm install
-```
-
-Aplicar migrations e gerar client:
-
-```bash
 npx prisma migrate dev
 npx prisma generate
-```
-
-Desenvolvimento:
-
-```bash
 npm run dev
 ```
 
-Build de validação:
+Validação local:
 
 ```bash
 npm run build
-```
-
-Lint:
-
-```bash
 npm run lint
 ```
 
-## Sincronização da SpellReference
+## Scripts úteis
 
-Via script:
+- `npm run import:spell-reference`
+- `npm run sync:spell-reference`
+- `npm run repair:spell-ptbr`
 
-```bash
-npm run sync:spell-reference
-```
+## Observações
 
-O script lê todos os `.csv` dentro de `data/` (ou um arquivo específico, se informado) e aplica diff (create/update/delete).
-
-## Observações operacionais
-
-- Se `next dev` travar por lock de porta/processo, encerre processos Node e limpe lock de `.next/dev/lock`.
-- Se houver erro de payload grande no parse por imagem, o endpoint já está com limite aumentado.
-- Quando API retornar erro não-JSON, a UI mostra mensagem amigável com status em vez de quebrar na desserialização.
+- O fluxo de parse continua funcional mesmo se a geração de ícone falhar (fallback sem quebrar import).
+- Regeneração de ícone cria novo objeto no bucket (não remove arquivos antigos).

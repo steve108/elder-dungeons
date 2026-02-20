@@ -55,6 +55,14 @@ function queryPage(value: string | string[] | undefined): number {
   return parsed;
 }
 
+function querySpellClass(value: string | string[] | undefined): "arcane" | "divine" | null {
+  const raw = queryString(value).trim().toLowerCase();
+  if (!raw) return null;
+  if (raw === "arcane") return "arcane";
+  if (raw === "divine") return "divine";
+  return null;
+}
+
 function normalizeSpellClass(value: unknown): "arcane" | "divine" {
   return value === "divine" ? "divine" : "arcane";
 }
@@ -73,6 +81,7 @@ export default async function handler(
 
     const pageSize = 50;
     const name = queryString(req.query.name).trim();
+    const spellClass = querySpellClass(req.query.spellClass);
     const group = queryString(req.query.group).trim();
     const level = queryNumber(req.query.level);
     const page = queryPage(req.query.page);
@@ -87,6 +96,7 @@ export default async function handler(
           }
         : {}),
       ...(level !== null ? { level } : {}),
+      ...(spellClass ? { spellClass } : {}),
       ...(group
         ? {
             OR: [

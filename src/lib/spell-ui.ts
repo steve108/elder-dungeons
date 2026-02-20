@@ -1,5 +1,5 @@
 import { MagicalResistance } from "@prisma/client";
-import type { SpellClass } from "@/lib/spell";
+import type { SavingThrowOutcome, SpellClass } from "@/lib/spell";
 
 export type SpellEditForm = {
   id: number;
@@ -22,12 +22,15 @@ export type SpellEditForm = {
   combat: boolean;
   utility: boolean;
   savingThrow: string;
+  savingThrowOutcome: SavingThrowOutcome | "";
   magicalResistance: MagicalResistance;
   summaryEn: string;
   summaryPtBr: string;
   descriptionOriginal: string;
   descriptionPtBr: string;
   sourceImageUrl: string;
+  iconUrl: string;
+  iconPrompt: string;
 };
 
 export type SpellListItem = {
@@ -62,12 +65,15 @@ export function toSpellEditForm(input: {
   combat: boolean;
   utility: boolean;
   savingThrow: string;
+  savingThrowOutcome: SavingThrowOutcome | null;
   magicalResistance: MagicalResistance;
   summaryEn: string;
   summaryPtBr: string;
   descriptionOriginal: string;
   descriptionPtBr: string | null;
   sourceImageUrl: string | null;
+  iconUrl: string | null;
+  iconPrompt: string | null;
 }): SpellEditForm {
   return {
     id: input.id,
@@ -90,12 +96,15 @@ export function toSpellEditForm(input: {
     combat: input.combat,
     utility: input.utility,
     savingThrow: input.savingThrow,
+    savingThrowOutcome: input.savingThrowOutcome ?? "",
     magicalResistance: input.magicalResistance,
     summaryEn: input.summaryEn,
     summaryPtBr: input.summaryPtBr,
     descriptionOriginal: input.descriptionOriginal,
     descriptionPtBr: input.descriptionPtBr ?? "",
     sourceImageUrl: input.sourceImageUrl ?? "",
+    iconUrl: input.iconUrl ?? "",
+    iconPrompt: input.iconPrompt ?? "",
   };
 }
 

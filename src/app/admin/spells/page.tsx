@@ -19,6 +19,7 @@ const PAGE_SIZE = 50;
 
 export default function SpellListPage() {
   const [nameFilter, setNameFilter] = useState("");
+  const [spellClassFilter, setSpellClassFilter] = useState<"" | "arcane" | "divine">("");
   const [levelFilter, setLevelFilter] = useState("");
   const [groupFilter, setGroupFilter] = useState("");
   const [items, setItems] = useState<SpellListItem[]>([]);
@@ -41,6 +42,7 @@ export default function SpellListPage() {
     const page = forcedPage ?? 1;
 
     if (nameFilter.trim()) params.set("name", nameFilter.trim());
+    if (spellClassFilter) params.set("spellClass", spellClassFilter);
     if (levelFilter.trim()) params.set("level", levelFilter.trim());
     if (groupFilter.trim()) params.set("group", groupFilter.trim());
     params.set("page", String(page));
@@ -86,7 +88,7 @@ export default function SpellListPage() {
     <section className="grid gap-6 rounded-xl border border-zinc-800 bg-zinc-950 p-5">
       <h2 className="text-xl font-semibold text-amber-300">Listagem de Spells</h2>
 
-      <form onSubmit={onSearch} className="grid gap-3 rounded-lg border border-zinc-800 bg-zinc-900/40 p-4 md:grid-cols-4">
+      <form onSubmit={onSearch} className="grid gap-3 rounded-lg border border-zinc-800 bg-zinc-900/40 p-4 md:grid-cols-5">
         <label className="grid gap-1 text-sm text-zinc-200 md:col-span-2">
           Nome
           <input
@@ -95,6 +97,23 @@ export default function SpellListPage() {
             className="rounded-md border border-zinc-700 bg-zinc-900 px-3 py-2 text-sm outline-none focus:border-amber-300"
             placeholder="Ex: Magic Missile"
           />
+        </label>
+
+        <label className="grid gap-1 text-sm text-zinc-200">
+          Class
+          <select
+            value={spellClassFilter}
+            onChange={(event) =>
+              setSpellClassFilter(
+                event.target.value === "arcane" || event.target.value === "divine" ? event.target.value : "",
+              )
+            }
+            className="rounded-md border border-zinc-700 bg-zinc-900 px-3 py-2 text-sm outline-none focus:border-amber-300"
+          >
+            <option value="">Todos</option>
+            <option value="arcane">Arcane</option>
+            <option value="divine">Divine</option>
+          </select>
         </label>
 
         <label className="grid gap-1 text-sm text-zinc-200">
@@ -139,13 +158,22 @@ export default function SpellListPage() {
               <th className="px-3 py-2 text-left">Escola</th>
               <th className="px-3 py-2 text-left">Esfera</th>
               <th className="px-3 py-2 text-left">Fonte</th>
+              <th className="px-3 py-2 text-left">View</th>
               <th className="px-3 py-2 text-left">Alterar</th>
             </tr>
           </thead>
           <tbody>
             {items.map((item) => (
               <tr key={item.id} className="border-t border-zinc-800 text-zinc-100">
-                <td className="px-3 py-2">{item.name}</td>
+                <td className="px-3 py-2 font-medium">
+                  <Link
+                    href={`/admin/spells/${item.id}/view`}
+                    className="text-inherit hover:underline"
+                    title="Visualizar spell"
+                  >
+                    {item.name}
+                  </Link>
+                </td>
                 <td className="px-3 py-2">{item.level}</td>
                 <td className="px-3 py-2">{item.spellClass}</td>
                 <td className="px-3 py-2">{item.school ?? "-"}</td>
@@ -153,8 +181,17 @@ export default function SpellListPage() {
                 <td className="px-3 py-2">{item.source ?? "-"}</td>
                 <td className="px-3 py-2">
                   <Link
+                    href={`/admin/spells/${item.id}/view`}
+                    className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-zinc-700 text-zinc-200 hover:border-amber-300 hover:text-amber-300"
+                    title="Visualizar"
+                  >
+                    👁
+                  </Link>
+                </td>
+                <td className="px-3 py-2">
+                  <Link
                     href={`/admin/spells/${item.id}`}
-                    className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-zinc-700 text-amber-300 hover:border-amber-300"
+                    className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-zinc-700 text-zinc-200 hover:border-amber-300 hover:text-amber-300"
                     title="Editar"
                   >
                     ✎
@@ -164,7 +201,7 @@ export default function SpellListPage() {
             ))}
             {items.length === 0 ? (
               <tr>
-                <td colSpan={7} className="px-3 py-6 text-center text-zinc-400">
+                <td colSpan={8} className="px-3 py-6 text-center text-zinc-400">
                   Nenhum registro para exibir.
                 </td>
               </tr>
