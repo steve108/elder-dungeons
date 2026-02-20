@@ -13,7 +13,7 @@
     "repair:spell-ptbr": "node scripts/repair-spell-ptbr-encoding.mjs",
     "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
     "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
-    "deploy:worker": "npm run build:worker && CLOUDFLARE_ACCOUNT_ID=$(printf %s \"$CLOUDFLARE_ACCOUNT_ID\" | tr -d '\"') wrangler versions upload",
+    "deploy:worker": "npm run build:worker && CLOUDFLARE_ACCOUNT_ID=$(printf %s \"$CLOUDFLARE_ACCOUNT_ID\" | tr -d '\"') wrangler versions upload --config wrangler.jsonc --compatibility-date 2026-02-20",
     "upload": "opennextjs-cloudflare build && opennextjs-cloudflare upload",
     "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts"
   },
