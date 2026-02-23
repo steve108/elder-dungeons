@@ -1,8 +1,54 @@
 @import "tailwindcss";
 
 :root {
-  --background: #0b0b0c;
-  --foreground: #f4f4f5;
+  --black-deep: #0b0b0d;
+  --black-soft: #141417;
+  --black-elevated: #111114;
+  --graphite: #1f1f23;
+
+  --gold-primary: #c6a75e;
+  --gold-bright: #e5c97a;
+  --gold-dark: #9f7f3a;
+
+  --white-primary: #f5f5f7;
+  --white-secondary: #b8b8be;
+  --white-muted: #7a7a80;
+
+  --error: #b84c4c;
+  --error-bg: rgba(184, 76, 76, 0.08);
+
+  --success: #3e8f6b;
+  --success-bg: rgba(62, 143, 107, 0.08);
+
+  --info: #7a6754;
+  --info-bg: rgba(122, 103, 84, 0.14);
+
+  --warning: #c6a75e;
+  --warning-bg: rgba(198, 167, 94, 0.08);
+
+  --hover-gold-bg: rgba(198, 167, 94, 0.08);
+  --hover-gold-border: rgba(198, 167, 94, 0.4);
+
+  --shadow-gold: 0 4px 16px rgba(198, 167, 94, 0.25);
+  --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.3);
+
+  --bg-app: var(--black-deep);
+  --bg-surface: var(--black-soft);
+  --bg-elevated: var(--black-elevated);
+
+  --text-primary: var(--white-primary);
+  --text-secondary: var(--white-secondary);
+  --text-muted: var(--white-muted);
+
+  --border-default: var(--graphite);
+  --border-gold-soft: var(--gold-dark);
+
+  --btn-primary-bg: var(--gold-primary);
+  --btn-primary-text: var(--black-deep);
+  --btn-primary-hover: var(--gold-bright);
+
+  --background: var(--black-deep);
+  --foreground: var(--white-primary);
 }
 
 @theme inline {

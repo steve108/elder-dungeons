@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Elder Dungeons Admin",
-  description: "Painel administrativo para spells AD&D",
+  title: "Elder Dungeons",
+  description: "Referência pública e painel administrativo para regras AD&D",
 };
 
 export default function RootLayout({

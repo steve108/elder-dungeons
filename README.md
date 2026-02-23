@@ -148,3 +148,9 @@ npm run lint
 
 - O fluxo de parse continua funcional mesmo se a geração de ícone falhar (fallback sem quebrar import).
 - Regeneração de ícone cria novo objeto no bucket (não remove arquivos antigos).
+
+## Ponto de Atenção (Recorrente)
+
+- Descrições de habilidades raciais devem permanecer fiéis ao texto de referência mecânica (gatilho, bônus/penalidade, alcance e condição).
+- Evitar resumo livre quando houver risco de alterar regra; ao atualizar textos, revisar contra a fonte antes de publicar.
+- Sempre validar: nomes canônicos de habilidade, custos, e diferença entre benefício padrão de subraça vs. catálogo completo de habilidades.
