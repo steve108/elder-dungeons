@@ -31,23 +31,23 @@ model Spell {
   durationText        String
   castingTime         String
   components          String
-  componentDesc       String?           @db.Text @map("component_desc")
-  componentCost       String?           @db.Text @map("component_cost")
+  componentDesc       String?           @map("component_desc") @db.Text
+  componentCost       String?           @map("component_cost") @db.Text
   componentConsumed   Boolean           @default(false) @map("component_consumed")
   canBeDispelled      Boolean           @default(false) @map("can_be_dispelled")
-  dispelHow           String?           @db.Text @map("dispel_how")
+  dispelHow           String?           @map("dispel_how") @db.Text
   combat              Boolean           @default(false)
   utility             Boolean           @default(false)
   savingThrow         String
   savingThrowOutcome  String?           @map("saving_throw_outcome")
   magicalResistance   MagicalResistance
-  summaryEn           String            @default("") @db.Text @map("summary_en")
-  summaryPtBr         String            @default("") @db.Text @map("summary_pt_br")
+  summaryEn           String            @default("") @map("summary_en") @db.Text
+  summaryPtBr         String            @default("") @map("summary_pt_br") @db.Text
   descriptionOriginal String            @db.Text
   descriptionPtBr     String?           @db.Text
   sourceImageUrl      String?
   iconUrl             String?           @map("icon_url")
-  iconPrompt          String?           @db.Text @map("icon_prompt")
+  iconPrompt          String?           @map("icon_prompt") @db.Text
   createdAt           DateTime          @default(now())
   updatedAt           DateTime          @updatedAt
 
@@ -65,8 +65,8 @@ model SpellReference {
   createdAt      DateTime @default(now()) @map("created_at")
   updatedAt      DateTime @updatedAt @map("updated_at")
 
-  @@index([normalizedName])
   @@unique([normalizedName, className, groupName, level, source])
+  @@index([normalizedName])
   @@map("SpellReference")
 }
 
@@ -85,4 +85,974 @@ model SpellReferenceMissing {
   @@unique([normalizedName, spellClass])
   @@index([updatedAt])
   @@map("SpellReferenceMissing")
+}
+
+enum CoreAttributeName {
+  STRENGTH
+  CONSTITUTION
+  DEXTERITY
+  WISDOM
+  INTELLIGENCE
+  CHARISMA
+}
+
+enum RaceAbilityKind {
+  BENEFIT
+  PENALTY
+}
+
+enum ClassAbilityKind {
+  BENEFIT
+  PENALTY
+}
+
+enum ClassGroup {
+  WARRIOR
+  ROGUE
+  WIZARD
+  PRIEST
+}
+
+enum ProficiencyClassGroup {
+  GENERAL
+  PRIEST
+  ROGUE
+  WARRIOR
+  WIZARD
+}
+
+enum TraitDisadvantageKind {
+  TRAIT
+  DISADVANTAGE
+}
+
+enum WeaponAdvancementKind {
+  SPECIALIZATION
+  MASTERY
+}
+
+enum WeaponGroupKind {
+  BROAD
+  TIGHT
+}
+
+model Character {
+  id         Int      @id @default(autoincrement())
+  name       String
+  age        Int?
+  playerName String?  @map("player_name")
+  notes      String?  @db.Text
+  raceBaseId Int?     @map("race_base_id")
+  subRaceId  Int?     @map("sub_race_id")
+  classId    Int?     @map("class_id")
+  kitId      Int?     @map("kit_id")
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  raceBase               RaceBase?                       @relation(fields: [raceBaseId], references: [id])
+  subRace                SubRace?                        @relation(fields: [subRaceId], references: [id])
+  class                  RuleClass?                      @relation(fields: [classId], references: [id])
+  kit                    RuleKit?                        @relation(fields: [kitId], references: [id])
+  subAttributeValues     CharacterSubAttributeValue[]
+  traitDisadvantages     CharacterTraitDisadvantage[]
+  nonWeaponProficiencies CharacterNonWeaponProficiency[]
+  weaponProficiencies    CharacterWeaponProficiency[]
+  equipments             CharacterEquipment[]
+
+  @@index([name])
+  @@index([playerName])
+  @@map("Character")
+}
+
+model RaceBase {
+  id                     Int      @id @default(autoincrement())
+  name                   String   @unique
+  description            String?  @db.Text
+  fullDescription        String?  @map("full_description") @db.Text
+  classPointBudget       Int      @default(0) @map("class_point_budget")
+  strengthAdjustment     Int      @default(0) @map("strength_adjustment")
+  constitutionAdjustment Int      @default(0) @map("constitution_adjustment")
+  dexterityAdjustment    Int      @default(0) @map("dexterity_adjustment")
+  wisdomAdjustment       Int      @default(0) @map("wisdom_adjustment")
+  intelligenceAdjustment Int      @default(0) @map("intelligence_adjustment")
+  charismaAdjustment     Int      @default(0) @map("charisma_adjustment")
+  maxLevelFighter        Int?     @map("max_level_fighter")
+  maxLevelPaladin        Int?     @map("max_level_paladin")
+  maxLevelRanger         Int?     @map("max_level_ranger")
+  maxLevelThief          Int?     @map("max_level_thief")
+  maxLevelBard           Int?     @map("max_level_bard")
+  maxLevelWizard         Int?     @map("max_level_wizard")
+  maxLevelIllusionist    Int?     @map("max_level_illusionist")
+  maxLevelCleric         Int?     @map("max_level_cleric")
+  maxLevelDruid          Int?     @map("max_level_druid")
+  createdAt              DateTime @default(now()) @map("created_at")
+  updatedAt              DateTime @updatedAt @map("updated_at")
+
+  subRaces   SubRace[]
+  abilities  RaceAbility[]
+  characters Character[]
+
+  @@map("RaceBase")
+}
+
+model SubRace {
+  id                 Int      @id @default(autoincrement())
+  raceBaseId         Int      @map("race_base_id")
+  name               String
+  description        String?  @db.Text
+  fullDescription    String?  @map("full_description") @db.Text
+  languages          String?  @db.Text
+  characterPointCost Int      @default(0) @map("character_point_cost")
+  createdAt          DateTime @default(now()) @map("created_at")
+  updatedAt          DateTime @updatedAt @map("updated_at")
+
+  raceBase          RaceBase                 @relation(fields: [raceBaseId], references: [id])
+  standardAbilities SubRaceStandardAbility[]
+  characters        Character[]
+
+  @@unique([raceBaseId, name])
+  @@map("SubRace")
+}
+
+model RaceAbility {
+  id          Int             @id @default(autoincrement())
+  raceBaseId  Int             @map("race_base_id")
+  name        String
+  description String?         @db.Text
+  fullDescription String?     @map("full_description") @db.Text
+  cost        Int
+  kind        RaceAbilityKind @default(BENEFIT)
+  createdAt   DateTime        @default(now()) @map("created_at")
+  updatedAt   DateTime        @updatedAt @map("updated_at")
+
+  raceBase     RaceBase                 @relation(fields: [raceBaseId], references: [id])
+  subRaceLinks SubRaceStandardAbility[]
+
+  @@unique([raceBaseId, name])
+  @@map("RaceAbility")
+}
+
+model SubRaceStandardAbility {
+  id               Int      @id @default(autoincrement())
+  subRaceId        Int      @map("sub_race_id")
+  raceAbilityId    Int      @map("race_ability_id")
+  isDefaultPackage Boolean  @default(true) @map("is_default_package")
+  createdAt        DateTime @default(now()) @map("created_at")
+
+  subRace     SubRace     @relation(fields: [subRaceId], references: [id])
+  raceAbility RaceAbility @relation(fields: [raceAbilityId], references: [id])
+
+  @@unique([subRaceId, raceAbilityId])
+  @@map("SubRaceStandardAbility")
+}
+
+model AttributeDefinition {
+  id          Int               @id @default(autoincrement())
+  name        CoreAttributeName @unique
+  description String?           @db.Text
+  fullDescription String?       @map("full_description") @db.Text
+  createdAt   DateTime          @default(now()) @map("created_at")
+  updatedAt   DateTime          @updatedAt @map("updated_at")
+
+  subAttributes SubAttributeDefinition[]
+  translations  AttributeDefinitionTranslation[]
+
+  @@map("AttributeDefinition")
+}
+
+model SubAttributeDefinition {
+  id          Int      @id @default(autoincrement())
+  attributeId Int      @map("attribute_id")
+  name        String
+  description String?  @db.Text
+  fullDescription String? @map("full_description") @db.Text
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  attribute       AttributeDefinition          @relation(fields: [attributeId], references: [id])
+  characterValues CharacterSubAttributeValue[]
+  translations    SubAttributeDefinitionTranslation[]
+
+  @@unique([attributeId, name])
+  @@map("SubAttributeDefinition")
+}
+
+model AttributeDefinitionTranslation {
+  id                Int      @id @default(autoincrement())
+  attributeId       Int      @map("attribute_id")
+  locale            String   @db.VarChar(5)
+  name              String?  @db.VarChar(100)
+  description       String?  @db.Text
+  fullDescription   String?  @map("full_description") @db.Text
+  createdAt         DateTime @default(now()) @map("created_at")
+  updatedAt         DateTime @updatedAt @map("updated_at")
+
+  attribute AttributeDefinition @relation(fields: [attributeId], references: [id], onDelete: Cascade)
+
+  @@unique([attributeId, locale])
+  @@index([locale])
+  @@map("AttributeDefinitionTranslation")
+}
+
+model SubAttributeDefinitionTranslation {
+  id                Int      @id @default(autoincrement())
+  subAttributeId    Int      @map("sub_attribute_id")
+  locale            String   @db.VarChar(5)
+  name              String?  @db.VarChar(100)
+  description       String?  @db.Text
+  fullDescription   String?  @map("full_description") @db.Text
+  createdAt         DateTime @default(now()) @map("created_at")
+  updatedAt         DateTime @updatedAt @map("updated_at")
+
+  subAttribute SubAttributeDefinition @relation(fields: [subAttributeId], references: [id], onDelete: Cascade)
+
+  @@unique([subAttributeId, locale])
+  @@index([locale])
+  @@map("SubAttributeDefinitionTranslation")
+}
+
+model UiTextTranslation {
+  id        Int      @id @default(autoincrement())
+  namespace String   @db.VarChar(100)
+  key       String   @db.VarChar(150)
+  locale    String   @db.VarChar(5)
+  text      String   @db.Text
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@unique([namespace, key, locale])
+  @@index([namespace, locale])
+  @@map("UiTextTranslation")
+}
+
+model StrengthMuscleScoreReference {
+  id                       Int      @id @default(autoincrement())
+  scoreLabel               String   @unique @map("score_label")
+  baseScore                Int      @map("base_score")
+  exceptionalMin           Int?     @map("exceptional_min")
+  exceptionalMax           Int?     @map("exceptional_max")
+  sortOrder                Int      @map("sort_order")
+  attackAdjustment         Int?     @map("attack_adjustment")
+  damageAdjustment         Int?     @map("damage_adjustment")
+  maxPress                 Int?     @map("max_press")
+  openDoors                Int?     @map("open_doors")
+  openDoorsLocked          Int?     @map("open_doors_locked")
+  bendBarsLiftGatesPercent Int?     @map("bend_bars_lift_gates_percent")
+  title                    String?
+  description              String?  @db.Text
+  fullDescription          String?  @map("full_description") @db.Text
+  createdAt                DateTime @default(now()) @map("created_at")
+  updatedAt                DateTime @updatedAt @map("updated_at")
+
+  @@map("StrengthMuscleScoreReference")
+}
+
+model StrengthStaminaScoreReference {
+  id              Int      @id @default(autoincrement())
+  scoreLabel      String   @unique @map("score_label")
+  baseScore       Int      @map("base_score")
+  exceptionalMin  Int?     @map("exceptional_min")
+  exceptionalMax  Int?     @map("exceptional_max")
+  sortOrder       Int      @map("sort_order")
+  weightAllowance Int?     @map("weight_allowance")
+  title           String?
+  description     String?  @db.Text
+  fullDescription String?  @map("full_description") @db.Text
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+
+  @@map("StrengthStaminaScoreReference")
+}
+
+model ConstitutionHealthScoreReference {
+  id                 Int      @id @default(autoincrement())
+  scoreLabel         String   @unique @map("score_label")
+  scoreMin           Int      @map("score_min")
+  scoreMax           Int      @map("score_max")
+  sortOrder          Int      @map("sort_order")
+  systemShockPercent Int?     @map("system_shock_percent")
+  poisonSaveModifier Int?     @map("poison_save_modifier")
+  title              String?
+  description        String?  @db.Text
+  fullDescription    String?  @map("full_description") @db.Text
+  createdAt          DateTime @default(now()) @map("created_at")
+  updatedAt          DateTime @updatedAt @map("updated_at")
+
+  @@map("ConstitutionHealthScoreReference")
+}
+
+model ConstitutionFitnessScoreReference {
+  id                        Int      @id @default(autoincrement())
+  scoreLabel                String   @unique @map("score_label")
+  scoreMin                  Int      @map("score_min")
+  scoreMax                  Int      @map("score_max")
+  sortOrder                 Int      @map("sort_order")
+  hitPointAdjustmentBase    Int?     @map("hit_point_adjustment_base")
+  hitPointAdjustmentWarrior Int?     @map("hit_point_adjustment_warrior")
+  minimumHitDieResult       Int?     @map("minimum_hit_die_result")
+  resurrectionChancePercent Int?     @map("resurrection_chance_percent")
+  title                     String?
+  description               String?  @db.Text
+  fullDescription           String?  @map("full_description") @db.Text
+  createdAt                 DateTime @default(now()) @map("created_at")
+  updatedAt                 DateTime @updatedAt @map("updated_at")
+
+  @@map("ConstitutionFitnessScoreReference")
+}
+
+model DexterityAimScoreReference {
+  id                 Int      @id @default(autoincrement())
+  scoreLabel         String   @unique @map("score_label")
+  scoreMin           Int      @map("score_min")
+  scoreMax           Int      @map("score_max")
+  sortOrder          Int      @map("sort_order")
+  missileAdjustment  Int?     @map("missile_adjustment")
+  pickPocketsPercent Int?     @map("pick_pockets_percent")
+  openLocksPercent   Int?     @map("open_locks_percent")
+  title              String?
+  description        String?  @db.Text
+  fullDescription    String?  @map("full_description") @db.Text
+  createdAt          DateTime @default(now()) @map("created_at")
+  updatedAt          DateTime @updatedAt @map("updated_at")
+
+  @@map("DexterityAimScoreReference")
+}
+
+model DexterityBalanceScoreReference {
+  id                  Int      @id @default(autoincrement())
+  scoreLabel          String   @unique @map("score_label")
+  scoreMin            Int      @map("score_min")
+  scoreMax            Int      @map("score_max")
+  sortOrder           Int      @map("sort_order")
+  reactionAdjustment  Int?     @map("reaction_adjustment")
+  defensiveAdjustment Int?     @map("defensive_adjustment")
+  moveSilentlyPercent Int?     @map("move_silently_percent")
+  climbWallsPercent   Int?     @map("climb_walls_percent")
+  title               String?
+  description         String?  @db.Text
+  fullDescription     String?  @map("full_description") @db.Text
+  createdAt           DateTime @default(now()) @map("created_at")
+  updatedAt           DateTime @updatedAt @map("updated_at")
+
+  @@map("DexterityBalanceScoreReference")
+}
+
+model WisdomIntuitionScoreReference {
+  id                  Int      @id @default(autoincrement())
+  scoreLabel          String   @unique @map("score_label")
+  scoreMin            Int      @map("score_min")
+  scoreMax            Int      @map("score_max")
+  sortOrder           Int      @map("sort_order")
+  bonusSpellsText     String?  @map("bonus_spells_text")
+  spellFailurePercent Int?     @map("spell_failure_percent")
+  title               String?
+  description         String?  @db.Text
+  fullDescription     String?  @map("full_description") @db.Text
+  createdAt           DateTime @default(now()) @map("created_at")
+  updatedAt           DateTime @updatedAt @map("updated_at")
+
+  @@map("WisdomIntuitionScoreReference")
+}
+
+model WisdomWillpowerScoreReference {
+  id                     Int      @id @default(autoincrement())
+  scoreLabel             String   @unique @map("score_label")
+  scoreMin               Int      @map("score_min")
+  scoreMax               Int      @map("score_max")
+  sortOrder              Int      @map("sort_order")
+  magicDefenseAdjustment Int?     @map("magic_defense_adjustment")
+  spellImmunityLevel     Int?     @map("spell_immunity_level")
+  title                  String?
+  description            String?  @db.Text
+  fullDescription        String?  @map("full_description") @db.Text
+  createdAt              DateTime @default(now()) @map("created_at")
+  updatedAt              DateTime @updatedAt @map("updated_at")
+
+  @@map("WisdomWillpowerScoreReference")
+}
+
+model IntelligenceReasonScoreReference {
+  id                  Int      @id @default(autoincrement())
+  scoreLabel          String   @unique @map("score_label")
+  scoreMin            Int      @map("score_min")
+  scoreMax            Int      @map("score_max")
+  sortOrder           Int      @map("sort_order")
+  maxWizardSpellLevel Int?     @map("max_wizard_spell_level")
+  maxSpellsPerLevel   Int?     @map("max_spells_per_level")
+  allSpellsPerLevel   Boolean  @default(false) @map("all_spells_per_level")
+  spellImmunityLevel  Int?     @map("spell_immunity_level")
+  title               String?
+  description         String?  @db.Text
+  fullDescription     String?  @map("full_description") @db.Text
+  createdAt           DateTime @default(now()) @map("created_at")
+  updatedAt           DateTime @updatedAt @map("updated_at")
+
+  @@map("IntelligenceReasonScoreReference")
+}
+
+model IntelligenceKnowledgeScoreReference {
+  id                 Int      @id @default(autoincrement())
+  scoreLabel         String   @unique @map("score_label")
+  scoreMin           Int      @map("score_min")
+  scoreMax           Int      @map("score_max")
+  sortOrder          Int      @map("sort_order")
+  bonusProficiencies Int?     @map("bonus_proficiencies")
+  learnSpellPercent  Int?     @map("learn_spell_percent")
+  title              String?
+  description        String?  @db.Text
+  fullDescription    String?  @map("full_description") @db.Text
+  createdAt          DateTime @default(now()) @map("created_at")
+  updatedAt          DateTime @updatedAt @map("updated_at")
+
+  @@map("IntelligenceKnowledgeScoreReference")
+}
+
+model CharismaAppearanceScoreReference {
+  id                 Int      @id @default(autoincrement())
+  scoreLabel         String   @unique @map("score_label")
+  scoreMin           Int      @map("score_min")
+  scoreMax           Int      @map("score_max")
+  sortOrder          Int      @map("sort_order")
+  reactionAdjustment Int?     @map("reaction_adjustment")
+  title              String?
+  description        String?  @db.Text
+  fullDescription    String?  @map("full_description") @db.Text
+  createdAt          DateTime @default(now()) @map("created_at")
+  updatedAt          DateTime @updatedAt @map("updated_at")
+
+  @@map("CharismaAppearanceScoreReference")
+}
+
+model CharismaLeadershipScoreReference {
+  id          Int      @id @default(autoincrement())
+  scoreLabel  String   @unique @map("score_label")
+  scoreMin    Int      @map("score_min")
+  scoreMax    Int      @map("score_max")
+  sortOrder   Int      @map("sort_order")
+  loyaltyBase Int?     @map("loyalty_base")
+  maxHenchmen Int?     @map("max_henchmen")
+  title       String?
+  description String?  @db.Text
+  fullDescription String? @map("full_description") @db.Text
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@map("CharismaLeadershipScoreReference")
+}
+
+model CharacterSubAttributeValue {
+  id               Int      @id @default(autoincrement())
+  characterId      Int      @map("character_id")
+  subAttributeId   Int      @map("sub_attribute_id")
+  value            Int
+  exceptionalValue Int?     @map("exceptional_value")
+  valueLabel       String?  @map("value_label")
+  notes            String?  @db.Text
+  createdAt        DateTime @default(now()) @map("created_at")
+  updatedAt        DateTime @updatedAt @map("updated_at")
+
+  character    Character              @relation(fields: [characterId], references: [id])
+  subAttribute SubAttributeDefinition @relation(fields: [subAttributeId], references: [id])
+
+  @@unique([characterId, subAttributeId])
+  @@map("CharacterSubAttributeValue")
+}
+
+model RuleClass {
+  id                 Int      @id @default(autoincrement())
+  name               String   @unique
+  classGroup         ClassGroup @map("class_group")
+  description        String?  @db.Text
+  fullDescription    String?  @map("full_description") @db.Text
+  classPointBudget   Int      @default(0) @map("class_point_budget")
+  abilityRequirements String? @map("ability_requirements") @db.Text
+  primeRequisite     String?  @map("prime_requisite")
+  allowedRacesText   String?  @map("allowed_races_text") @db.Text
+  createdAt          DateTime @default(now()) @map("created_at")
+  updatedAt          DateTime @updatedAt @map("updated_at")
+
+  characters                 Character[]
+  ruleKits                   RuleKit[]
+  classAbilityLinks          RuleClassAbilityLink[]
+  restrictionReferences      RuleClassRestrictionReference[] @relation("ClassRestrictionTarget")
+  referencedByRestrictions   RuleClassRestrictionReference[] @relation("ClassRestrictionSource")
+
+  @@map("Class")
+}
+
+model RuleClassAbility {
+  id                   Int              @id @default(autoincrement())
+  name                 String           @unique
+  description          String?          @db.Text
+  fullDescription      String?          @map("full_description") @db.Text
+  kind                 ClassAbilityKind @default(BENEFIT)
+  pointCost            Int?             @map("point_cost")
+  pointCostMin         Int?             @map("point_cost_min")
+  pointCostMax         Int?             @map("point_cost_max")
+  costNotes            String?          @map("cost_notes") @db.Text
+  isSharedPenalty      Boolean          @default(false) @map("is_shared_penalty")
+  sharedPenaltyKey     String?          @map("shared_penalty_key")
+  sourceClassHint      String?          @map("source_class_hint")
+  createdAt            DateTime         @default(now()) @map("created_at")
+  updatedAt            DateTime         @updatedAt @map("updated_at")
+
+  classLinks RuleClassAbilityLink[]
+
+  @@index([kind])
+  @@index([sharedPenaltyKey])
+  @@map("ClassAbility")
+}
+
+model RuleClassAbilityLink {
+  id                    Int      @id @default(autoincrement())
+  classId               Int      @map("class_id")
+  classAbilityId        Int      @map("class_ability_id")
+  isDefaultPackage      Boolean  @default(false) @map("is_default_package")
+  isOptionalRestriction Boolean  @default(false) @map("is_optional_restriction")
+  displayOrder          Int?     @map("display_order")
+  notes                 String?  @db.Text
+  createdAt             DateTime @default(now()) @map("created_at")
+
+  class        RuleClass       @relation(fields: [classId], references: [id])
+  classAbility RuleClassAbility @relation(fields: [classAbilityId], references: [id])
+
+  @@unique([classId, classAbilityId])
+  @@map("ClassAbilityLink")
+}
+
+model RuleClassRestrictionReference {
+  id            Int      @id @default(autoincrement())
+  classId       Int      @map("class_id")
+  sourceClassId Int      @map("source_class_id")
+  notes         String?  @db.Text
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  class       RuleClass @relation("ClassRestrictionTarget", fields: [classId], references: [id])
+  sourceClass RuleClass @relation("ClassRestrictionSource", fields: [sourceClassId], references: [id])
+
+  @@unique([classId, sourceClassId])
+  @@map("ClassRestrictionReference")
+}
+
+model RuleKit {
+  id          Int      @id @default(autoincrement())
+  classId     Int?     @map("class_id")
+  name        String
+  description String?  @db.Text
+  fullDescription String? @map("full_description") @db.Text
+  sourceUrl   String?  @map("source_url")
+  socialRanking String? @map("social_ranking") @db.Text
+  requirements String? @db.Text
+  weaponProficiencies String? @map("weapon_proficiencies") @db.Text
+  nonweaponProficiencies String? @map("nonweapon_proficiencies") @db.Text
+  equipment   String?  @db.Text
+  recommendedTraits String? @map("recommended_traits") @db.Text
+  benefits    String?  @db.Text
+  benefitsAndHindrances String? @map("benefits_and_hindrances") @db.Text
+  hindrances  String?  @db.Text
+  wealth      String?  @db.Text
+  races       String?  @db.Text
+  classes     String?  @db.Text
+  otherSections String? @map("other_sections") @db.Text
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  class      RuleClass?  @relation(fields: [classId], references: [id])
+  characters Character[]
+
+  @@unique([classId, name])
+  @@map("Kit")
+}
+
+model RuleTraitDisadvantage {
+  id                Int                   @id @default(autoincrement())
+  name              String                @unique
+  kind              TraitDisadvantageKind @default(TRAIT)
+  description       String?               @db.Text
+  fullDescription   String?               @map("full_description") @db.Text
+  sourceUrl         String?               @map("source_url")
+  pointCost         Int                   @default(0) @map("point_cost")
+  pointCostModerate Int?                  @map("point_cost_moderate")
+  pointCostSevere   Int?                  @map("point_cost_severe")
+  createdAt         DateTime              @default(now()) @map("created_at")
+  updatedAt         DateTime              @updatedAt @map("updated_at")
+
+  characterLinks CharacterTraitDisadvantage[]
+
+  @@map("TraitDisadvantage")
+}
+
+model CharacterTraitDisadvantage {
+  id                  Int      @id @default(autoincrement())
+  characterId         Int      @map("character_id")
+  traitDisadvantageId Int      @map("trait_disadvantage_id")
+  notes               String?  @db.Text
+  createdAt           DateTime @default(now()) @map("created_at")
+
+  character         Character             @relation(fields: [characterId], references: [id])
+  traitDisadvantage RuleTraitDisadvantage @relation(fields: [traitDisadvantageId], references: [id])
+
+  @@unique([characterId, traitDisadvantageId])
+  @@map("CharacterTraitDisadvantage")
+}
+
+model RuleNonWeaponProficiency {
+  id             Int      @id @default(autoincrement())
+  name           String   @unique
+  description    String?  @db.Text
+  fullDescription String? @map("full_description") @db.Text
+  sourceUrl      String?  @map("source_url")
+  pointCost      Int?     @map("point_cost")
+  initialRating  String?  @map("initial_rating")
+  abilityText    String?  @map("ability_text") @db.Text
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
+
+  characterLinks CharacterNonWeaponProficiency[]
+  groupRates     RuleNonWeaponProficiencyRate[]
+
+  @@map("NonWeaponProficiency")
+}
+
+model RuleNonWeaponProficiencyRate {
+  id             Int                   @id @default(autoincrement())
+  proficiencyId  Int                   @map("proficiency_id")
+  classGroup     ProficiencyClassGroup @map("class_group")
+  pointCost      Int                   @map("point_cost")
+  initialRating  String                @map("initial_rating")
+  abilityText    String?               @map("ability_text") @db.Text
+  createdAt      DateTime              @default(now()) @map("created_at")
+  updatedAt      DateTime              @updatedAt @map("updated_at")
+
+  proficiency RuleNonWeaponProficiency @relation(fields: [proficiencyId], references: [id])
+
+  @@unique([proficiencyId, classGroup])
+  @@index([classGroup])
+  @@map("NonWeaponProficiencyRate")
+}
+
+model CharacterNonWeaponProficiency {
+  id            Int      @id @default(autoincrement())
+  characterId   Int      @map("character_id")
+  proficiencyId Int      @map("proficiency_id")
+  notes         String?  @db.Text
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  character   Character                @relation(fields: [characterId], references: [id])
+  proficiency RuleNonWeaponProficiency @relation(fields: [proficiencyId], references: [id])
+
+  @@unique([characterId, proficiencyId])
+  @@map("CharacterNonWeaponProficiency")
+}
+
+model RuleWeaponProficiency {
+  id          Int      @id @default(autoincrement())
+  name        String   @unique
+  description String?  @db.Text
+  fullDescription String? @map("full_description") @db.Text
+  pointCost   Int?     @map("point_cost")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  characterLinks CharacterWeaponProficiency[]
+
+  @@map("WeaponProficiency")
+}
+
+model RuleWeaponProficiencyCpCost {
+  id        Int      @id @default(autoincrement())
+  className String   @map("class_name")
+  cost      Int
+  sourceUrl String?  @map("source_url")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@unique([className])
+  @@map("WeaponProficiencyCpCost")
+}
+
+model RuleWeaponNonproficiencyPenalty {
+  id                 Int      @id @default(autoincrement())
+  className          String   @map("class_name")
+  nonproficiencyText String   @map("nonproficiency_text")
+  familiarityText    String   @map("familiarity_text")
+  sourceUrl          String?  @map("source_url")
+  createdAt          DateTime @default(now()) @map("created_at")
+  updatedAt          DateTime @updatedAt @map("updated_at")
+
+  @@unique([className])
+  @@map("WeaponNonproficiencyPenalty")
+}
+
+model RuleWeaponShieldProficiencyEffect {
+  id            Int      @id @default(autoincrement())
+  shieldType    String   @map("shield_type")
+  acBonusText   String   @map("ac_bonus_text")
+  attackersText String   @map("attackers_text")
+  sourceUrl     String?  @map("source_url")
+  displayOrder  Int      @default(0) @map("display_order")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  @@unique([shieldType])
+  @@map("WeaponShieldProficiencyEffect")
+}
+
+model RuleWeaponFightingStyleClass {
+  id             Int      @id @default(autoincrement())
+  styleName      String   @map("style_name")
+  eligibleClasses String  @map("eligible_classes")
+  sourceUrl      String?  @map("source_url")
+  displayOrder   Int      @default(0) @map("display_order")
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
+
+  @@unique([styleName])
+  @@map("WeaponFightingStyleClass")
+}
+
+model RuleWeaponAdvancementCost {
+  id            Int                 @id @default(autoincrement())
+  kind          WeaponAdvancementKind
+  className     String              @map("class_name")
+  pointCost     Int                 @map("point_cost")
+  minimumLevel  Int                 @map("minimum_level")
+  sourceUrl     String?             @map("source_url")
+  displayOrder  Int                 @default(0) @map("display_order")
+  createdAt     DateTime            @default(now()) @map("created_at")
+  updatedAt     DateTime            @updatedAt @map("updated_at")
+
+  @@unique([kind, className])
+  @@map("WeaponAdvancementCost")
+}
+
+model RuleWeaponGroup {
+  id           Int             @id @default(autoincrement())
+  name         String
+  kind         WeaponGroupKind
+  parentGroupId Int?           @map("parent_group_id")
+  sourceUrl    String?         @map("source_url")
+  displayOrder Int             @default(0) @map("display_order")
+  createdAt    DateTime        @default(now()) @map("created_at")
+  updatedAt    DateTime        @updatedAt @map("updated_at")
+
+  parentGroup RuleWeaponGroup?  @relation("WeaponGroupHierarchy", fields: [parentGroupId], references: [id])
+  childGroups RuleWeaponGroup[] @relation("WeaponGroupHierarchy")
+  weapons     RuleWeaponGroupWeapon[]
+
+  @@unique([name, kind, parentGroupId])
+  @@index([kind])
+  @@index([parentGroupId])
+  @@map("WeaponGroup")
+}
+
+model RuleWeaponGroupWeapon {
+  id           Int      @id @default(autoincrement())
+  groupId      Int      @map("group_id")
+  weaponName   String   @map("weapon_name")
+  sourceUrl    String?  @map("source_url")
+  displayOrder Int      @default(0) @map("display_order")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  group RuleWeaponGroup @relation(fields: [groupId], references: [id])
+
+  @@unique([groupId, weaponName])
+  @@index([weaponName])
+  @@map("WeaponGroupWeapon")
+}
+
+model CharacterWeaponProficiency {
+  id            Int      @id @default(autoincrement())
+  characterId   Int      @map("character_id")
+  proficiencyId Int      @map("proficiency_id")
+  notes         String?  @db.Text
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  character   Character             @relation(fields: [characterId], references: [id])
+  proficiency RuleWeaponProficiency @relation(fields: [proficiencyId], references: [id])
+
+  @@unique([characterId, proficiencyId])
+  @@map("CharacterWeaponProficiency")
+}
+
+model RuleEquipment {
+  id          Int      @id @default(autoincrement())
+  name        String   @unique
+  description String?  @db.Text
+  fullDescription String? @map("full_description") @db.Text
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  characterLinks CharacterEquipment[]
+
+  @@map("Equipment")
+}
+
+model RuleEquipmentSettingItem {
+  id          Int      @id @default(autoincrement())
+  tableNumber Int      @map("table_number")
+  settingName String   @map("setting_name")
+  category    String
+  itemName    String   @map("item_name")
+  isLimited   Boolean  @default(false) @map("is_limited")
+  sourceUrl   String?  @map("source_url")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@index([tableNumber])
+  @@index([settingName, category])
+  @@map("EquipmentSettingItem")
+}
+
+model RuleEquipmentWeapon {
+  id            Int      @id @default(autoincrement())
+  itemName      String   @map("item_name")
+  costText      String?  @map("cost_text")
+  weightText    String?  @map("weight_text")
+  sizeText      String?  @map("size_text")
+  typeText      String?  @map("type_text")
+  factorText    String?  @map("factor_text")
+  damageSmMed   String?  @map("damage_sm_med")
+  damageLarge   String?  @map("damage_large")
+  notes         String?  @db.Text
+  sourceUrl     String?  @map("source_url")
+  displayOrder  Int      @default(0) @map("display_order")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  @@index([displayOrder])
+  @@map("EquipmentWeapon")
+}
+
+model RuleEquipmentMissileRange {
+  id           Int      @id @default(autoincrement())
+  category     String?  
+  itemName     String   @map("item_name")
+  rateOfFire   String?  @map("rate_of_fire")
+  shortRange   String?  @map("short_range")
+  mediumRange  String?  @map("medium_range")
+  longRange    String?  @map("long_range")
+  notes        String?  @db.Text
+  sourceUrl    String?  @map("source_url")
+  displayOrder Int      @default(0) @map("display_order")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  @@index([displayOrder])
+  @@map("EquipmentMissileRange")
+}
+
+model RuleEquipmentArmor {
+  id            Int      @id @default(autoincrement())
+  itemName      String   @map("item_name")
+  costText      String?  @map("cost_text")
+  weightText    String?  @map("weight_text")
+  acText        String?  @map("ac_text")
+  bulkPoints    String?  @map("bulk_points")
+  sourceUrl     String?  @map("source_url")
+  displayOrder  Int      @default(0) @map("display_order")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  @@index([displayOrder])
+  @@map("EquipmentArmor")
+}
+
+model RuleEquipmentShield {
+  id            Int      @id @default(autoincrement())
+  itemName      String   @map("item_name")
+  costText      String?  @map("cost_text")
+  weightText    String?  @map("weight_text")
+  numFoesText   String?  @map("num_foes_text")
+  bulkPoints    String?  @map("bulk_points")
+  sourceUrl     String?  @map("source_url")
+  displayOrder  Int      @default(0) @map("display_order")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  @@index([displayOrder])
+  @@map("EquipmentShield")
+}
+
+model RuleEquipmentMiscItem {
+  id            Int      @id @default(autoincrement())
+  itemName      String   @map("item_name")
+  costText      String?  @map("cost_text")
+  weightText    String?  @map("weight_text")
+  bulkPoints    String?  @map("bulk_points")
+  initialAvail  String?  @map("initial_avail")
+  sourceUrl     String?  @map("source_url")
+  displayOrder  Int      @default(0) @map("display_order")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  @@index([displayOrder])
+  @@map("EquipmentMiscItem")
+}
+
+model RuleEquipmentTradeGood {
+  id            Int      @id @default(autoincrement())
+  itemName      String   @map("item_name")
+  costText      String?  @map("cost_text")
+  weightText    String?  @map("weight_text")
+  bulkPoints    String?  @map("bulk_points")
+  initialAvail  String?  @map("initial_avail")
+  sourceUrl     String?  @map("source_url")
+  displayOrder  Int      @default(0) @map("display_order")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  @@index([displayOrder])
+  @@map("EquipmentTradeGood")
+}
+
+model RuleEquipmentDemihumanItem {
+  id            Int      @id @default(autoincrement())
+  demihumanType String   @map("demihuman_type")
+  itemName      String   @map("item_name")
+  costText      String?  @map("cost_text")
+  weightText    String?  @map("weight_text")
+  bulkPoints    String?  @map("bulk_points")
+  sourceUrl     String?  @map("source_url")
+  displayOrder  Int      @default(0) @map("display_order")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  @@index([demihumanType])
+  @@index([displayOrder])
+  @@map("EquipmentDemihumanItem")
+}
+
+model RuleEquipmentCommonMagicItem {
+  id                 Int      @id @default(autoincrement())
+  itemName           String   @map("item_name")
+  occurrenceLow      String?  @map("occurrence_low")
+  occurrenceMedium   String?  @map("occurrence_medium")
+  occurrenceHigh     String?  @map("occurrence_high")
+  costText           String?  @map("cost_text")
+  weightText         String?  @map("weight_text")
+  bulkPoints         String?  @map("bulk_points")
+  sourceUrl          String?  @map("source_url")
+  displayOrder       Int      @default(0) @map("display_order")
+  createdAt          DateTime @default(now()) @map("created_at")
+  updatedAt          DateTime @updatedAt @map("updated_at")
+
+  @@index([displayOrder])
+  @@map("EquipmentCommonMagicItem")
+}
+
+model CharacterEquipment {
+  id          Int      @id @default(autoincrement())
+  characterId Int      @map("character_id")
+  equipmentId Int      @map("equipment_id")
+  quantity    Int      @default(1)
+  notes       String?  @db.Text
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  character Character     @relation(fields: [characterId], references: [id])
+  equipment RuleEquipment @relation(fields: [equipmentId], references: [id])
+
+  @@unique([characterId, equipmentId])
+  @@map("CharacterEquipment")
 }

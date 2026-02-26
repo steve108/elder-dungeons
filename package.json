@@ -9,7 +9,20 @@
     "lint": "eslint",
     "import:spell-reference": "node scripts/import-spell-reference.mjs",
     "sync:spell-reference": "node scripts/import-spell-reference.mjs",
-    "repair:spell-ptbr": "node scripts/repair-spell-ptbr-encoding.mjs"
+    "repair:spell-ptbr": "node scripts/repair-spell-ptbr-encoding.mjs",
+    "hydrate:race-ability-full": "node scripts/hydrate-race-ability-full-description.mjs",
+    "hydrate:reference-full": "node scripts/hydrate-reference-full-descriptions.mjs",
+    "hydrate:kits-posp": "node scripts/hydrate-kits-posp.mjs",
+    "hydrate:nonweapon-posp": "node scripts/hydrate-nonweapon-posp.mjs",
+    "hydrate:traits-posp": "node scripts/hydrate-traits-posp.mjs",
+    "hydrate:equipment-posp": "node scripts/hydrate-equipment-posp.mjs",
+    "hydrate:weapon-posp": "node scripts/hydrate-weapon-posp.mjs",
+    "hydrate:weapon-groups-posp": "node scripts/hydrate-weapon-groups-posp.mjs",
+    "hydrate:weapon-all": "npm run hydrate:weapon-posp && npm run hydrate:weapon-groups-posp",
+    "seed:attribute-translations-en": "node scripts/seed-attribute-translations-en.mjs",
+    "seed:attribute-translations-pt": "node scripts/seed-attribute-translations-pt.mjs",
+    "seed:ui-texts-attribute-detail": "node scripts/seed-ui-texts-attribute-detail.mjs",
+    "seed:ui-texts-public": "node scripts/seed-ui-texts-public.mjs"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.883.0",

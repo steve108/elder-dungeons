@@ -1,0 +1,14 @@
+ALTER TABLE "RuleKit"
+  ADD COLUMN IF NOT EXISTS "source_url" TEXT,
+  ADD COLUMN IF NOT EXISTS "social_ranking" TEXT,
+  ADD COLUMN IF NOT EXISTS "requirements" TEXT,
+  ADD COLUMN IF NOT EXISTS "weapon_proficiencies" TEXT,
+  ADD COLUMN IF NOT EXISTS "nonweapon_proficiencies" TEXT,
+  ADD COLUMN IF NOT EXISTS "equipment" TEXT,
+  ADD COLUMN IF NOT EXISTS "recommended_traits" TEXT,
+  ADD COLUMN IF NOT EXISTS "benefits" TEXT,
+  ADD COLUMN IF NOT EXISTS "hindrances" TEXT,
+  ADD COLUMN IF NOT EXISTS "wealth" TEXT,
+  ADD COLUMN IF NOT EXISTS "races" TEXT,
+  ADD COLUMN IF NOT EXISTS "classes" TEXT,
+  ADD COLUMN IF NOT EXISTS "other_sections" TEXT;
